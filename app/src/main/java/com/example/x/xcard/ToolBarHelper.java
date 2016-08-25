@@ -2,7 +2,6 @@ package com.example.x.xcard;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.provider.Settings;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +26,6 @@ public class ToolBarHelper {
     /*用户定义的view*/
     private View mUserView;
 
-    /*状态栏和导航栏高度*/
-    private int stateBarHeight = 0;
-    private int navBarHeight = 0;
-
     /*toolbar*/
     private Toolbar mToolBar;
 
@@ -52,6 +47,7 @@ public class ToolBarHelper {
     public ToolBarHelper(Context context, int layoutId) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
+
         /*初始化整个内容*/
         initContentView();
         /*初始化用户定义的布局*/
@@ -76,11 +72,11 @@ public class ToolBarHelper {
         stateBar =  (Toolbar) toolbar.findViewById(R.id.statebar);
 
         ViewGroup.LayoutParams layoutParams = stateBar.getLayoutParams();
-        layoutParams.height = stateBarHeight;
+        layoutParams.height = ApplicationClass.stateBarHeight;
         stateBar.setLayoutParams(layoutParams);
 
         ViewGroup.LayoutParams layoutParams1 = mToolBar.getLayoutParams();
-        layoutParams1.height = navBarHeight;
+        layoutParams1.height = ApplicationClass.navBarHeight;
         mToolBar.setLayoutParams(layoutParams1);
 
     }
@@ -93,16 +89,18 @@ public class ToolBarHelper {
         boolean overly = typedArray.getBoolean(0, false);
         /*获取主题中定义的toolbar的高度*/
 
-        int toolBarSize = (int) typedArray.getDimension(1,mContext.getResources().getDimension(R.dimen.abc_action_bar_default_height_material));
-
-        System.out.println("tooBarSize: "+toolBarSize);
-
-            stateBarHeight = getStatusBarHeight(mContext);
-            navBarHeight = getDaoHangHeight(mContext);
+        if(ApplicationClass.stateBarHeight * ApplicationClass.navBarHeight == 0)
+        {
+            ApplicationClass.stateBarHeight = getStatusBarHeight(mContext);
+            ApplicationClass.navBarHeight = getDaoHangHeight(mContext);
+        }
 
         typedArray.recycle();
         /*如果是悬浮状态，则不需要设置间距*/
-        params.topMargin = overly ? 0 : toolBarSize;
+        params.topMargin = overly ? 0 : ApplicationClass.navBarHeight;
+
+        System.out.println("params.topMargin: "+params.topMargin);
+
         mContentView.addView(mUserView, params);
 
     }
@@ -151,30 +149,9 @@ public class ToolBarHelper {
         int rid = context.getResources().getIdentifier("config_showNavigationBar", "bool", "android");
         if (rid!=0){
             resourceId = context.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-
-
-
             return context.getResources().getDimensionPixelSize(resourceId);
         }else
             return 0;
-    }
-
-
-    public static int getStatusBarHeight1(Context context){
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, statusBarHeight = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            statusBarHeight = context.getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-        return statusBarHeight;
     }
 
 }

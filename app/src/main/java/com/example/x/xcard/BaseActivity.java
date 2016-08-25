@@ -26,9 +26,9 @@ import android.widget.Toast;
 
 /**
  * 所有界面的基类
- * 
+ *
  * @author wangtao 11-13
- * 
+ *
  */
 public abstract class BaseActivity extends AppCompatActivity implements
 		Properties {
@@ -93,13 +93,13 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	protected abstract void setupUi();
 
 	/**
-	 * 
+	 *
 	 */
 	protected abstract void setupData();
 
 	/**
 	 * 根据界面名称打印日志
-	 * 
+	 *
 	 * @param message
 	 */
 	protected void doLogMsg(String message) {
@@ -110,7 +110,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	/**
 	 * 短消息提示
-	 * 
+	 *
 	 * @param msg
 	 */
 	public void doShowToast(String msg) {
@@ -119,7 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	/**
 	 * 长消息提示
-	 * 
+	 *
 	 * @param msg
 	 */
 	public void doShowToastLong(String msg) {
@@ -128,7 +128,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	/**
 	 * 长消息提示
-	 * 
+	 *
 	 * @param msg
 	 */
 	public void doShowToastLong(int msg) {
@@ -137,7 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	/**
 	 * 启动另外一个界面通过动画
-	 * 
+	 *
 	 * @param activity
 	 */
 	public void doStartOterAnim(Class activity) {
@@ -147,13 +147,13 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	/**
 	 * 启动另外一个界面
-	 * 
+	 *
 	 * @param activity
 	 */
 	public void doStartOter(Class activity) {
 		if(!CountTime.isBeyoundTime("启动界面", 300)){
 			return;
-			
+
 		}
 		Intent intentActive = new Intent(this, activity);
 		startActivity(intentActive);

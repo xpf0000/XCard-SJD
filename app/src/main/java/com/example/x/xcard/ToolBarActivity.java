@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 /**
  * Created by moon.zhong on 2015/6/12.
@@ -27,6 +28,10 @@ public abstract class ToolBarActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         /*自定义的一些操作*/
         onCreateCustomToolBar(toolbar) ;
+
+        /*透明状态栏*/
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
     }
 
     public void onCreateCustomToolBar(Toolbar toolbar){
