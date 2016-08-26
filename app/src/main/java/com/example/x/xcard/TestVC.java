@@ -12,7 +12,7 @@ public class TestVC extends BaseActivity
     protected void setupUi() {
         setContentView(R.layout.test_vc);
         webview = (WebView) findViewById(R.id.about_webview);
-        doSetTitle(R.id.about_include, "关于我们");
+//        doSetTitle(R.id.about_include, "关于我们");
     }
 
     @Override

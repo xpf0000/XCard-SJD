@@ -1,34 +1,33 @@
 package com.example.x.xcard;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+
+import junit.framework.Test;
 
 public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.systemUiVisibility =View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        getWindow().setAttributes(params);
+
         setContentView(R.layout.activity_main);
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        doHideBackBtn();
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
-        //setTitle("xxxxxxx");
+    }
+
+    public void btnClick(View v)
+    {
+        doStartOter(TestVC.class);
     }
 
     @Override
@@ -52,8 +51,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onCreateCustomToolBar(Toolbar toolbar) {
         super.onCreateCustomToolBar(toolbar);
-        toolbar.showOverflowMenu() ;
-        getLayoutInflater().inflate(R.layout.toobar_button, toolbar) ;
+
 //        TextView btn = (TextView) toolbar.findViewById(R.id.id_txt_btn);
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -3,9 +3,11 @@ package com.example.x.xcard;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import java.lang.reflect.Field;
@@ -69,16 +71,17 @@ public class ToolBarHelper {
         /*通过inflater获取toolbar的布局文件*/
         View toolbar = mInflater.inflate(R.layout.toolbar, mContentView);
         mToolBar = (Toolbar) toolbar.findViewById(R.id.id_tool_bar);
-        stateBar =  (Toolbar) toolbar.findViewById(R.id.statebar);
+        //stateBar =  (Toolbar) toolbar.findViewById(R.id.statebar);
 
-        ViewGroup.LayoutParams layoutParams = stateBar.getLayoutParams();
-        layoutParams.height = ApplicationClass.stateBarHeight;
-        stateBar.setLayoutParams(layoutParams);
+//        ViewGroup.LayoutParams layoutParams = stateBar.getLayoutParams();
+//        layoutParams.height = ApplicationClass.stateBarHeight;
+//        stateBar.setLayoutParams(layoutParams);
 
         ViewGroup.LayoutParams layoutParams1 = mToolBar.getLayoutParams();
-        layoutParams1.height = ApplicationClass.navBarHeight;
-        mToolBar.setLayoutParams(layoutParams1);
+        layoutParams1.height = ApplicationClass.navBarHeight+ApplicationClass.stateBarHeight;
 
+        mToolBar.setLayoutParams(layoutParams1);
+        mToolBar.setPadding(0,ApplicationClass.stateBarHeight,0,0);
     }
 
     private void initUserView(int id) {
@@ -97,7 +100,7 @@ public class ToolBarHelper {
 
         typedArray.recycle();
         /*如果是悬浮状态，则不需要设置间距*/
-        params.topMargin = overly ? 0 : ApplicationClass.navBarHeight;
+        params.topMargin = overly ? 0 : ApplicationClass.navBarHeight+ApplicationClass.stateBarHeight;
 
         System.out.println("params.topMargin: "+params.topMargin);
 

@@ -16,7 +16,18 @@
             android:layout_height="?attr/actionBarSize"
             >
 
+            <ImageView
+                android:id="@+id/APP_Back_Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:clickable="true"
+                android:onClick="doPop"
+                android:src="@drawable/selector_back" />
+
             <TextView
+                android:id="@+id/APP_Nav_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -24,11 +35,10 @@
                 android:text="toolBar"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:layout_marginRight="?attr/actionBarSize"
                 />
 
             <TextView
-                android:id="@+id/id_txt_btn"
+                android:id="@+id/APP_R_Btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"

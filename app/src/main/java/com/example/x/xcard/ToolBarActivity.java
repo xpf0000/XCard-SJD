@@ -21,6 +21,8 @@ public abstract class ToolBarActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
 
+
+
         mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
         toolbar = mToolBarHelper.getToolBar() ;
         setContentView(mToolBarHelper.getContentView());
