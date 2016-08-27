@@ -1,32 +1,25 @@
 package com.example.x.xcard;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * 所有界面的基类
@@ -44,7 +37,12 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	private ToolBarHelper mToolBarHelper ;
 	public Toolbar toolbar ;
 
+	private TextView pageTitle;
 	private ImageView backBtn;
+	private ImageView rightImg;
+	private TextView rightTxt;
+
+	private boolean isPush = true;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -53,21 +51,14 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		mContext = this;
 		setupUi();
 		setupData();
-		setupScreen();
-	}
+		//新页面接收数据
+		Bundle bundle = this.getIntent().getExtras();
 
-	public void setupScreen() {
-//		Rect frame = new Rect();
-//		getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-//		if (frame.top != 0 && frame.top != 200) {
-//			this.TILE_HEIGHT = frame.top;// 获取导航栏的高度,这里必须在界面绘制出来才能正确获取
-//		}
-//
-//		DisplayMetrics metrics = new DisplayMetrics();
-//		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//		this.screenDensity = metrics.density;
-//		this.screenHeight = metrics.heightPixels;
-//		this.screenWidth = metrics.widthPixels;
+		if (bundle != null && bundle.containsKey("isPush"))
+		{
+			isPush = bundle.getBoolean("isPush");
+		}
+
 	}
 
 	/**
@@ -118,30 +109,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
 	}
 
-	/**
-	 * 启动另外一个界面通过动画
-	 *
-	 * @param activity
-	 */
-	public void doStartOterAnim(Class activity) {
-		Intent intentActive = new Intent(this, activity);
-		startActivity(intentActive);
-	}
-
-	/**
-	 * 启动另外一个界面
-	 *
-	 * @param activity
-	 */
-	public void doStartOter(Class activity) {
-		if(!CountTime.isBeyoundTime("启动界面", 300)){
-			return;
-
-		}
-		Intent intentActive = new Intent(this, activity);
-		startActivity(intentActive);
-	}
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -151,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// MobclickAgent.onPause(this);
+
 	}
 
 	@Override
@@ -162,38 +129,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-	}
-
-	protected void doSetTitle(int id, int title) {
-		RelativeLayout linear = (RelativeLayout) findViewById(id);
-		TextView tvTitle = (TextView) linear
-				.findViewById(R.id.include_title_tv);
-		ImageView ivBack = (ImageView) linear
-				.findViewById(R.id.include_back_iv);
-		tvTitle.setText(title);
-		ivBack.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
-	}
-
-	protected void doSetTitle(int id, String title) {
-		RelativeLayout linear = (RelativeLayout) findViewById(id);
-		TextView tvTitle = (TextView) linear
-				.findViewById(R.id.include_title_tv);
-		ImageView ivBack = (ImageView) linear
-				.findViewById(R.id.include_back_iv);
-		tvTitle.setText(title);
-		ivBack.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				finish();
-			}
-		});
 	}
 
 	public void doShowMesage(String msg, boolean isActivityRun) {
@@ -249,11 +184,119 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		}
 	}
 
+	/**
+	 * 启动另外一个界面通过push动画
+	 *
+	 * @param activity
+	 */
+	public void pushVC(Class activity) {
 
-	public void doPop(View v)
+		if(!CountTime.isBeyoundTime("启动界面", 300)){
+			return;
+		}
+
+		Intent intentActive = new Intent(this, activity);
+
+		//用Bundle携带数据
+		Bundle bundle=new Bundle();
+		bundle.putBoolean("isPush", true);
+		intentActive.putExtras(bundle);
+
+		startActivity(intentActive);
+		overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+	}
+
+
+	/**
+	 * 启动另外一个界面通过push动画
+	 *
+	 * @param activity
+	 * @param bundle
+	 */
+	public void pushVC(Class activity,Bundle bundle) {
+
+		if(!CountTime.isBeyoundTime("启动界面", 300)){
+			return;
+		}
+
+		Intent intentActive = new Intent(this, activity);
+		//用Bundle携带数据
+		bundle.putBoolean("isPush", true);
+		intentActive.putExtras(bundle);
+
+		startActivity(intentActive);
+		overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);
+	}
+
+
+
+	/**
+	 * 启动另外一个界面通过present动画
+	 *
+	 * @param activity
+	 */
+	public void presentVC(Class activity) {
+
+		if(!CountTime.isBeyoundTime("启动界面", 300)){
+			return;
+		}
+
+		Intent intentActive = new Intent(this, activity);
+		//用Bundle携带数据
+		Bundle bundle=new Bundle();
+		bundle.putBoolean("isPush", false);
+		intentActive.putExtras(bundle);
+
+		startActivity(intentActive);
+		overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+	}
+
+	/**
+	 * 启动另外一个界面通过present动画
+	 *
+	 * @param activity
+	 * @param bundle
+	 */
+	public void presentVC(Class activity,Bundle bundle) {
+
+		if(!CountTime.isBeyoundTime("启动界面", 300)){
+			return;
+		}
+
+		Intent intentActive = new Intent(this, activity);
+		//用Bundle携带数据
+		bundle.putBoolean("isPush", false);
+		intentActive.putExtras(bundle);
+
+		startActivity(intentActive);
+		overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
+	}
+
+	public void popVC(View v)
 	{
 		this.finish();
+		if(isPush)
+		{
+			overridePendingTransition(R.anim.pop_left_out,R.anim.pop_left_in);
+		}
+		else
+		{
+			overridePendingTransition(R.anim.pop_up_out,R.anim.pop_up_in);
+		}
+
 	}
+
+	public void rightClick(View v)
+	{
+		System.out.println("点击右侧菜单!!!!!!");
+	}
+
+
+
+
+
+
+
 
 
 	@Override
@@ -276,8 +319,52 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		toolbar.setContentInsetsRelative(0,0);
 		toolbar.showOverflowMenu() ;
 		getLayoutInflater().inflate(R.layout.toobar_button, toolbar) ;
-		backBtn = (ImageView) toolbar.findViewById(R.id.APP_Back_Btn);
+
+		try {
+			pageTitle = (TextView) toolbar.findViewById(R.id.APP_Nav_Title);
+			backBtn = (ImageView) toolbar.findViewById(R.id.APP_Back_Btn);
+			rightImg = (ImageView) toolbar.findViewById(R.id.APP_Right_Img);
+			rightTxt = (TextView) toolbar.findViewById(R.id.APP_Right_Txt);
+			rightImg.setVisibility(View.GONE);
+			rightTxt.setVisibility(View.GONE);
+		}
+		catch (Exception e)
+		{
+
+		}
+
+
 	}
+
+	public void setPageTitle(String txt)
+	{
+		if(pageTitle != null)
+		{
+			pageTitle.setText(txt);
+		}
+	}
+
+	public void setRightImg(int id)
+	{
+		if(rightImg != null)
+		{
+			rightImg.setImageResource(id);
+			rightImg.setVisibility(View.VISIBLE);
+			rightTxt.setVisibility(View.GONE);
+		}
+	}
+
+	public void setRightTxt(String txt)
+	{
+		if(rightTxt != null)
+		{
+			rightTxt.setText(txt);
+			rightTxt.setVisibility(View.VISIBLE);
+			rightImg.setVisibility(View.GONE);
+		}
+
+	}
+
 
 	public void doHideBackBtn()
 	{

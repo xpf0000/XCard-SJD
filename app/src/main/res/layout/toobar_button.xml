@@ -1,29 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-
+    android:orientation="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        >
+        android:background="@android:color/transparent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            >
+            android:layout_height="?attr/actionBarSize">
 
             <ImageView
                 android:id="@+id/APP_Back_Btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:clickable="true"
-                android:onClick="doPop"
+                android:onClick="popVC"
                 android:src="@drawable/selector_back" />
 
             <TextView
@@ -34,17 +30,40 @@
                 android:gravity="center"
                 android:text="toolBar"
                 android:textColor="@android:color/white"
-                android:textSize="18sp"
-                />
+                android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/APP_R_Btn"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:gravity="center"
-                android:text="按钮"/>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:onClick="rightClick"
+                >
+
+                <ImageView
+                    android:id="@+id/APP_Right_Img"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:background="@color/transparent"
+                    />
+
+                <TextView
+                    android:id="@+id/APP_Right_Txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=""
+                    android:background="@color/transparent"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    />
+
+            </RelativeLayout>
+
 
         </RelativeLayout>
     </RelativeLayout>
