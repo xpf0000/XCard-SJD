@@ -4,10 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <WebView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/about_webview"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        />
+    
+    <com.x.custom.DragImage
+        android:id="@+id/drawImage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
         />
 
 </LinearLayout>
