@@ -7,34 +7,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
-import com.ToxicBakery.viewpager.transforms.ABaseTransformer;
-import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
-import com.ToxicBakery.viewpager.transforms.BackgroundToForegroundTransformer;
-import com.ToxicBakery.viewpager.transforms.CubeInTransformer;
-import com.ToxicBakery.viewpager.transforms.CubeOutTransformer;
-import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
-import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
-import com.ToxicBakery.viewpager.transforms.FlipHorizontalTransformer;
-import com.ToxicBakery.viewpager.transforms.FlipVerticalTransformer;
-import com.ToxicBakery.viewpager.transforms.ForegroundToBackgroundTransformer;
-import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
-import com.ToxicBakery.viewpager.transforms.RotateUpTransformer;
-import com.ToxicBakery.viewpager.transforms.StackTransformer;
-import com.ToxicBakery.viewpager.transforms.ZoomInTransformer;
-import com.ToxicBakery.viewpager.transforms.ZoomOutTranformer;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.com.x.user.APPContact;
+import com.com.x.user.FeedBack;
+import com.com.x.user.LoginVC;
+import com.com.x.user.SystemMsg;
+import com.x.custom.XGridView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,11 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.transform.Transformer;
-
 public class MainActivity extends BaseActivity{
 
-    private GridView gview;
+    private XGridView gview;
     private List<Map<String, Object>> data_list;
     private SimpleAdapter sim_adapter;
 
@@ -63,7 +43,7 @@ public class MainActivity extends BaseActivity{
                     "/d058ccbf6c81800a5422e5fdb43533fa838b4779.jpg",
             "http://f.hiphotos.baidu.com/image/pic/item/09fa513d269759ee50f1971ab6fb43166c22dfba" +
                     ".jpg"
-    };private ArrayList<String> transformerList = new ArrayList<String>();
+    };
 
     // 图片封装为一个数组
     private int[] icon = {R.drawable.icon_autio_white, R.drawable.icon_autio_white,
@@ -89,7 +69,35 @@ public class MainActivity extends BaseActivity{
         setPageTitle("车港湾");
 
 
-        gview = (GridView) findViewById(R.id.homt_gview);
+        gview = (XGridView) findViewById(R.id.homt_gview);
+        gview.setScrollEnable(false);
+
+        gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                switch (i)
+                {
+                    case 0:
+                    pushVC(SystemMsg.class);
+                    break;
+                    case 1:
+                    pushVC(FeedBack.class);
+                    break;
+                    case 2:
+                        pushVC(APPContact.class);
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+        });
+
+
+
+
         //新建List
         data_list = new ArrayList<Map<String, Object>>();
         //获取数据
@@ -102,28 +110,7 @@ public class MainActivity extends BaseActivity{
         gview.setAdapter(sim_adapter);
 
 
-        initImageLoader();
-
-
-        //各种翻页效果
-        transformerList.add(DefaultTransformer.class.getSimpleName());
-        transformerList.add(AccordionTransformer.class.getSimpleName());
-        transformerList.add(BackgroundToForegroundTransformer.class.getSimpleName());
-        transformerList.add(CubeInTransformer.class.getSimpleName());
-        transformerList.add(CubeOutTransformer.class.getSimpleName());
-        transformerList.add(DepthPageTransformer.class.getSimpleName());
-        transformerList.add(FlipHorizontalTransformer.class.getSimpleName());
-        transformerList.add(FlipVerticalTransformer.class.getSimpleName());
-        transformerList.add(ForegroundToBackgroundTransformer.class.getSimpleName());
-        transformerList.add(RotateDownTransformer.class.getSimpleName());
-        transformerList.add(RotateUpTransformer.class.getSimpleName());
-        transformerList.add(StackTransformer.class.getSimpleName());
-        transformerList.add(ZoomInTransformer.class.getSimpleName());
-        transformerList.add(ZoomOutTranformer.class.getSimpleName());
-
-
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
-
         convenientBanner.setPageIndicator(new int[]{R.drawable.banner_dot_default, R.drawable.banner_dot_selected})
                         //设置指示器的方向
         .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
@@ -158,49 +145,10 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onItemClick(int position) {
                 System.out.println("~~~ Banner点击position: "+position);
-
-
-                String transforemerName = transformerList.get(position);
-                try {
-                    Class cls = Class.forName("com.ToxicBakery.viewpager.transforms." + transforemerName);
-                    ABaseTransformer transforemer= (ABaseTransformer)cls.newInstance();
-                    convenientBanner.getViewPager().setPageTransformer(true,transforemer);
-
-                    //部分3D特效需要调整滑动速度
-                    if(transforemerName.equals("StackTransformer")){
-                        convenientBanner.setScrollDuration(1200);
-                    }
-
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-
-
             }
         });
 
     }
-
-    //初始化网络图片缓存库
-    private void initImageLoader() {
-        //网络图片例子,结合常用的图片缓存库UIL,你可以根据自己需求自己换其他网络图片库
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().
-                showImageForEmptyUri(R.drawable.app_default)
-                .cacheInMemory(true).cacheOnDisk(true).build();
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-                getApplicationContext()).defaultDisplayImageOptions(defaultOptions)
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
-        ImageLoader.getInstance().init(config);
-    }
-
 
     // 开始自动翻页
     @Override
@@ -233,7 +181,7 @@ public class MainActivity extends BaseActivity{
     @Override
     public void rightClick(View v) {
         System.out.println("点击右侧菜单~~~~~~~~");
-        presentVC(TestVC.class);
+        presentVC(LoginVC.class);
     }
 
     public void btnClick(View v) {

@@ -1,216 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/APPPGBG"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:background="@color/APPPGBG"
+            android:layout_height="match_parent"
     >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:orientation="horizontal"
-        android:background="@color/HomeDarkBlue"
-        />
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
-        android:background="@color/APPBlue"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:background="@color/APPPGBG"
         >
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:orientation="horizontal"
+                      android:background="@color/HomeDarkBlue"
+            />
+
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center"
+                      android:layout_width="match_parent"
+                      android:layout_height="150dp"
+                      android:orientation="horizontal"
+                      android:background="@color/APPBlue"
             >
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/APPBlue"
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical"
+                          android:layout_weight="1"
+                          android:gravity="center"
                 >
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:background="@color/APPBlue"
 
-                <ImageView
-                    android:layout_width="0dp"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/home_banka"
+                        android:layout_weight="3"
+                        android:adjustViewBounds="true"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_banka"
-                    android:layout_weight="3"
-                    android:adjustViewBounds="true"
+                    android:text="办卡"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
                     />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
 
             </LinearLayout>
 
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="办卡"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                />
-
-
-        </LinearLayout>
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/APPBlue"
-
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical"
+                          android:layout_weight="1"
+                          android:gravity="center"
                 >
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:background="@color/APPBlue"
 
-                <ImageView
-                    android:layout_width="0dp"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/home_xiaofei"
+                        android:layout_weight="3"
+                        android:adjustViewBounds="true"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_xiaofei"
-                    android:layout_weight="3"
-                    android:adjustViewBounds="true"
+                    android:text="消费"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
                     />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
 
             </LinearLayout>
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="消费"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/APPBlue"
-
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical"
+                          android:layout_weight="1"
+                          android:gravity="center"
                 >
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                              android:background="@color/APPBlue"
 
-                <ImageView
-                    android:layout_width="0dp"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/home_chongzhi"
+                        android:layout_weight="3"
+                        android:adjustViewBounds="true"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text=""
+                        />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_chongzhi"
-                    android:layout_weight="3"
-                    android:adjustViewBounds="true"
+                    android:text="充值"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
                     />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text=""
-                    />
 
             </LinearLayout>
 
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="充值"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                />
-
-
         </LinearLayout>
+
+        <com.x.custom.XGridView
+            android:id="@+id/homt_gview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="4"
+            android:columnWidth="80dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:background="#eeeeee"
+            android:verticalSpacing="1dp"
+            android:horizontalSpacing="1dp"
+            ></com.x.custom.XGridView>
+
+
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/convenientBanner"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"
+            app:canLoop="true"
+            />
+
+
 
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/homt_gview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="4"
-        android:columnWidth="80dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:background="#eeeeee"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"
-        ></GridView>
 
+</ScrollView>
 
-    <com.bigkoo.convenientbanner.ConvenientBanner
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/convenientBanner"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/gray"
-        app:canLoop="true"
-    />
-
-
-
-</LinearLayout>

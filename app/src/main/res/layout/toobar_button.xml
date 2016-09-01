@@ -20,7 +20,7 @@
                 android:layout_marginLeft="8dp"
                 android:clickable="true"
                 android:onClick="popVC"
-                android:src="@drawable/selector_back" />
+                android:src="@drawable/back_arrow" />
 
             <TextView
                 android:id="@+id/APP_Nav_Title"

@@ -26,6 +26,36 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name="com.com.x.user.LoginVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.FindPWVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.FindPWNewVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.SystemMsg"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.FeedBack"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.APPContact"
+            android:screenOrientation="portrait" >
+        </activity>
+
     </application>
 
 </manifest>
