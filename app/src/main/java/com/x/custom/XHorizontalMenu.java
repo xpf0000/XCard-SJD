@@ -1,0 +1,339 @@
+package com.x.custom;
+
+import android.content.Context;
+import android.media.Image;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.x.xcard.ApplicationClass;
+import com.example.x.xcard.R;
+
+import java.util.List;
+
+/**
+ * Created by X on 16/9/2.
+ */
+public class XHorizontalMenu extends RecyclerView {
+
+    public interface OnItemClickLitener
+    {
+        void onItemClick(View view, int position);
+    }
+
+    private XHorizontalAdapter adapter;
+    private Context context;
+
+    private int selected = 0;
+    private int normalColor = 0;
+    private int selectedColor = 0;
+    private int lineHeight = 3;
+    private int normalTxtSize = 16;
+    private int selectedTxtSize = 16;
+    private int cellInterval = 12;
+
+    public int getCellInterval() {
+        return cellInterval;
+    }
+
+    public XHorizontalMenu setCellInterval(int cellInterval) {
+        this.cellInterval = cellInterval;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getNormalColor() {
+        return normalColor;
+    }
+
+    public XHorizontalMenu setNormalColor(int normalColor) {
+        this.normalColor = ContextCompat.getColor(context, normalColor);
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getSelectedColor() {
+        return selectedColor;
+    }
+
+    public XHorizontalMenu setSelectedColor(int selectedColor) {
+        this.selectedColor = ContextCompat.getColor(context, selectedColor);
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getLineHeight() {
+        return lineHeight;
+    }
+
+    public XHorizontalMenu setLineHeight(int lineHeight) {
+        this.lineHeight = lineHeight;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getNormalTxtSize() {
+        return normalTxtSize;
+    }
+
+    public XHorizontalMenu setNormalTxtSize(int normalTxtSize) {
+        this.normalTxtSize = normalTxtSize;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getSelectedTxtSize() {
+        return selectedTxtSize;
+    }
+
+    public XHorizontalMenu setSelectedTxtSize(int selectedTxtSize) {
+        this.selectedTxtSize = selectedTxtSize;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public int getSelected() {
+        return selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
+        adapter.notifyDataSetChanged();
+    }
+
+    public  void init(final Context context)
+    {
+        this.context = context;
+
+        //设置布局管理器
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        setLayoutManager(linearLayoutManager);
+
+        normalColor = ContextCompat.getColor(context, R.color.APPTXTBlack);
+        selectedColor = ContextCompat.getColor(context, R.color.APPBlue);
+
+        adapter = new XHorizontalAdapter(context);
+
+        adapter.setOnItemClickLitener(new OnItemClickLitener()
+        {
+            @Override
+            public void onItemClick(View view, int position)
+            {
+                Toast.makeText(context, position+"", Toast.LENGTH_SHORT)
+                        .show();
+
+                setSelected(position);
+
+            }
+        });
+
+        setAdapter(adapter);
+
+
+    }
+
+    public XHorizontalMenu(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public XHorizontalMenu(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public XHorizontalMenu(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init(context);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        adapter.mDatas.clear();
+        adapter.mDatas = null;
+        adapter = null;
+
+    }
+
+    public void setData(List<XHorizontalModel> arr)
+    {
+        adapter.setmDatas(arr);
+    }
+
+
+    static public class XHorizontalModel
+    {
+        private String id;
+        private String title;
+        private Object view;
+
+        public  XHorizontalModel(){}
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public Object getView() {
+            return view;
+        }
+
+        public void setView(Object view) {
+            this.view = view;
+        }
+    }
+
+    /**
+     * 定义ListView适配器MainListViewAdapter
+     */
+    private class XHorizontalAdapter extends RecyclerView.Adapter {
+
+        private OnItemClickLitener mOnItemClickLitener;
+
+        public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener)
+        {
+            this.mOnItemClickLitener = mOnItemClickLitener;
+        }
+
+
+        private  class ViewHolder extends RecyclerView.ViewHolder
+        {
+            public ViewHolder(View arg0)
+            {
+                super(arg0);
+            }
+
+            ImageView mLine;
+            TextView mTxt;
+            LinearLayout layout;
+        }
+
+
+        private LayoutInflater mInflater;
+        private List<XHorizontalModel> mDatas;
+
+        public List<XHorizontalModel> getmDatas() {
+            return mDatas;
+        }
+
+        public void setmDatas(List<XHorizontalModel> mDatas) {
+            this.mDatas = mDatas;
+            notifyDataSetChanged();
+        }
+
+        public XHorizontalAdapter(Context context)
+        {
+            mInflater = LayoutInflater.from(context);
+        }
+
+        public XHorizontalAdapter(Context context, List<XHorizontalModel> datats)
+        {
+            mInflater = LayoutInflater.from(context);
+            mDatas = datats;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            View view = mInflater.inflate(R.layout.xhorizontalcell,
+                    parent, false);
+            ViewHolder viewHolder = new ViewHolder(view);
+
+            viewHolder.mTxt = (TextView) view
+                    .findViewById(R.id.XHorizontalCellTitle);
+
+            viewHolder.mLine = (ImageView) view
+                    .findViewById(R.id.XHorizontalCellLine);
+
+            viewHolder.layout = (LinearLayout) view
+                    .findViewById(R.id.XHorizontalCellLayout);
+
+            return viewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder,final int i) {
+
+            ViewHolder viewHolder = ((ViewHolder)holder);
+
+            viewHolder.mTxt.setText(mDatas.get(i).title);
+
+            ViewGroup.LayoutParams layoutParams1 = viewHolder.mLine.getLayoutParams();
+            layoutParams1.height = DensityUtil.dip2px(context,lineHeight);
+            viewHolder.mLine.setLayoutParams(layoutParams1);
+
+            int pd = DensityUtil.dip2px(context,cellInterval);
+            viewHolder.layout.setPadding(pd,0,pd,0);
+
+            if(i == selected)
+            {
+                viewHolder.mTxt.setTextColor(selectedColor);
+                viewHolder.mTxt.setTextSize(selectedTxtSize);
+                viewHolder.mLine.setBackgroundColor(selectedColor);
+                viewHolder.mLine.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                viewHolder.mTxt.setTextColor(normalColor);
+                viewHolder.mTxt.setTextSize(normalTxtSize);
+                viewHolder.mLine.setVisibility(View.INVISIBLE);
+            }
+
+
+            //如果设置了回调，则设置点击事件
+            if (mOnItemClickLitener != null)
+            {
+                holder.itemView.setOnClickListener(new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        mOnItemClickLitener.onItemClick(holder.itemView, i);
+                    }
+                });
+
+            }
+
+
+        }
+
+        /**
+         * 返回item的id
+         */
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDatas.size();
+        }
+
+    }
+
+}

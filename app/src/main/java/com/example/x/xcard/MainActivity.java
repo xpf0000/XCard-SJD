@@ -12,10 +12,13 @@ import android.widget.SimpleAdapter;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.com.x.user.APPConfig;
 import com.com.x.user.APPContact;
+import com.com.x.user.ChangePwVC;
 import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
 import com.com.x.user.SystemMsg;
+import com.com.x.yuangong.YGManageMainVC;
 import com.x.custom.XGridView;
 
 import java.util.ArrayList;
@@ -86,6 +89,15 @@ public class MainActivity extends BaseActivity{
                     break;
                     case 2:
                         pushVC(APPContact.class);
+                        break;
+                    case 3:
+                        pushVC(APPConfig.class);
+                        break;
+                    case 4:
+                        pushVC(ChangePwVC.class);
+                        break;
+                    case 5:
+                        pushVC(YGManageMainVC.class);
                         break;
                     default:
                         break;
