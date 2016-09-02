@@ -16,13 +16,42 @@ import android.view.ViewGroup;
 import com.com.x.yuangong.YGManageLeft;
 import com.example.x.xcard.R;
 
+import java.util.List;
+
 /**
  * Created by X on 16/9/2.
  */
 public class XHorizontalMain extends ViewPager {
 
     private Context context;
-    private MyFragmentPageAdapter mAdapter;
+    private XHorizontalPageAdapter mAdapter;
+    private XHorizontalMenu menu;
+
+    public void refresh()
+    {
+        if(mAdapter != null)
+        {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public XHorizontalMenu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(XHorizontalMenu menu) {
+
+        this.menu = menu;
+        if(this.menu.getMain() != this)
+        {
+            this.menu.setMain(this);
+        }
+
+        if(mAdapter != null)
+        {
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     private void init(Context context)
     {
@@ -30,9 +59,33 @@ public class XHorizontalMain extends ViewPager {
 //3.0及其以上版本，只需继承Activity，通过getFragmentManager获取事物
         FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
         //初始化自定义适配器
-        mAdapter =  new MyFragmentPageAdapter(fm);
+        mAdapter =  new XHorizontalPageAdapter(fm);
         //绑定自定义适配器
         setAdapter(mAdapter);
+
+        addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if(menu != null)
+                {
+                    menu.setSelected(position);
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
     }
 
     public XHorizontalMain(Context context) {
@@ -46,66 +99,38 @@ public class XHorizontalMain extends ViewPager {
     }
 
 
-    private class MyFragmentPageAdapter extends FragmentPagerAdapter {
+    private class XHorizontalPageAdapter extends FragmentPagerAdapter {
 
-        public MyFragmentPageAdapter(FragmentManager fm) {
+        public XHorizontalPageAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            if(menu != null)
+            {
+                List<XHorizontalMenu.XHorizontalModel> arr = menu.getData();
+                if(arr != null)
+                {
+                    return arr.size();
+                }
+            }
+            return 0;
         }
 
         @Override
         public Fragment getItem(int position) {
-            switch (position) {
-                case 0:
-                    return new YGManageLeft();
-                case 1:
-                    return XHorizontalFragment.newInstance(position);
-                default:
-                    return null;
+
+            Fragment view = menu.getData().get(position).getView();
+
+            if(view == null)
+            {
+                view = new Fragment();
             }
-        }
 
-    }
-
-    public static class XHorizontalFragment extends Fragment {
-
-        int mNum; //页号
-
-        public static XHorizontalFragment newInstance(int num) {
-            XHorizontalFragment fragment = new XHorizontalFragment();
-            // Supply num input as an argument.
-            Bundle args = new Bundle();
-            args.putInt("num", num);
-            fragment.setArguments(args);
-            return fragment;
-        }
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            //这里我只是简单的用num区别标签，其实具体应用中可以使用真实的fragment对象来作为叶片
-            mNum = getArguments() != null ? getArguments().getInt("num") : 1;
-        }
-        /**为Fragment加载布局时调用**/
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-
-
-            View view = inflater.inflate(R.layout.user_login, null);
-
-            System.out.println(getActivity());
-
-//            TextView tv = (TextView) view.findViewById(R.id.text);
-//            tv.setText("fragment+" + mNum);
             return view;
         }
+
     }
-
-
 
 }

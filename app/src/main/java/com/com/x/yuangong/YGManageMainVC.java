@@ -57,6 +57,7 @@ public class YGManageMainVC extends BaseActivity {
 
         viewPager = (XHorizontalMain) findViewById(R.id.yg_manage_viewpager);
         listView = (XHorizontalMenu) findViewById(R.id.XHorizontalList);
+        viewPager.setMenu(listView);
 
         listView.setLineHeight(2)
                 .setNormalTxtSize(17)
@@ -81,11 +82,20 @@ public class YGManageMainVC extends BaseActivity {
 
         XHorizontalMenu.XHorizontalModel model = new XHorizontalMenu.XHorizontalModel();
         model.setTitle("员工");
+        model.setView(new YGManageLeft());
         list.add(model);
 
         XHorizontalMenu.XHorizontalModel model1 = new XHorizontalMenu.XHorizontalModel();
         model1.setTitle("岗位管理");
         list.add(model1);
+
+        for(int i=0;i<8;i++)
+        {
+            XHorizontalMenu.XHorizontalModel model2 = new XHorizontalMenu.XHorizontalModel();
+            model2.setTitle("选项"+i);
+            list.add(model2);
+        }
+
 
         return list;
     }

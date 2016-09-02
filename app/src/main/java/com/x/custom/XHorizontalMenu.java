@@ -3,6 +3,7 @@ package com.x.custom;
 import android.content.Context;
 import android.media.Image;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,24 @@ public class XHorizontalMenu extends RecyclerView {
     private int normalTxtSize = 16;
     private int selectedTxtSize = 16;
     private int cellInterval = 12;
+
+    private XHorizontalMain main;
+
+    public XHorizontalMain getMain() {
+        return main;
+    }
+
+    public void setMain(XHorizontalMain main) {
+
+        this.main = main;
+        if(this.main.getMenu() != this)
+        {
+            this.main.setMenu(this);
+        }
+
+        this.main.refresh();
+
+    }
 
     public int getCellInterval() {
         return cellInterval;
@@ -108,6 +127,15 @@ public class XHorizontalMenu extends RecyclerView {
     public void setSelected(int selected) {
         this.selected = selected;
         adapter.notifyDataSetChanged();
+        if(main != null)
+        {
+            main.setCurrentItem(selected);
+        }
+
+
+
+
+
     }
 
     public  void init(final Context context)
@@ -129,7 +157,23 @@ public class XHorizontalMenu extends RecyclerView {
             @Override
             public void onItemClick(View view, int position)
             {
-                Toast.makeText(context, position+"", Toast.LENGTH_SHORT)
+
+
+                int[] location = new int[2];
+
+                view.getLocationOnScreen(location);
+                int x = location[0];
+                int y = location[1];
+
+
+                int xx = x+view.getWidth()/2;
+                int offx = ApplicationClass.SW/2 - xx;
+
+                System.out.println("SW: "+ApplicationClass.SW+" x: "+xx+" offx: "+offx);
+
+                scrollBy(-offx,0);
+
+                Toast.makeText(context, "x:"+x, Toast.LENGTH_SHORT)
                         .show();
 
                 setSelected(position);
@@ -138,6 +182,21 @@ public class XHorizontalMenu extends RecyclerView {
         });
 
         setAdapter(adapter);
+
+        addOnScrollListener(new OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+               // System.out.println("offx: "+getScrollX());
+
+            }
+        });
 
 
     }
@@ -172,12 +231,16 @@ public class XHorizontalMenu extends RecyclerView {
         adapter.setmDatas(arr);
     }
 
+    public List<XHorizontalModel> getData(){
+        return adapter.getmDatas();
+    }
+
 
     static public class XHorizontalModel
     {
         private String id;
         private String title;
-        private Object view;
+        private Fragment view;
 
         public  XHorizontalModel(){}
 
@@ -197,11 +260,11 @@ public class XHorizontalMenu extends RecyclerView {
             this.title = title;
         }
 
-        public Object getView() {
+        public Fragment getView() {
             return view;
         }
 
-        public void setView(Object view) {
+        public void setView(Fragment view) {
             this.view = view;
         }
     }
@@ -242,6 +305,9 @@ public class XHorizontalMenu extends RecyclerView {
         public void setmDatas(List<XHorizontalModel> mDatas) {
             this.mDatas = mDatas;
             notifyDataSetChanged();
+            //scrollToPosition(mDatas.size()-1);
+            //scrollToPosition(0);
+            main.refresh();
         }
 
         public XHorizontalAdapter(Context context)
@@ -302,6 +368,8 @@ public class XHorizontalMenu extends RecyclerView {
                 viewHolder.mLine.setVisibility(View.INVISIBLE);
             }
 
+
+            //System.out.println("item width: "+holder.itemView.getWidth());
 
             //如果设置了回调，则设置点击事件
             if (mOnItemClickLitener != null)

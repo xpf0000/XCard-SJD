@@ -1,5 +1,6 @@
 package com.example.x.xcard;
 import android.app.Application;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -12,6 +13,10 @@ public class ApplicationClass extends Application {
 
 	public static int stateBarHeight = 0;
 	public static int navBarHeight = 0;
+
+	public static int SW = 0;
+	public static int SH = 0;
+
 	/**
 	 * 创建全局变量 全局变量一般都比较倾向于创建一个单独的数据类文件，并使用static静态变量
 	 * 
@@ -29,6 +34,10 @@ public class ApplicationClass extends Application {
 	public void onCreate() {
 		super.onCreate();
 		initImageLoader();
+		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+		SW = displayMetrics.widthPixels;
+		SH = displayMetrics.heightPixels;
+
 		System.out.println("================init============");
 
 	}
