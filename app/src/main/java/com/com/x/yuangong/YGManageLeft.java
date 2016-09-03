@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.x.xcard.R;
+import com.x.custom.XHorizontalBaseFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,12 +23,29 @@ import java.util.Map;
 /**
  * Created by X on 16/9/2.
  */
-public class YGManageLeft extends Fragment
+public class YGManageLeft extends XHorizontalBaseFragment
 {
     private ListView list;
     private SystemMsgAdapter adapter;
     private List<Map<String, Object>> dataArr;
     private Context context;
+
+    @Override
+    protected void lazyLoad() {
+
+        System.out.println("LeftFragment--->lazyLoad !!!");
+
+        dataArr = getData();
+        // 获取MainListAdapter对象
+        adapter = new SystemMsgAdapter();
+        // 将MainListAdapter对象传递给ListView视图
+
+        if(list != null)
+        {
+            list.setAdapter(adapter);
+        }
+
+    }
 
     /** Acitivity要实现这个接口，这样Fragment和Activity就可以共享事件触发的资源了 */
     public interface MyListener
@@ -61,7 +79,9 @@ public class YGManageLeft extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         System.out.println("LeftFragment--->onCreateView");
-        return inflater.inflate(R.layout.yg_manage_yg, container, false);
+        View v = inflater.inflate(R.layout.yg_manage_yg, container, false);
+        list = (ListView) v.findViewById(R.id.yg_manage_yg_list);
+        return v;
     }
 
     @Override
@@ -69,17 +89,6 @@ public class YGManageLeft extends Fragment
     {
         super.onResume();
         System.out.println("LeftFragment--->onResume");
-
-        list = (ListView) getActivity().findViewById(R.id.yg_manage_yg_list);
-
-        dataArr = getData();
-
-        // 获取MainListAdapter对象
-        adapter = new SystemMsgAdapter();
-
-        // 将MainListAdapter对象传递给ListView视图
-        list.setAdapter(adapter);
-
     }
 
     private List<Map<String, Object>> getData() {

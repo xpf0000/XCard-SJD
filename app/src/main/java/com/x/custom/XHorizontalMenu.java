@@ -132,7 +132,50 @@ public class XHorizontalMenu extends RecyclerView {
             main.setCurrentItem(selected);
         }
 
+        View child = null;
+        for(int i=0;i<getChildCount();i++)
+        {
+            int tag = (int) this.getChildAt(i).getTag();
 
+            if(tag == selected)
+            {
+                child = this.getChildAt(i);
+                break;
+            }
+
+        }
+
+        int[] l = new int[2];
+        getLocationOnScreen(l);
+
+        System.out.println("W: "+getWidth()+" X: "+l[0]);
+
+        int middle = (getWidth()+l[0])/2;
+
+        if(child != null)
+        {
+            int[] location = new int[2];
+
+            child.getLocationOnScreen(location);
+            int x = location[0];
+            int y = location[1];
+
+
+            int xx = x+child.getWidth()/2;
+            int offx = middle - xx;
+
+            System.out.println("SW: "+ApplicationClass.SW+" x: "+xx+" offx: "+offx);
+
+            scrollBy(-offx,0);
+
+            Toast.makeText(context, "x:"+x, Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+
+
+
+    ;
 
 
 
@@ -158,24 +201,7 @@ public class XHorizontalMenu extends RecyclerView {
             public void onItemClick(View view, int position)
             {
 
-
-                int[] location = new int[2];
-
-                view.getLocationOnScreen(location);
-                int x = location[0];
-                int y = location[1];
-
-
-                int xx = x+view.getWidth()/2;
-                int offx = ApplicationClass.SW/2 - xx;
-
-                System.out.println("SW: "+ApplicationClass.SW+" x: "+xx+" offx: "+offx);
-
-                scrollBy(-offx,0);
-
-                Toast.makeText(context, "x:"+x, Toast.LENGTH_SHORT)
-                        .show();
-
+                System.out.println("child00: "+view);
                 setSelected(position);
 
             }
@@ -305,8 +331,7 @@ public class XHorizontalMenu extends RecyclerView {
         public void setmDatas(List<XHorizontalModel> mDatas) {
             this.mDatas = mDatas;
             notifyDataSetChanged();
-            //scrollToPosition(mDatas.size()-1);
-            //scrollToPosition(0);
+            main.setOffscreenPageLimit(mDatas.size());
             main.refresh();
         }
 
@@ -353,6 +378,8 @@ public class XHorizontalMenu extends RecyclerView {
 
             int pd = DensityUtil.dip2px(context,cellInterval);
             viewHolder.layout.setPadding(pd,0,pd,0);
+
+            viewHolder.layout.setTag(i);
 
             if(i == selected)
             {
