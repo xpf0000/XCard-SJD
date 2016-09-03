@@ -18,6 +18,7 @@ import com.com.x.user.ChangePwVC;
 import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
 import com.com.x.user.SystemMsg;
+import com.com.x.yuangong.PowerManageVC;
 import com.com.x.yuangong.YGManageMainVC;
 import com.x.custom.XGridView;
 
@@ -98,6 +99,9 @@ public class MainActivity extends BaseActivity{
                         break;
                     case 5:
                         pushVC(YGManageMainVC.class);
+                        break;
+                    case 6:
+                        pushVC(PowerManageVC.class);
                         break;
                     default:
                         break;

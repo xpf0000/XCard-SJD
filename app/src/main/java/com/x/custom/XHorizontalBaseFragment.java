@@ -64,5 +64,18 @@ public abstract class XHorizontalBaseFragment extends Fragment {
      */
     protected abstract void lazyLoad();
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+        System.out.println("Fragment--->onDestroy");
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        System.out.println("Fragment--->onDetach");
+    }
 }

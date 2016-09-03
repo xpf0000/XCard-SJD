@@ -29,4 +29,5 @@ dependencies {
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     compile 'com.zcw:togglebutton-library:1.0.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.bigkoo:alertview:1.0.3'
 }
