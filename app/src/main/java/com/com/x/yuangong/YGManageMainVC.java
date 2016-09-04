@@ -63,7 +63,13 @@ public class YGManageMainVC extends BaseActivity {
     private AlertView mAlertViewExt;//窗口拓展例子
     private EditText etName;//拓展View内容
     private InputMethodManager imm;
+    private TextView alertLeftBtn;
 
+    private YGManageLeft left = new YGManageLeft();
+    private GWManageRight right = new GWManageRight();
+
+    private boolean isAlertShowed= false;
+    private boolean isAdd = true;
 
     @Override
     protected void setupUi() {
@@ -100,6 +106,22 @@ public class YGManageMainVC extends BaseActivity {
                     }
                     else{
                         Toast.makeText(mContext, "hello,"+name, Toast.LENGTH_SHORT).show();
+
+                        if(isAdd)
+                        {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            map.put("title", name);
+                            right.dataArr.add(map);
+                            right.refresh();
+                        }
+                        else
+                        {
+                            right.dataArr.get(right.selectIndex).put("title",name);
+                            right.refresh();
+                        }
+
+
+
                     }
 
                     return;
@@ -113,6 +135,8 @@ public class YGManageMainVC extends BaseActivity {
             @Override
             public void onDismiss(Object o) {
                 closeKeyboard();
+                etName.setText("");
+                isAdd = true;
                 Toast.makeText(mContext, "消失了", Toast.LENGTH_SHORT).show();
             }
         });
@@ -131,11 +155,46 @@ public class YGManageMainVC extends BaseActivity {
         });
         mAlertViewExt.addExtView(extView);
 
+        right.setMyListener(new GWManageRight.MyListener() {
+            @Override
+            public void showMessage(int index) {
+
+                if(index == 0)
+                {
+                    isAdd = false;
+                    String t = (String) right.dataArr.get(right.selectIndex).get("title");
+                    etName.setText(t);
+                    alertShow();
+
+                }
+            }
+        });
+
 
     }
 
     @Override
     protected void setupData() {
+
+    }
+
+    public void alertShow()
+    {
+        mAlertViewExt.show();
+        if(alertLeftBtn != null)
+        {
+            alertLeftBtn.setText(isAdd ? "确认添加" : "确认修改");
+        }
+
+        if(!isAlertShowed)
+        {
+            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            ViewGroup decorView = (ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content);
+
+            printAllSubView(decorView);
+
+            isAlertShowed=true;
+        }
 
     }
 
@@ -145,20 +204,7 @@ public class YGManageMainVC extends BaseActivity {
 
         if(menu.getSelected() == 1)
         {
-            mAlertViewExt.show();
-
-            LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            ViewGroup decorView = (ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content);
-
-            //ViewGroup rootView = (ViewGroup) layoutInflater.inflate(com.bigkoo.alertview.R.layout.layout_alertview, decorView, false);
-
-//            for(int i=0;i<decorView.getChildCount();i++)
-//            {
-//                System.out.println("view: "+((ViewGroup)decorView.getChildAt(i)).getChildCount());
-//            }
-
-            printAllSubView(decorView);
-
+            alertShow();
         }
 
     }
@@ -176,6 +222,12 @@ public class YGManageMainVC extends BaseActivity {
                 {
                     tv.setTextColor(ContextCompat.getColor(mContext, R.color.APPTXTBlack));
                     System.out.println("view: "+temp);
+                }
+
+                if(tv.getText().equals("确认添加"))
+                {
+                    alertLeftBtn = tv;
+                    alertLeftBtn.setText(isAdd ? "确认添加" : "确认修改");
                 }
             }
 
@@ -218,12 +270,12 @@ public class YGManageMainVC extends BaseActivity {
 
         XHorizontalMenu.XHorizontalModel model = new XHorizontalMenu.XHorizontalModel();
         model.setTitle("员工");
-        model.setView(new YGManageLeft());
+        model.setView(left);
         list.add(model);
 
         XHorizontalMenu.XHorizontalModel model1 = new XHorizontalMenu.XHorizontalModel();
         model1.setTitle("岗位管理");
-        model1.setView(new GWManageRight());
+        model1.setView(right);
         list.add(model1);
 
         return list;

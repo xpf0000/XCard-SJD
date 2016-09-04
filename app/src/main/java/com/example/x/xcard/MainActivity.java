@@ -12,12 +12,16 @@ import android.widget.SimpleAdapter;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.com.x.card.ChooseCardTypeVC;
+import com.com.x.card.InputCardInfoVC;
+import com.com.x.card.MakeCardVC;
 import com.com.x.user.APPConfig;
 import com.com.x.user.APPContact;
 import com.com.x.user.ChangePwVC;
 import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
 import com.com.x.user.SystemMsg;
+import com.com.x.yuangong.AddYGVC;
 import com.com.x.yuangong.PowerManageVC;
 import com.com.x.yuangong.YGManageMainVC;
 import com.x.custom.XGridView;
@@ -103,6 +107,22 @@ public class MainActivity extends BaseActivity{
                     case 6:
                         pushVC(PowerManageVC.class);
                         break;
+                    case 7:
+                        pushVC(AddYGVC.class);
+                        break;
+
+                    case 8:
+                        pushVC(MakeCardVC.class);
+                        break;
+
+                    case 9:
+                        pushVC(ChooseCardTypeVC.class);
+                        break;
+
+                    case 10:
+                        pushVC(InputCardInfoVC.class);
+                        break;
+
                     default:
                         break;
                 }

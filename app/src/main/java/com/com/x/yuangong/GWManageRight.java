@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnDismissListener;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.example.x.xcard.R;
 import com.x.custom.XHorizontalBaseFragment;
 
@@ -25,8 +29,17 @@ public class GWManageRight extends XHorizontalBaseFragment
 {
     private ListView list;
     private GWManageYGAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    public List<Map<String, Object>> dataArr;
     private Context context;
+
+    public int selectIndex = 0;
+    private int doType = -1;
+
+    public void refresh()
+    {
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected void lazyLoad() {
@@ -52,6 +65,38 @@ public class GWManageRight extends XHorizontalBaseFragment
     }
 
     private MyListener myListener;
+
+    public void setMyListener(MyListener m)
+    {
+        myListener = m;
+    }
+
+
+    private void rightAlertShow()
+    {
+        AlertView rightAlert = new AlertView(null, null, null, null,
+                new String[]{"修改岗位名称", "修改岗位权限", "取消"},
+                context, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                System.out.println("点击了: "+position);
+                doType = position;
+            }
+        });
+
+        rightAlert.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(Object o) {
+
+                if(myListener != null)
+                {
+                    myListener.showMessage(doType);
+                }
+            }
+        });
+
+        rightAlert.show();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -79,6 +124,16 @@ public class GWManageRight extends XHorizontalBaseFragment
         System.out.println("RightFragment--->onCreateView");
         View v = inflater.inflate(R.layout.yg_manage_gw, container, false);
         list = (ListView) v.findViewById(R.id.yg_manage_gw_list);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectIndex = i;
+
+                rightAlertShow();
+            }
+        });
+
         return v;
     }
 
