@@ -1,5 +1,6 @@
 package com.com.x.card;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.com.x.user.FindPWVC;
@@ -26,6 +27,10 @@ public class ChooseCardTypeVC extends BaseActivity {
     public void doChoose(View v)
     {
         String tag = (String) v.getTag();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("type",tag);
+        pushVC(InputCardInfoVC.class,bundle);
 
         System.out.println("choose tag: "+tag);
     }

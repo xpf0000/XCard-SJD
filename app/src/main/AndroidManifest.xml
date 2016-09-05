@@ -105,6 +105,11 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name="com.com.x.card.CZMainVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
 
 
 

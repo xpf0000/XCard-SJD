@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.com.x.card.CZMainVC;
 import com.com.x.card.ChooseCardTypeVC;
 import com.com.x.card.InputCardInfoVC;
 import com.com.x.card.MakeCardVC;
@@ -116,11 +117,11 @@ public class MainActivity extends BaseActivity{
                         break;
 
                     case 9:
-                        pushVC(ChooseCardTypeVC.class);
+                        pushVC(CZMainVC.class);
                         break;
 
                     case 10:
-                        pushVC(InputCardInfoVC.class);
+
                         break;
 
                     default:

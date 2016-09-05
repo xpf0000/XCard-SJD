@@ -56,6 +56,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	private boolean isPush = true;
 
+	private View decorView;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -287,6 +289,11 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	public void popVC(View v)
 	{
+		doPop();
+	}
+
+	private void doPop()
+	{
 		this.finish();
 		if(isPush)
 		{
@@ -296,7 +303,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		{
 			overridePendingTransition(R.anim.pop_up_out,R.anim.pop_up_in);
 		}
-
 	}
 
 	public void rightClick(View v)
@@ -315,9 +321,33 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	public void setContentView(int layoutResID) {
 
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		decorView = getWindow().getDecorView();
+		decorView.setSystemUiVisibility(
+				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+		decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+			@Override
+			public void onSystemUiVisibilityChange(int i) {
+
+				if(i == 0)
+				{
+					decorView.setSystemUiVisibility(
+							View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+									| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+									| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+									| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+				}
+				System.out.println("onSystemUiVisibilityChange: "+i);
+
+			}
+		});
+
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 		mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
 		toolbar = mToolBarHelper.getToolBar() ;
 		setContentView(mToolBarHelper.getContentView());
@@ -326,138 +356,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
         /*自定义的一些操作*/
 		onCreateCustomToolBar(toolbar) ;
 
-		LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-		ViewGroup decorView = (ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content);
-
-		printAllSubView(decorView);
-
-		final View dview = getWindow().getDecorView().findViewById(android.R.id.content);
-		decorView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			int previousKeyboardHeight = -1;
-			@Override
-			public void onGlobalLayout() {
-				Rect rect = new Rect();
-				dview.getWindowVisibleDisplayFrame(rect);
-				int displayHeight = rect.bottom - rect.top;
-				int height = dview.getHeight();
-				int keyboardHeight = height - displayHeight;
-				if (previousKeyboardHeight != keyboardHeight) {
-					boolean hide = (double) displayHeight / height > 0.8;
-
-
-
-					//listener.onSoftKeyBoardChange(keyboardHeight, !hide);
-				}
-
-
-				System.out.println("keyboardHeight: "+keyboardHeight);
-
-				previousKeyboardHeight = height;
-
-			}
-		});
-
-
-
-
-
 	}
-
-
-
-
-	@SuppressLint("NewApi")
-	private void printAllSubView(ViewGroup v)
-	{
-		for(int i=0;i<v.getChildCount();i++)
-		{
-			View temp = v.getChildAt(i);
-
-			if (temp instanceof TextView)
-			{
-				final TextView tv = (TextView) temp;
-
-				 tv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-					@Override
-					public void onFocusChange(View view, boolean b) {
-
-						System.out.println("软键盘是否弹出: "+b);
-
-						if(b)
-						{
-							Rect rect = new Rect();
-
-
-							int[] outLocation = new int[2];
-							int[] outLocation1 = new int[2];
-
-
-							tv.getLocationOnScreen(outLocation);
-							tv.getLocationInWindow(outLocation1);
-
-
-							int displayHeight = rect.bottom - rect.top;
-							int height = getWindow().getDecorView().findViewById(android.R.id.content).getHeight();
-							int keyboardHeight = height - displayHeight;
-							System.out.println("x: "+outLocation[0]+" y: "+outLocation[1]+" x1: "+outLocation1[0]+" y1: "+outLocation1[1]);
-
-						}
-
-					}
-				});
-
-				tv.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-					@Override
-					public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
-
-						System.out.println(i1+" "+i2+" "+i3+" "+i4+" "+i5+" "+i6+" "+i7);
-					}
-				});
-
-				tv.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-					@Override
-					public void onViewAttachedToWindow(View view) {
-
-						System.out.println("onViewAttachedToWindow ~~~~~~");
-					}
-
-					@Override
-					public void onViewDetachedFromWindow(View view) {
-						System.out.println("onViewDetachedFromWindow ~~~~~~");
-					}
-				});
-
-				tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-						System.out.println("onEditorAction i: "+i+" KeyEvent: "+keyEvent);
-						return false;
-					}
-				});
-
-
-				tv.setOnGenericMotionListener(new View.OnGenericMotionListener() {
-					@Override
-					public boolean onGenericMotion(View view, MotionEvent motionEvent) {
-
-						System.out.println("onGenericMotion motionEvent: "+motionEvent);
-
-						return false;
-					}
-				});
-
-
-			}
-
-			if (temp instanceof ViewGroup)
-			{
-				printAllSubView((ViewGroup)temp);
-			}
-
-		}
-	}
-
-
 
 	public void onCreateCustomToolBar(Toolbar toolbar){
 		toolbar.setContentInsetsRelative(0,0);
@@ -521,12 +420,19 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home){
-			finish();
-			return true ;
+
+			doPop();
+
+			return false ;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	public void onBackPressed() {
+		//super.onBackPressed();
+		doPop();
+	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
@@ -535,17 +441,15 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		System.out.println("onWindowFocusChanged !!!!!!");
 
 		if (hasFocus && Build.VERSION.SDK_INT >= 19) {
-			View decorView = getWindow().getDecorView();
+
 			decorView.setSystemUiVisibility(
 					View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 							| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-							| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+							//| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 							| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-							| View.SYSTEM_UI_FLAG_FULLSCREEN
+							//| View.SYSTEM_UI_FLAG_FULLSCREEN
 							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 		}
-
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
 	}
 

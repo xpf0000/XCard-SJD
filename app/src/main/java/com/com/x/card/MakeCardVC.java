@@ -74,7 +74,7 @@ public class MakeCardVC extends BaseActivity {
 
     public void btnClick(View v)
     {
-
+        pushVC(ChooseCardTypeVC.class);
     }
 
 }

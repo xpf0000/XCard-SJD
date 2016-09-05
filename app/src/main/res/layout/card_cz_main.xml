@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical" android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/APPPGBG"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <EditText
+                android:id="@+id/card_make_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="14dp"
+                style="@style/Base.Widget.AppCompat.EditText"
+                android:drawableLeft="@drawable/search"
+                android:drawablePadding="8dp"
+                android:padding="8dp"
+                android:hint="请输入手机号码"
+                android:background="@drawable/bg_edittext"
+                android:inputType="phone"
+                android:maxLength="11"
+                />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/white"
+
+                          android:paddingTop="20dp"
+                          android:paddingBottom="20dp"
+                          android:paddingLeft="16dp"
+
+                          android:gravity="center_vertical"
+                          android:tag="充值卡"
+                          android:clickable="true"
+                          android:onClick="doChoose"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="手机号:&#160;"
+                    android:textColor="@color/APPTXTBlack"
+                    android:textSize="18sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15837961234"
+                    android:textColor="@color/APPOrange"
+                    android:textSize="18sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&#160;, 姓名:&#160;"
+                    android:textColor="@color/APPTXTBlack"
+                    android:textSize="18sp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="张三丰"
+                    android:textColor="@color/APPTXTBlack"
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_separator_offx"
+                android:paddingRight="@dimen/app_separator_offx"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/white"
+                          android:padding="14dp"
+                          android:gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/card_type0"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="充值卡"
+                        android:textColor="@color/APPTXTBlack"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="会员卡说明"
+                        android:textColor="#999999"
+                        android:textSize="17sp"
+                        />
+
+                </LinearLayout>
+
+                <RadioButton
+                    android:onClick="doChooseType"
+                    android:tag="充值卡"
+                    android:id="@+id/cz_main_radio0"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="4dp"
+                    android:checked="true"
+                    android:button="@color/transparent"
+                    android:background="@drawable/selector_radiobtncolor"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_separator_offx"
+                android:paddingRight="@dimen/app_separator_offx"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/white"
+                          android:padding="14dp"
+                          android:gravity="center_vertical"
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/card_type1"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="积分卡"
+                        android:textColor="@color/APPTXTBlack"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="会员卡说明"
+                        android:textColor="#999999"
+                        android:textSize="17sp"
+                        />
+
+                </LinearLayout>
+
+                <RadioButton
+                    android:onClick="doChooseType"
+                    android:tag="积分卡"
+                    android:id="@+id/cz_main_radio1"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="4dp"
+                    android:button="@color/transparent"
+                    android:background="@drawable/selector_radiobtncolor"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_separator_offx"
+                android:paddingRight="@dimen/app_separator_offx"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/white"
+                          android:padding="14dp"
+                          android:gravity="center_vertical"
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/card_type2"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="计次卡"
+                        android:textColor="@color/APPTXTBlack"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="会员卡说明"
+                        android:textColor="#999999"
+                        android:textSize="17sp"
+                        />
+
+                </LinearLayout>
+
+                <RadioButton
+                    android:onClick="doChooseType"
+                    android:tag="计次卡"
+                    android:id="@+id/cz_main_radio2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="4dp"
+                    android:button="@color/transparent"
+                    android:background="@drawable/selector_radiobtncolor"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_separator_offx"
+                android:paddingRight="@dimen/app_separator_offx"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:background="@color/white"
+                          android:padding="14dp"
+                          android:gravity="center_vertical"
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/card_type3"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="打折卡"
+                        android:textColor="@color/APPTXTBlack"
+                        android:textSize="18sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="会员卡说明"
+                        android:textColor="#999999"
+                        android:textSize="17sp"
+                        />
+
+                </LinearLayout>
+
+                <RadioButton
+                    android:tag="打折卡"
+                    android:id="@+id/cz_main_radio3"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="4dp"
+                    android:button="@color/transparent"
+                    android:background="@drawable/selector_radiobtncolor"
+                    android:onClick="doChooseType"
+                    />
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+    <TextView
+        android:id="@+id/card_make_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/APPOrange"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="@dimen/btn_title"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="toNext"
+        ></TextView>
+
+</LinearLayout>
