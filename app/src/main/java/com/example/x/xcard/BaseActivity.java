@@ -397,6 +397,14 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		}
 	}
 
+	public void setRightImgPadding(int left, int top, int right, int bottom)
+	{
+		if(rightImg != null)
+		{
+			rightImg.setPadding(left,top,right,bottom);
+		}
+	}
+
 	public void setRightTxt(String txt)
 	{
 		if(rightTxt != null)

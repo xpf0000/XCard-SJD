@@ -51,11 +51,11 @@
             />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/go_arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow02"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
             />
 
     </LinearLayout>
@@ -98,11 +98,11 @@
             />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/go_arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow02"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
             />
 
     </LinearLayout>
@@ -180,11 +180,11 @@
             />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/go_arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow02"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
             />
 
     </LinearLayout>
@@ -275,11 +275,11 @@
             />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/go_arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow02"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
             />
 
     </LinearLayout>
@@ -321,11 +321,11 @@
             />
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/go_arrow_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow02"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="4dp"
             />
 
     </LinearLayout>

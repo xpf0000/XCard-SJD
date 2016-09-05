@@ -47,7 +47,9 @@ public class CZMainVC extends BaseActivity {
 
     public void toNext(View v)
     {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("type",type);
+        pushVC(CZInfoVC.class,bundle);
     }
 
 }

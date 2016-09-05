@@ -77,6 +77,7 @@ public class YGManageMainVC extends BaseActivity {
         setPageTitle("员工管理");
         setRightImg(R.drawable.yg_add);
 
+
         main = (XHorizontalMain) findViewById(R.id.yg_manage_viewpager);
         menu = (XHorizontalMenu) findViewById(R.id.XHorizontalList);
         main.setMenu(menu);

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:background="@color/APPPGBG"
-            android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/APPPGBG"
+    android:layout_height="match_parent"
     >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@color/APPPGBG"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/APPPGBG"
         >
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:layout_marginTop="12dp"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-                      android:tag="充值卡"
-                      android:clickable="true"
-                      android:onClick="doChoose"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="12dp"
+            android:padding="14dp"
+            android:gravity="center_vertical"
+            android:tag="充值卡"
+            android:clickable="true"
+            android:onClick="doChoose"
             >
 
             <ImageView
-                android:id="@+id/card_cz_info_img"
+                android:id="@+id/card_xf_info_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/card_type0"
@@ -43,7 +43,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/card_cz_info_name"
+                    android:id="@+id/card_xf_info_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="张三丰"
@@ -54,7 +54,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/card_cz_info_tel"
+                    android:id="@+id/card_xf_info_tel"
                     android:gravity="center_vertical"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
@@ -93,17 +93,17 @@
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="65dp"
-                      android:background="@color/white"
-                      android:gravity="center"
-                      android:clickable="true"
-                      android:onClick="toChangePass"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:clickable="true"
+            android:onClick="toChangePass"
             >
 
             <TextView
-                android:id="@+id/card_cz_info_type"
+                android:id="@+id/card_xf_info_type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -136,70 +136,13 @@
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:gravity="center"
-                      android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
             >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:orientation="vertical"
-                >
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="充值金额"
-    android:textColor="@color/APPTXTBlack"
-    android:textSize="17sp"
-    android:layout_marginTop="2dp"
-    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="￥"
-                        android:textColor="@color/APPTXTBlack"
-                        android:textSize="26sp"
-                        android:layout_marginTop="2dp"
-                        />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="0.00"
-                        android:textSize="26sp"
-                        android:textColor="#999999"
-                        android:layout_marginLeft="8dp"
-                        android:background="@null"
-                        android:inputType="numberDecimal"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="2dp"
-                        />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -211,7 +154,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="实收金额"
+                    android:text="充值金额"
                     android:textColor="@color/APPTXTBlack"
                     android:textSize="17sp"
                     android:layout_marginTop="2dp"
@@ -237,7 +180,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="0.00"
+                        android:hint="-0.00"
                         android:textSize="26sp"
                         android:textColor="#999999"
                         android:layout_marginLeft="8dp"
@@ -251,6 +194,7 @@
 
 
             </LinearLayout>
+
 
         </LinearLayout>
 
@@ -272,37 +216,37 @@
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
 
             >
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="请输入备注"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:paddingLeft="14dp"
-    android:background="@null"
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入备注"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="14dp"
+                android:background="@null"
 
-    />
+                />
 
 
         </LinearLayout>
 
         <Button
             android:id="@+id/roundButton"
-            android:text="确认充值"
+            android:text="确认消费"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="28dp"
             android:textColor="@color/white"
-            android:background="@drawable/xcornersbg"
+            android:background="@drawable/xcornersgraybg"
             android:textSize="16sp"
             android:onClick="btnClick"
             />
