@@ -58,7 +58,6 @@ public class YGManageMainVC extends BaseActivity {
     private XHorizontalMenu menu;
     private XHorizontalMain main;
     private List<XHorizontalMenu.XHorizontalModel> dataArr;
-    private ArrayList<View> mlistview = new ArrayList<View>(); //viewpager中的内容
 
     private AlertView mAlertViewExt;//窗口拓展例子
     private EditText etName;//拓展View内容

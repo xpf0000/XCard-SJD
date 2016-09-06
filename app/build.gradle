@@ -30,4 +30,6 @@ dependencies {
     compile 'com.zcw:togglebutton-library:1.0.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.bigkoo:alertview:1.0.3'
+    //compile 'com.github.mychoices:Jgraph:v1.2'
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
 }
