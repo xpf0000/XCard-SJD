@@ -7,12 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
@@ -102,6 +104,16 @@ public class XGetPhoto implements Properties {
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             Intent getImageByCamera = new Intent("android.media.action.IMAGE_CAPTURE");
 
+            System.out.println(activity.getExternalFilesDir(""));
+            System.out.println(activity.getExternalFilesDir(null));
+
+            File file = new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME);
+
+            System.out.println(file);
+            System.out.println(file.exists());
+            System.out.println(file.canWrite());
+            System.out.println(file.getAbsolutePath());
+
             getImageByCamera.putExtra(
                     MediaStore.EXTRA_OUTPUT,
                     Uri.fromFile(new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME)));
@@ -115,10 +127,53 @@ public class XGetPhoto implements Properties {
 
     public static void handleResult(int requestCode, int resultCode, Intent data)
     {
+        System.out.println("handleResult !!!!!!");
+        System.out.println("data: "+data+" !!!!!!");
+        System.out.println("requestCode: "+requestCode+" !!!!!!");
+        System.out.println("resultCode: "+resultCode+" !!!!!!");
+
+        if(resultCode == 0)
+        {
+            return;
+        }
+
+        if(data == null && requestCode != RESULT_REQUEST_CODE)
+        {
+            File file = new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME);
+
+            if(file != null)
+            {
+                Uri uri = Uri.fromFile(file);
+
+                if(allowEdit)
+                {
+                    startPhotoZoom(uri);
+                }
+                else
+                {
+                    Bitmap img = getBitmapFromUri(uri);
+                    if(img != null && myListener != null)
+                    {
+                        myListener.getPhoto(img);
+                    }
+                }
+            }
+
+            allowEdit = false;
+            return;
+        }
+
         if (requestCode == IMAGE_REQUEST_CODE) {
 
+            System.out.println("type is IMAGE_REQUEST_CODE !!!!!!");
             File temp1 = new File(getPath(activity,data.getData()));//兼容写法，不同手机版本路径不同
+
+            System.out.println("path is "+data.getData()+" !!!!!!");
+
             Uri uri = Uri.fromFile(temp1);
+
+            System.out.println("uri is "+uri+" !!!!!!");
+
             if(allowEdit)
             {
                 startPhotoZoom(uri);
@@ -135,8 +190,12 @@ public class XGetPhoto implements Properties {
         }
         else if (requestCode == CAMERA_REQUEST_CODE ) {
 
+            System.out.println("type is CAMERA_REQUEST_CODE !!!!!!");
+
             File temp = new File(activity.getExternalFilesDir("") + "/" + IMAGE_FILE_NAME);
             Uri uri = Uri.fromFile(temp);
+
+            System.out.println("uri is "+uri+" !!!!!!");
 
             if(allowEdit)
             {
@@ -153,14 +212,34 @@ public class XGetPhoto implements Properties {
         }
         else if(requestCode == RESULT_REQUEST_CODE)
         {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap img = extras.getParcelable("data");
-                if(img != null && myListener != null)
+            Uri uri = Uri.fromFile(new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME));
+
+            try {
+
+                Bitmap bitmap = BitmapFactory.decodeStream(activity.getContentResolver().openInputStream(uri));
+                if(bitmap != null && myListener != null)
                 {
-                    myListener.getPhoto(img);
+                    myListener.getPhoto(bitmap);
                 }
+
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+//            System.out.println("type is RESULT_REQUEST_CODE !!!!!!");
+//            Bundle extras = data.getExtras();
+//
+//            System.out.println("extras is "+extras+" !!!!!!");
+//
+//            if (extras != null) {
+//                Bitmap img = extras.getParcelable("data");
+//                if(img != null && myListener != null)
+//                {
+//                    myListener.getPhoto(img);
+//                }
+//            }
         }
 
         allowEdit = false;
@@ -172,6 +251,9 @@ public class XGetPhoto implements Properties {
      * @param uri
      */
     public static void startPhotoZoom(Uri uri) {
+
+        System.out.println("startPhotoZoom  begin !!!!!!!!");
+
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         // 设置裁剪
@@ -182,10 +264,14 @@ public class XGetPhoto implements Properties {
         // outputX outputY 是裁剪图片宽高 有些手机不能支持太高，可写320等
         intent.putExtra("outputX", 640);
         intent.putExtra("outputY", 640);
-        intent.putExtra("return-data", true);
-        activity.startActivityForResult(intent, RESULT_REQUEST_CODE);
-    }
 
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME)));
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+
+        activity.startActivityForResult(intent, RESULT_REQUEST_CODE);
+
+        System.out.println("startPhotoZoom end  !!!!!!!!");
+    }
 
 
     @SuppressLint("NewApi")

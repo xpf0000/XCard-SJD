@@ -36,7 +36,7 @@ public class HDManageVC extends BaseActivity {
         menu.setLineHeight(2)
                 .setNormalTxtSize(17)
                 .setSelectedTxtSize(19)
-                .setCellInterval(30);
+                .setOnePageNum(4);
 
         dataArr = getData();
 
@@ -55,7 +55,7 @@ public class HDManageVC extends BaseActivity {
     @Override
     public void rightClick(View v) {
         super.rightClick(v);
-
+        pushVC(HDCreateVC.class);
     }
 
     private List<XHorizontalMenu.XHorizontalModel> getData() {
@@ -63,23 +63,23 @@ public class HDManageVC extends BaseActivity {
 
         XHorizontalMenu.XHorizontalModel model = new XHorizontalMenu.XHorizontalModel();
         model.setTitle("全部");
-        //model.setView(left);
+        model.setView(new HDManageFragment());
         list.add(model);
 
         XHorizontalMenu.XHorizontalModel model1 = new XHorizontalMenu.XHorizontalModel();
         model1.setTitle("进行中");
-        //model1.setView(right);
+        model1.setView(new HDManageFragment());
         list.add(model1);
 
         XHorizontalMenu.XHorizontalModel model2 = new XHorizontalMenu.XHorizontalModel();
-        model1.setTitle("未开始");
-        //model1.setView(right);
-        list.add(model1);
+        model2.setTitle("未开始");
+        model2.setView(new HDManageFragment());
+        list.add(model2);
 
         XHorizontalMenu.XHorizontalModel model3 = new XHorizontalMenu.XHorizontalModel();
-        model1.setTitle("已结束");
-        //model1.setView(right);
-        list.add(model1);
+        model3.setTitle("已结束");
+        model3.setView(new HDManageFragment());
+        list.add(model3);
 
 
         return list;

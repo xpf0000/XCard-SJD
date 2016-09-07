@@ -1,5 +1,6 @@
 package com.com.x.card;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,10 +23,13 @@ public class MakeCardVC extends BaseActivity {
     private TextView msg;
     private TextView btn;
 
+    private String title = "办卡";
+
     @Override
     protected void setupUi() {
         setContentView(R.layout.card_banka);
-        setPageTitle("办卡");
+
+        setPageTitle(title);
 
         edit = (EditText)findViewById(R.id.card_make_edit);
         notic = (LinearLayout)findViewById(R.id.card_make_notic);
@@ -74,7 +78,10 @@ public class MakeCardVC extends BaseActivity {
 
     public void btnClick(View v)
     {
-        pushVC(ChooseCardTypeVC.class);
+        String txt = edit.getText().toString();
+        Bundle bundle = new Bundle();
+        bundle.putString("tel",txt);
+        pushVC(ChooseCardTypeVC.class,bundle);
     }
 
 }

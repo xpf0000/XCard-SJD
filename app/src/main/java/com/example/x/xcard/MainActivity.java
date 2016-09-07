@@ -14,11 +14,14 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.com.x.card.CZInfoVC;
 import com.com.x.card.CZMainVC;
+import com.com.x.card.CZManagerVC;
 import com.com.x.card.ChooseCardTypeVC;
 import com.com.x.card.InputCardInfoVC;
 import com.com.x.card.MakeCardVC;
 import com.com.x.card.XFInfoVC;
+import com.com.x.card.XFManageVC;
 import com.com.x.huiyuan.HYManageVC;
+import com.com.x.huodong.HDManageVC;
 import com.com.x.user.APPConfig;
 import com.com.x.user.APPContact;
 import com.com.x.user.ChangePwVC;
@@ -58,12 +61,12 @@ public class MainActivity extends BaseActivity{
     };
 
     // 图片封装为一个数组
-    private int[] icon = {R.drawable.icon_autio_white, R.drawable.icon_autio_white,
-            R.drawable.icon_autio_white, R.drawable.icon_autio_white, R.drawable.icon_autio_white,
-            R.drawable.icon_autio_white, R.drawable.icon_autio_white, R.drawable.icon_autio_white,
-            R.drawable.icon_autio_white, R.drawable.icon_autio_white, R.color.white, R.color.white};
-    private String[] iconName = {"通讯录", "日历", "照相机", "时钟", "游戏", "短信", "铃声",
-            "设置", "语音", "天气", "", ""};
+    private int[] icon = {R.drawable.index_icon01, R.drawable.index_icon02,
+            R.drawable.index_icon03, R.drawable.index_icon04, R.drawable.index_icon05,
+            R.drawable.index_icon06, R.drawable.index_icon07, R.drawable.index_icon08,
+            R.drawable.index_icon09, R.drawable.index_icon10, R.drawable.index_icon11, R.color.white};
+    private String[] iconName = {"会员管理", "充值管理", "消费管理", "活动管理", "消息管理", "卡类管理", "店铺设置",
+            "员工管理", "设置", "系统公告", "更多", ""};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class MainActivity extends BaseActivity{
         setContentView(R.layout.activity_main);
 
         doHideBackBtn();
-        setRightImg(R.drawable.user_head);
+        //setRightImg(R.drawable.user_head);
 
         setPageTitle("车港湾");
 
@@ -91,44 +94,36 @@ public class MainActivity extends BaseActivity{
                 switch (i)
                 {
                     case 0:
-                    pushVC(SystemMsg.class);
+                    pushVC(HYManageVC.class);
                     break;
                     case 1:
-                    pushVC(FeedBack.class);
+                    pushVC(CZManagerVC.class);
                     break;
                     case 2:
-                        pushVC(APPContact.class);
+                        pushVC(XFManageVC.class);
                         break;
                     case 3:
-                        pushVC(APPConfig.class);
+                        pushVC(HDManageVC.class);
                         break;
-                    case 4:
-                        pushVC(ChangePwVC.class);
+                    case 4://消息管理
+                       // pushVC(ChangePwVC.class);
                         break;
-                    case 5:
+                    case 5://卡类管理
                         pushVC(YGManageMainVC.class);
                         break;
-                    case 6:
+                    case 6://店铺设置
                         pushVC(PowerManageVC.class);
                         break;
                     case 7:
-                        pushVC(AddYGVC.class);
+                        pushVC(YGManageMainVC.class);
                         break;
 
                     case 8:
-                        pushVC(MakeCardVC.class);
+                        pushVC(APPConfig.class);
                         break;
 
                     case 9:
-                        pushVC(CZMainVC.class);
-                        break;
-
-                    case 10:
-                        pushVC(XFInfoVC.class);
-                        break;
-
-                    case 11:
-                        pushVC(HYManageVC.class);
+                        pushVC(SystemMsg.class);
                         break;
 
                     default:
@@ -226,6 +221,29 @@ public class MainActivity extends BaseActivity{
         System.out.println("点击右侧菜单~~~~~~~~");
         presentVC(LoginVC.class);
     }
+
+    public void toBanKa(View v) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title","办卡");
+
+        pushVC(MakeCardVC.class,bundle);
+    }
+    public void toXiaoFei(View v) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title","消费");
+
+        pushVC(CZMainVC.class,bundle);
+    }
+    public void toChongZhi(View v) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title","充值");
+
+        pushVC(CZMainVC.class,bundle);
+    }
+
 
     public void btnClick(View v) {
         pushVC(TestVC.class);

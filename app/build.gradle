@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -32,4 +33,8 @@ dependencies {
     compile 'com.bigkoo:alertview:1.0.3'
     //compile 'com.github.mychoices:Jgraph:v1.2'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
+
+    compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
+
 }
