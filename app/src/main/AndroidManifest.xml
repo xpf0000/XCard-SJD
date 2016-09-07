@@ -170,6 +170,16 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name="com.com.x.xiaoxi.MSGManageVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.xiaoxi.MSGSendMSGVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
 
 
 

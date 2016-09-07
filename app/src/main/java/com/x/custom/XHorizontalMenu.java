@@ -42,6 +42,17 @@ public class XHorizontalMenu extends RecyclerView {
     private int selectedTxtSize = 16;
     private int cellInterval = 12;
     private int onePageNum = 0;
+    private int txtHPadding = -1;
+
+    public int getTxtHPadding() {
+        return txtHPadding;
+    }
+
+    public XHorizontalMenu setTxtHPadding(int txtHPadding) {
+        this.txtHPadding = txtHPadding;
+        adapter.notifyDataSetChanged();
+        return this;
+    }
 
     public int getOnePageNum() {
         return onePageNum;
@@ -398,6 +409,12 @@ public class XHorizontalMenu extends RecyclerView {
             {
                 int pd = DensityUtil.dip2px(context,cellInterval);
                 viewHolder.layout.setPadding(pd,0,pd,0);
+            }
+
+            if(txtHPadding >= 0)
+            {
+                int pd = DensityUtil.dip2px(context,txtHPadding);
+                viewHolder.mTxt.setPadding(pd,0,pd,0);
             }
 
 

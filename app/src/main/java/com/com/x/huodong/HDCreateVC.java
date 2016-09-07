@@ -81,15 +81,13 @@ public class HDCreateVC  extends BaseActivity {
     @NeedsPermission(Manifest.permission.CAMERA)
     void MethodA() {
 
-                XGetPhoto.show(this, true, new XGetPhoto.onGetPhotoListener() {
+                XGetPhoto.show(this, new XGetPhoto.onGetPhotoListener() {
             @SuppressLint("NewApi")
             @Override
             public void getPhoto(Bitmap img) {
 
                 Drawable drawable =new BitmapDrawable(getResources(), img);
                 header.setBackground(drawable);
-                //header.setImageBitmap(img);
-
             }
         });
 

@@ -53,6 +53,7 @@ public class XGetPhoto implements Properties {
 
     public static void show(Context context,onGetPhotoListener listener)
     {
+        allowEdit = false;
         if(context instanceof Activity)
         {
             activity = (Activity)context;
@@ -131,6 +132,8 @@ public class XGetPhoto implements Properties {
         System.out.println("data: "+data+" !!!!!!");
         System.out.println("requestCode: "+requestCode+" !!!!!!");
         System.out.println("resultCode: "+resultCode+" !!!!!!");
+
+        System.out.println("allowEdit: "+allowEdit+" !!!!!!");
 
         if(resultCode == 0)
         {

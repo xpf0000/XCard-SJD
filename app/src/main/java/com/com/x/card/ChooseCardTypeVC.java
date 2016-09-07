@@ -1,5 +1,6 @@
 package com.com.x.card;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,10 +13,19 @@ import com.example.x.xcard.R;
  */
 public class ChooseCardTypeVC extends BaseActivity {
 
+    private String from = "";
+
     @Override
     protected void setupUi() {
         setContentView(R.layout.card_choosetype);
         setPageTitle("卡选择");
+
+        Bundle bundle = this.getIntent().getExtras();
+
+        if (bundle != null && bundle.containsKey("from"))
+        {
+            from = bundle.getString("from");
+        }
 
     }
 
@@ -28,11 +38,26 @@ public class ChooseCardTypeVC extends BaseActivity {
     {
         String tag = (String) v.getTag();
 
-        Bundle bundle = new Bundle();
-        bundle.putString("type",tag);
-        pushVC(InputCardInfoVC.class,bundle);
+        switch (from)
+        {
+            case "MSGSendMSGVC":
 
-        System.out.println("choose tag: "+tag);
+                Intent intent = new Intent();
+                //把返回数据存入Intent
+                intent.putExtra("type", tag);
+
+                setResult(10, intent);
+                doPop();
+                break;
+            default:
+                Bundle bundle = new Bundle();
+                bundle.putString("type",tag);
+                pushVC(InputCardInfoVC.class,bundle);
+                System.out.println("choose tag: "+tag);
+                break;
+        }
+
+
     }
 
 }

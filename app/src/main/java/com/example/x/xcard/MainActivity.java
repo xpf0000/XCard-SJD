@@ -28,6 +28,7 @@ import com.com.x.user.ChangePwVC;
 import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
 import com.com.x.user.SystemMsg;
+import com.com.x.xiaoxi.MSGManageVC;
 import com.com.x.yuangong.AddYGVC;
 import com.com.x.yuangong.PowerManageVC;
 import com.com.x.yuangong.YGManageMainVC;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseActivity{
                         pushVC(HDManageVC.class);
                         break;
                     case 4://消息管理
-                       // pushVC(ChangePwVC.class);
+                        pushVC(MSGManageVC.class);
                         break;
                     case 5://卡类管理
                         pushVC(YGManageMainVC.class);

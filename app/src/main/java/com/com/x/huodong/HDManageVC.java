@@ -34,9 +34,11 @@ public class HDManageVC extends BaseActivity {
         main.setMenu(menu);
 
         menu.setLineHeight(2)
-                .setNormalTxtSize(17)
-                .setSelectedTxtSize(19)
-                .setOnePageNum(4);
+                .setNormalTxtSize(15)
+                .setSelectedTxtSize(15)
+                .setOnePageNum(4)
+                .setTxtHPadding(4)
+                ;
 
         dataArr = getData();
 
