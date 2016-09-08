@@ -180,6 +180,22 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name="com.com.x.card.CardManageVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.card.CardAddVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.user.ShopSetupVC"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" >
+        </activity>
+
 
 
 

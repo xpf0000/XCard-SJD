@@ -15,6 +15,7 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.com.x.card.CZInfoVC;
 import com.com.x.card.CZMainVC;
 import com.com.x.card.CZManagerVC;
+import com.com.x.card.CardManageVC;
 import com.com.x.card.ChooseCardTypeVC;
 import com.com.x.card.InputCardInfoVC;
 import com.com.x.card.MakeCardVC;
@@ -27,6 +28,7 @@ import com.com.x.user.APPContact;
 import com.com.x.user.ChangePwVC;
 import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
+import com.com.x.user.ShopSetupVC;
 import com.com.x.user.SystemMsg;
 import com.com.x.xiaoxi.MSGManageVC;
 import com.com.x.yuangong.AddYGVC;
@@ -65,9 +67,9 @@ public class MainActivity extends BaseActivity{
     private int[] icon = {R.drawable.index_icon01, R.drawable.index_icon02,
             R.drawable.index_icon03, R.drawable.index_icon04, R.drawable.index_icon05,
             R.drawable.index_icon06, R.drawable.index_icon07, R.drawable.index_icon08,
-            R.drawable.index_icon09, R.drawable.index_icon10, R.drawable.index_icon11, R.color.white};
+            R.drawable.index_icon10, R.drawable.index_icon09, R.drawable.index_icon11, R.color.white};
     private String[] iconName = {"会员管理", "充值管理", "消费管理", "活动管理", "消息管理", "卡类管理", "店铺设置",
-            "员工管理", "设置", "系统公告", "更多", ""};
+            "员工管理", "系统公告", "设置", "更多", ""};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,21 +112,22 @@ public class MainActivity extends BaseActivity{
                         pushVC(MSGManageVC.class);
                         break;
                     case 5://卡类管理
-                        pushVC(YGManageMainVC.class);
+                        pushVC(CardManageVC.class);
                         break;
                     case 6://店铺设置
-                        pushVC(PowerManageVC.class);
+                        pushVC(ShopSetupVC.class);
                         break;
                     case 7:
                         pushVC(YGManageMainVC.class);
                         break;
 
                     case 8:
-                        pushVC(APPConfig.class);
+                        pushVC(SystemMsg.class);
                         break;
 
                     case 9:
-                        pushVC(SystemMsg.class);
+                        pushVC(APPConfig.class);
+
                         break;
 
                     default:

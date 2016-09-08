@@ -49,14 +49,14 @@ public class HYUserInfoVC extends BaseActivity implements PopupMenu.OnMenuItemCl
     @Override
     public boolean onMenuItemClick(MenuItem item) {
 
-        if(item.getItemId() ==  R.id.hy_userinfo_menu_bj)
-        {
-            pushVC(CZManagerVC.class);
-        }
-        else if(item.getItemId() ==  R.id.hy_userinfo_menu_lk)
-        {
-            pushVC(XFManageVC.class);
-        }
+//        if(item.getItemId() ==  R.id.hy_userinfo_menu_bj)
+//        {
+//            pushVC(CZManagerVC.class);
+//        }
+//        else if(item.getItemId() ==  R.id.hy_userinfo_menu_lk)
+//        {
+//            pushVC(XFManageVC.class);
+//        }
 
         return false;
     }

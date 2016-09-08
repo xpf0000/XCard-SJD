@@ -37,9 +37,7 @@ public class HYManageVC extends BaseActivity {
         setContentView(R.layout.hy_manage);
         setPageTitle("会员管理");
         setRightImg(R.drawable.add);
-
         int p = DensityUtil.dip2px(mContext,7);
-
         setRightImgPadding(p,p,p,p);
 
         list = (ListView)findViewById(R.id.hy_manage_list);

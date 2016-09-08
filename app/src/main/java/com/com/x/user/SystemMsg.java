@@ -33,7 +33,7 @@ public class SystemMsg extends BaseActivity {
     @Override
     protected void setupUi() {
         setContentView(R.layout.system_msg);
-        setPageTitle("消息");
+        setPageTitle("系统公告");
 
         list = (ListView) findViewById(R.id.system_msg_list);
 
