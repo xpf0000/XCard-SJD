@@ -1,5 +1,6 @@
 package com.example.x.xcard;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -12,56 +13,48 @@ import android.widget.SimpleAdapter;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
-import com.com.x.card.CZInfoVC;
+import com.com.x.AppModel.BannerModel;
 import com.com.x.card.CZMainVC;
 import com.com.x.card.CZManagerVC;
 import com.com.x.card.CardManageVC;
-import com.com.x.card.ChooseCardTypeVC;
-import com.com.x.card.InputCardInfoVC;
 import com.com.x.card.MakeCardVC;
-import com.com.x.card.XFInfoVC;
 import com.com.x.card.XFManageVC;
 import com.com.x.huiyuan.HYManageVC;
 import com.com.x.huodong.HDManageVC;
 import com.com.x.user.APPConfig;
-import com.com.x.user.APPContact;
-import com.com.x.user.ChangePwVC;
-import com.com.x.user.FeedBack;
 import com.com.x.user.LoginVC;
 import com.com.x.user.ShopSetupVC;
 import com.com.x.user.SystemMsg;
 import com.com.x.xiaoxi.MSGManageVC;
-import com.com.x.yuangong.AddYGVC;
-import com.com.x.yuangong.PowerManageVC;
 import com.com.x.yuangong.YGManageMainVC;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.robin.lazy.cache.CacheLoaderManager;
+import com.robin.lazy.cache.disk.naming.FileNameGenerator;
+import com.robin.lazy.cache.disk.naming.HashCodeFileNameGenerator;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XGridView;
+import com.x.custom.XNetUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity{
+import static com.example.x.xcard.ApplicationClass.APPService;
+
+public class MainActivity extends BaseActivity {
 
     private XGridView gview;
     private List<Map<String, Object>> data_list;
     private SimpleAdapter sim_adapter;
 
+    List<BannerModel> bannerArr = new ArrayList<BannerModel>();
 
     private ConvenientBanner convenientBanner;//顶部广告栏控件
-    private List<String> networkImages;
-    private String[] images = {"http://img2.imgtn.bdimg.com/it/u=3093785514,1341050958&fm=21&gp=0" +
-            ".jpg",
-            "http://img2.3lian.com/2014/f2/37/d/40.jpg",
-            "http://d.3987.com/sqmy_131219/001.jpg",
-            "http://img2.3lian.com/2014/f2/37/d/39.jpg",
-            "http://www.8kmm.com/UploadFiles/2012/8/201208140920132659.jpg",
-            "http://f.hiphotos.baidu.com/image/h%3D200/sign=1478eb74d5a20cf45990f9df460b4b0c" +
-                    "/d058ccbf6c81800a5422e5fdb43533fa838b4779.jpg",
-            "http://f.hiphotos.baidu.com/image/pic/item/09fa513d269759ee50f1971ab6fb43166c22dfba" +
-                    ".jpg"
-    };
+    private List<String> networkImages = new ArrayList<String>();
 
     // 图片封装为一个数组
     private int[] icon = {R.drawable.index_icon01, R.drawable.index_icon02,
@@ -70,6 +63,11 @@ public class MainActivity extends BaseActivity{
             R.drawable.index_icon10, R.drawable.index_icon09, R.drawable.index_icon11, R.color.white};
     private String[] iconName = {"会员管理", "充值管理", "消费管理", "活动管理", "消息管理", "卡类管理", "店铺设置",
             "员工管理", "系统公告", "设置", "更多", ""};
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,14 +92,18 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                switch (i)
+                if(!checkIsLogin())
                 {
+                    return;
+                }
+
+                switch (i) {
                     case 0:
-                    pushVC(HYManageVC.class);
-                    break;
+                        pushVC(HYManageVC.class);
+                        break;
                     case 1:
-                    pushVC(CZManagerVC.class);
-                    break;
+                        pushVC(CZManagerVC.class);
+                        break;
                     case 2:
                         pushVC(XFManageVC.class);
                         break;
@@ -138,8 +140,6 @@ public class MainActivity extends BaseActivity{
         });
 
 
-
-
         //新建List
         data_list = new ArrayList<Map<String, Object>>();
         //获取数据
@@ -154,17 +154,10 @@ public class MainActivity extends BaseActivity{
 
         convenientBanner = (ConvenientBanner) findViewById(R.id.convenientBanner);
         convenientBanner.setPageIndicator(new int[]{R.drawable.banner_dot_default, R.drawable.banner_dot_selected})
-                        //设置指示器的方向
-        .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+                //设置指示器的方向
+                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
 
-        //网络加载例子
-        networkImages = Arrays.asList(images);
-        convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
-            @Override
-            public NetworkImageHolderView createHolder() {
-                return new NetworkImageHolderView();
-            }
-        }, networkImages);
+        getBanner();
 
         convenientBanner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -174,7 +167,7 @@ public class MainActivity extends BaseActivity{
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println("!!! Banner选择position: "+position);
+                System.out.println("!!! Banner选择position: " + position);
             }
 
             @Override
@@ -186,9 +179,51 @@ public class MainActivity extends BaseActivity{
         convenientBanner.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                System.out.println("~~~ Banner点击position: "+position);
+                System.out.println("~~~ Banner点击position: " + position);
             }
         });
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+    }
+
+    private void getBanner() {
+
+        //CacheLoaderManager.getInstance().saveString("key","value",0);
+
+        XNetUtil.Handle(APPService.getBanner(), new XNetUtil.OnHttpResult<List<BannerModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+                XNetUtil.APPPrintln(e);
+
+            }
+
+            @Override
+            public void onSuccess(List<BannerModel> bannerModels) {
+
+                bannerArr = bannerModels;
+                for(BannerModel model:bannerModels)
+                {
+                    System.out.println(model.toString());
+                    networkImages.add(model.getPicurl());
+                }
+
+                convenientBanner.setPages(new CBViewHolderCreator<NetworkImageHolderView>() {
+                    @Override
+                    public NetworkImageHolderView createHolder() {
+                        return new NetworkImageHolderView();
+                    }
+                }, networkImages);
+
+
+            }
+        });
+
+
+
 
     }
 
@@ -197,7 +232,7 @@ public class MainActivity extends BaseActivity{
     protected void onResume() {
         super.onResume();
         //开始自动翻页
-        convenientBanner.startTurning(5000);
+        //convenientBanner.startTurning(5000);
     }
 
     // 停止自动翻页
@@ -229,23 +264,25 @@ public class MainActivity extends BaseActivity{
     public void toBanKa(View v) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("title","办卡");
+        bundle.putString("title", "办卡");
 
-        pushVC(MakeCardVC.class,bundle);
+        pushVC(MakeCardVC.class, bundle);
     }
+
     public void toXiaoFei(View v) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("title","消费");
+        bundle.putString("title", "消费");
 
-        pushVC(CZMainVC.class,bundle);
+        pushVC(CZMainVC.class, bundle);
     }
+
     public void toChongZhi(View v) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("title","充值");
+        bundle.putString("title", "充值");
 
-        pushVC(CZMainVC.class,bundle);
+        pushVC(CZMainVC.class, bundle);
     }
 
 
@@ -280,5 +317,41 @@ public class MainActivity extends BaseActivity{
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }

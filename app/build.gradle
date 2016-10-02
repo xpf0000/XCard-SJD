@@ -29,7 +29,7 @@ dependencies {
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     compile 'com.zcw:togglebutton-library:1.0.0'
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.bigkoo:alertview:1.0.3'
     //compile 'com.github.mychoices:Jgraph:v1.2'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
@@ -37,5 +37,12 @@ dependencies {
     compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
     compile 'com.makeramen:roundedimageview:2.2.1'
-
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.bigkoo:svprogresshud:1.0.6'
+    compile 'com.robin.lazy.cache:CacheLibrary:1.0.5'
 }

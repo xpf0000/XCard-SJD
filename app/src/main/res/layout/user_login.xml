@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
     android:background="@color/APPPGBG"
-    >
+    android:baselineAligned="false">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="horizontal"
@@ -24,11 +24,13 @@
             />
 
         <EditText
+            android:id="@+id/user_login_mob"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="请输入手机号"
             android:background="@null"
+            android:inputType="phone"
             android:padding="10px"
             android:layout_marginLeft="6dp"
             />
@@ -70,6 +72,7 @@
             />
 
         <EditText
+            android:id="@+id/user_login_pass"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -93,6 +96,7 @@
         android:textColor="@color/white"
         android:background="@drawable/xcornersbg"
         android:textSize="16sp"
+        android:onClick="doLogin"
         />
 
     <RelativeLayout

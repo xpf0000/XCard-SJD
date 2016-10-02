@@ -29,9 +29,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.com.x.user.LoginVC;
+import com.x.custom.XNetUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.example.x.xcard.ApplicationClass.APPDataCache;
 
 /**
  * 所有界面的基类
@@ -127,6 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		ApplicationClass.context = this;
 		// MobclickAgent.onResume(this);
 	}
 
@@ -264,9 +270,16 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 		if(hasResult != null)
 		{
-			if(hasResult[0])
+			if(hasResult.length > 0)
 			{
-				startActivityForResult(intentActive,1);
+				if(hasResult[0])
+				{
+					startActivityForResult(intentActive, 1);
+				}
+				else
+				{
+					startActivity(intentActive);
+				}
 			}
 			else
 			{
@@ -300,9 +313,16 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 		if(hasResult != null)
 		{
-			if(hasResult[0])
+			if(hasResult.length > 0)
 			{
-				startActivityForResult(intentActive,1);
+				if(hasResult[0])
+				{
+					startActivityForResult(intentActive, 1);
+				}
+				else
+				{
+					startActivity(intentActive);
+				}
 			}
 			else
 			{
@@ -480,6 +500,20 @@ public abstract class BaseActivity extends AppCompatActivity implements
 							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 		}
 
+	}
+
+	public boolean checkIsLogin()
+	{
+		XNetUtil.APPPrintln("APPDataCache: "+APPDataCache);
+		XNetUtil.APPPrintln("APPDataCache.User: "+APPDataCache.User);
+
+		if(APPDataCache.User.getUid().equals(""))
+		{
+			presentVC(LoginVC.class);
+			return false;
+		}
+
+		return true;
 	}
 
 
