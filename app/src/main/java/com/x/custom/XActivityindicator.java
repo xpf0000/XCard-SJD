@@ -13,6 +13,10 @@ public class XActivityindicator {
 
     private static SVProgressHUD hud;
 
+    public static SVProgressHUD getHud() {
+        return hud;
+    }
+
     public static SVProgressHUD create(Context context)
     {
         if(hud != null)
@@ -21,9 +25,15 @@ public class XActivityindicator {
             hud = null;
         }
 
+        XNetUtil.APPPrintln("ApplicationClass.context: "+ApplicationClass.context);
+
         hud = new SVProgressHUD(context);
 
+        XNetUtil.APPPrintln("hud: "+hud);
+
         hud.getProgressBar().setRoundWidth(DensityUtil.dip2px(ApplicationClass.context,1));
+
+
 
         return hud;
     }

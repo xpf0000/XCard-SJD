@@ -1,13 +1,10 @@
 package com.com.x.AppModel;
 
-import com.robin.lazy.cache.CacheLoaderManager;
+import com.x.custom.DensityUtil;
+import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * Created by X on 2016/10/1.
@@ -172,10 +169,8 @@ public class UserModel implements Serializable {
     public void save()
     {
         XNetUtil.APPPrintln(this.toString());
-        boolean b = CacheLoaderManager.getInstance().saveSerializable("UserModel",this,0);
-
+        boolean b = XAPPUtil.SaveAPPCache("UserModel",this);
         XNetUtil.APPPrintln("保存Model: "+b);
-
     }
 
 

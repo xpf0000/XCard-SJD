@@ -26,18 +26,9 @@ public class ModelUtil {
                     continue;
                 }
 
-                XNetUtil.APPPrintln(method.getName());
-
                 Class[] paramsType =  method.getParameterTypes();
 
                 if (paramsType.length != 1){continue;}
-
-//                Objects[] obj = new Objects[paramsType.length];
-//
-//                for(int i=0;i<paramsType.length;i++)
-//                {
-//                    Objects o = (Objects) paramsType[i].newInstance();
-//                }
 
                 method.invoke(t,paramsType[0].newInstance());
             }

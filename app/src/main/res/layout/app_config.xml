@@ -21,6 +21,8 @@
                   android:background="@color/white"
                   android:layout_marginTop="12dp"
                   android:gravity="center"
+        android:clickable="true"
+        android:onClick="toUpdateTel"
 
         >
 
@@ -37,16 +39,16 @@
             />
 
 
-        <EditText
+        <TextView
+            android:id="@+id/app_config_tel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:enabled="false"
-            android:hint="请输入手机号"
-            android:background="@null"
+            android:hint="请先登录"
             android:padding="10px"
             android:layout_marginLeft="6dp"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:textColor="#999999"
+            android:textSize="16sp"
             />
 
         <ImageView
@@ -164,6 +166,8 @@
                   android:layout_height="65dp"
                   android:background="@color/white"
                   android:gravity="center"
+        android:clickable="true"
+        android:onClick="cleanCache"
 
         >
 
@@ -176,6 +180,18 @@
             android:textColor="#333333"
             android:layout_marginLeft="12dp"
             android:textSize="17sp"
+            />
+
+        <TextView
+            android:id="@+id/app_config_size"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="0.0M"
+            android:padding="10px"
+            android:layout_marginLeft="6dp"
+            android:gravity="center"
+            android:textColor="#999999"
+            android:textSize="16sp"
             />
 
         <ImageView
@@ -232,7 +248,7 @@
             android:gravity="center_vertical|left"
             android:textColor="#999999"
             android:layout_marginRight="20dp"
-            android:textSize="17sp"
+            android:textSize="16sp"
             />
 
     </LinearLayout>
@@ -332,13 +348,14 @@
 
 
     <Button
-        android:id="@+id/roundButton"
+        android:id="@+id/app_config_btn"
         android:text="退出登录"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="28dp"
+        android:layout_marginBottom="20dp"
         android:textColor="@color/white"
         android:background="@drawable/xcornersbg"
         android:textSize="16sp"

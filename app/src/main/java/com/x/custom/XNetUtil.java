@@ -1,10 +1,12 @@
 package com.x.custom;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.BannerModel;
 import com.com.x.AppModel.HttpResult;
 import com.example.x.xcard.ApplicationClass;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 import rx.Observable;
@@ -67,14 +69,38 @@ public class XNetUtil {
     }
 
 
-    public static <T> void Handle(Observable<HttpResult<T>> obj,String success,String fail,Subscriber<Boolean> res) {
+    public static <T> void Handle(Observable<HttpResult<T>> obj,String success,String fail,final OnHttpResult<Boolean> res) {
 
+
+        SVProgressHUD hud = XActivityindicator.create(ApplicationClass.context);
+
+        hud.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(SVProgressHUD hud) {
+
+            }
+        });
 
         obj
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new HttpResultFuncBool<T>(success,fail))
-                .subscribe(res);
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        res.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        res.onSuccess(aBoolean);
+                    }
+                });
 
     }
 
@@ -88,6 +114,7 @@ public class XNetUtil {
         @Override
         public T call(HttpResult<T> httpResult) {
             if (httpResult.getRet() != 200) {
+
                 XActivityindicator.create(ApplicationClass.context).showErrorWithStatus("数据加载失败!");
             }
             else
@@ -112,7 +139,6 @@ public class XNetUtil {
 
             this.success = s;
             this.fail = f;
-
         }
 
         @Override

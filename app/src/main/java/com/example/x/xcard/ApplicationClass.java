@@ -13,6 +13,7 @@ import com.robin.lazy.cache.CacheLoaderConfiguration;
 import com.robin.lazy.cache.CacheLoaderManager;
 import com.robin.lazy.cache.disk.naming.HashCodeFileNameGenerator;
 import com.robin.lazy.cache.memory.MemoryCache;
+import com.x.custom.FileSizeUtil;
 import com.x.custom.ServicesAPI;
 import com.x.custom.XNetUtil;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
+import ch.qos.logback.core.util.FileUtil;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -118,6 +120,7 @@ public class ApplicationClass extends Application {
 				.diskCacheFileNameGenerator(new Md5FileNameGenerator())
 				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		ImageLoader.getInstance().init(config);
+
 	}
 
 

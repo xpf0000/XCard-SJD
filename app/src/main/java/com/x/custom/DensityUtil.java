@@ -49,4 +49,9 @@ public class DensityUtil {
         return (int) (spValue * fontScale + 0.5f);
     }
 
+    /**
+     * Created by X on 2016/10/3.
+     */
+
+
 }

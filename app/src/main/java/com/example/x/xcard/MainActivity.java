@@ -191,8 +191,6 @@ public class MainActivity extends BaseActivity {
 
     private void getBanner() {
 
-        //CacheLoaderManager.getInstance().saveString("key","value",0);
-
         XNetUtil.Handle(APPService.getBanner(), new XNetUtil.OnHttpResult<List<BannerModel>>() {
             @Override
             public void onError(Throwable e) {
