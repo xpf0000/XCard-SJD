@@ -37,7 +37,7 @@ public class UpdateTelVC extends BaseActivity {
         vadBtn = (XVadButton)findViewById(R.id.user_update_tel_vadbtn);
 
         vadBtn.setTelEdTXT(telEdTXT);
-        vadBtn.needHas = true;
+        vadBtn.needHas = false;
 
     }
 

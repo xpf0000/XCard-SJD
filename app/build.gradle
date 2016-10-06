@@ -45,4 +45,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.bigkoo:svprogresshud:1.0.6'
     compile 'com.robin.lazy.cache:CacheLibrary:1.0.5'
+    compile project(':PullToRefresh')
 }

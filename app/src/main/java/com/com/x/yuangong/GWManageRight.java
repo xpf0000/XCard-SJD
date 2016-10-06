@@ -1,6 +1,7 @@
 package com.com.x.yuangong;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,26 +11,43 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.com.x.AppModel.GangweiModel;
+import com.com.x.AppModel.YuangongModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XHorizontalBaseFragment;
+import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.x.xcard.ApplicationClass.APPService;
+
 /**
  * Created by X on 16/9/3.
  */
 public class GWManageRight extends XHorizontalBaseFragment
 {
-    private ListView list;
+    private PullToRefreshListView list;
     private GWManageYGAdapter adapter;
-    public List<Map<String, Object>> dataArr;
+
+    public List<GangweiModel> dataArr = new ArrayList<>();
+    private int page = 1;
+    private boolean end = false;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
+
     private Context context;
 
     public int selectIndex = 0;
@@ -40,13 +58,57 @@ public class GWManageRight extends XHorizontalBaseFragment
         adapter.notifyDataSetChanged();
     }
 
+    public void addNew(String name)
+    {
+        XNetUtil.Handle(APPService.powerAddShopJob(sid, name), "岗位添加成功", "岗位添加失败", new XNetUtil.OnHttpResult<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+                if(aBoolean)
+                {
+                    page = 1;
+                    end = false;
+                    getData();
+
+                }
+
+            }
+        });
+    }
+
+    public void update(final String name)
+    {
+
+        String id = dataArr.get(selectIndex).getId();
+        XNetUtil.Handle(APPService.powerUpdateShopJob(id, name), "岗位修改成功", "岗位修改失败", new XNetUtil.OnHttpResult<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+                if(aBoolean)
+                {
+                    dataArr.get(selectIndex).setName(name);
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+    }
 
     @Override
     protected void lazyLoad() {
 
         System.out.println("RightFragment--->lazyLoad !!!");
 
-        dataArr = getData();
         // 获取MainListAdapter对象
         adapter = new GWManageYGAdapter();
         // 将MainListAdapter对象传递给ListView视图
@@ -55,6 +117,8 @@ public class GWManageRight extends XHorizontalBaseFragment
         {
             list.setAdapter(adapter);
         }
+
+        getData();
 
     }
 
@@ -112,10 +176,26 @@ public class GWManageRight extends XHorizontalBaseFragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        XNotificationCenter.getInstance().removeObserver("GWPowerUpdateSuccess");
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         System.out.println("RightFragment--->onCreate");
+
+        XNotificationCenter.getInstance().addObserver("GWPowerUpdateSuccess", new XNotificationCenter.OnNoticeListener() {
+            @Override
+            public void OnNotice(Object obj) {
+                page = 1;
+                end = false;
+                getData();
+            }
+        });
+
     }
 
     @Override
@@ -123,14 +203,39 @@ public class GWManageRight extends XHorizontalBaseFragment
     {
         System.out.println("RightFragment--->onCreateView");
         View v = inflater.inflate(R.layout.yg_manage_gw, container, false);
-        list = (ListView) v.findViewById(R.id.yg_manage_gw_list);
+        list = (PullToRefreshListView) v.findViewById(R.id.yg_manage_gw_list);
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+
+                //new FinishRefresh().execute();
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectIndex = i;
 
+                selectIndex = i-1;
                 rightAlertShow();
+
             }
         });
 
@@ -144,17 +249,75 @@ public class GWManageRight extends XHorizontalBaseFragment
         System.out.println("RightFragment--->onResume");
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(int i = 0; i<10;i++)
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("title", "经理");
-            list.add(map);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    Toast.makeText(ApplicationClass.context, "没有更多了",
+                            Toast.LENGTH_SHORT).show();
+
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        XNetUtil.Handle(APPService.powerGetShopJob(sid, page + "", "20"), new XNetUtil.OnHttpResult<List<GangweiModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+                XNetUtil.APPPrintln(e);
+            }
+
+            @Override
+            public void onSuccess(List<GangweiModel> models) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                if(models.size() > 0)
+                {
+                    dataArr.addAll(models);
+                }
+
+                if(models.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+            }
+        });
+
     }
 
 
@@ -164,7 +327,7 @@ public class GWManageRight extends XHorizontalBaseFragment
     /**
      * 定义ListView适配器MainListViewAdapter
      */
-    class GWManageYGAdapter extends BaseAdapter {
+     class GWManageYGAdapter extends BaseAdapter {
 
         /**
          * 返回item的个数
@@ -219,7 +382,7 @@ public class GWManageRight extends XHorizontalBaseFragment
             }
 
             // 获取到mList中指定索引位置的资源
-            String title = (String) dataArr.get(position).get("title");
+            String title = (String) dataArr.get(position).getName();
 
             listItemView.title.setText(title);
 

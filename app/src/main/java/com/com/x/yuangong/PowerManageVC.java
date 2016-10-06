@@ -1,6 +1,7 @@
 package com.com.x.yuangong;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +12,49 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.com.x.AppModel.GangweiModel;
+import com.com.x.AppModel.PowerModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
  * Created by X on 16/9/3.
  */
 public class PowerManageVC extends BaseActivity {
 
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
+    private GangweiModel gwModel = new GangweiModel();
 
     private ListView list;
     private PowerManageAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    private List<PowerModel> dataArr = new ArrayList<>();
 
-    private String[] titleArr = {"新用户开卡", "充值", "消费", "管理卡类", "岗位设置", "消息", "活动",
-            "会员管理", "会员密码重置", "店铺设置", "员工管理"};
+    private List<String> powarr = new ArrayList<>();
 
+    public GangweiModel getGwModel() {
+        return gwModel;
+    }
+
+    public void setGwModel(GangweiModel gwModel) {
+        this.gwModel = gwModel;
+
+        XNetUtil.APPPrintln(gwModel.toString());
+        XNetUtil.APPPrintln(gwModel.getPower());
+
+        powarr = Arrays.asList(gwModel.getPower().split(","));
+
+    }
 
     @Override
     protected void setupUi() {
@@ -39,8 +62,16 @@ public class PowerManageVC extends BaseActivity {
         setContentView(R.layout.power_manage);
         setPageTitle("权限管理");
 
+        //新页面接收数据
+        Bundle bundle = this.getIntent().getExtras();
+
+        if (bundle != null && bundle.containsKey("model"))
+        {
+            setGwModel((GangweiModel) bundle.getSerializable("model"));
+        }
+        getData();
+
         list = (ListView) findViewById(R.id.power_manage_list);
-        dataArr = getData();
         // 获取MainListAdapter对象
         adapter = new PowerManageAdapter();
         // 将MainListAdapter对象传递给ListView视图
@@ -54,22 +85,67 @@ public class PowerManageVC extends BaseActivity {
 
     public void btnClick(View v)
     {
+        if(gwModel.getId() == null || dataArr == null || dataArr.size() == 0)
+        {
+            return;
+        }
+        String power = "";
+        for(PowerModel m : dataArr)
+        {
+            if(m.getChecked())
+            {
+                if(power.equals(""))
+                {
+                    power += m.getId();
+                }
+                else
+                {
+                    power += ","+m.getId();
+                }
+            }
+        }
+
+        XNetUtil.Handle(APPService.powerUpdateJobPower(sid, gwModel.getId(), power), "权限修改成功", "权限修改失败", new XNetUtil.OnHttpResult<Boolean>() {
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+                if(aBoolean)
+                {
+                    XNotificationCenter.getInstance().postNotice("GWPowerUpdateSuccess",null);
+                }
+
+            }
+        });
+
 
     }
 
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(String str : titleArr)
-        {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("title", str);
-            map.put("checked",false);
-            list.add(map);
-        }
+        XNetUtil.Handle(APPService.settingGetShopPower(), new XNetUtil.OnHttpResult<List<PowerModel>>() {
+            @Override
+            public void onError(Throwable e) {
 
-        return list;
+            }
+
+            @Override
+            public void onSuccess(List<PowerModel> powerModels) {
+
+                for(PowerModel m : powerModels)
+                {
+                    m.setChecked(powarr.contains(m.getId()));
+                }
+
+                dataArr = powerModels;
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
@@ -141,7 +217,7 @@ class PowerManageAdapter extends BaseAdapter {
 
                 System.out.println("compoundButton.tag: "+compoundButton.getTag()+" b: "+b);
 
-                dataArr.get(position).put("checked",b);
+                dataArr.get(position).setChecked(b);
 
                 adapter.notifyDataSetChanged();
             }
@@ -149,8 +225,8 @@ class PowerManageAdapter extends BaseAdapter {
 
 
 
-        String title = (String) dataArr.get(position).get("title");
-        boolean checked = (boolean)dataArr.get(position).get("checked");
+        String title = (String) dataArr.get(position).getName();
+        boolean checked = (boolean)dataArr.get(position).getChecked();
         listItemView.title.setText(title);
 
         listItemView.checkBox.setChecked(checked);

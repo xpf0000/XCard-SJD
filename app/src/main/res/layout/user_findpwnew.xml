@@ -19,11 +19,12 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/my_test_pass"
+            android:src="@drawable/login02"
             android:layout_marginLeft="12dp"
             />
 
         <EditText
+            android:id="@+id/user_findpwnew_p1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -67,11 +68,12 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/my_test_pass"
+            android:src="@drawable/login02"
             android:layout_marginLeft="12dp"
             />
 
         <EditText
+            android:id="@+id/user_findpwnew_p2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -86,7 +88,6 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/roundButton"
         android:text="提交修改"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,6 +97,7 @@
         android:textColor="@color/white"
         android:background="@drawable/xcornersbg"
         android:textSize="16sp"
+        android:onClick="submit"
         />
 
 </LinearLayout>

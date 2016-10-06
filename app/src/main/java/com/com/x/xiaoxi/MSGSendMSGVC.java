@@ -36,7 +36,7 @@ private TextView type;
         Bundle bundle = new Bundle();
         bundle.putString("from","MSGSendMSGVC");
 
-        presentVC(ChooseCardTypeVC.class,bundle,true);
+        presentVC(ChooseCardTypeVC.class,bundle);
     }
 
     public void btnClick(View v)

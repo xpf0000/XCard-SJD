@@ -19,11 +19,12 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/my_login_account"
+            android:src="@drawable/login01"
             android:layout_marginLeft="12dp"
             />
 
         <EditText
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -31,17 +32,22 @@
             android:background="@null"
             android:padding="10px"
             android:layout_marginLeft="6dp"
-            />
-
-        <Button
-            android:text="获取验证码"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
             android:layout_marginRight="12dp"
-            android:layout_marginLeft="5dp"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:id="@+id/user_findpw_tel" />
+
+        <com.com.x.user.XVadButton
+            android:id="@+id/user_findpw_vadbtn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/app_vad_btn"
+            android:enabled="false"
             android:textColor="@color/white"
-            android:background="@drawable/xcornersgraybg"
-            android:textSize="14sp"
+            android:textSize="13sp"
+            android:text="点击获取验证码"
             />
 
     </LinearLayout>
@@ -76,11 +82,12 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/my_test_code"
+            android:src="@drawable/login03"
             android:layout_marginLeft="12dp"
             />
 
         <EditText
+            android:id="@+id/user_findpw_code"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

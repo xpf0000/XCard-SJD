@@ -5,6 +5,7 @@ import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.BannerModel;
 import com.com.x.AppModel.HttpResult;
 import com.example.x.xcard.ApplicationClass;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -30,6 +31,34 @@ public class XNetUtil {
     final static public <T> void APPPrintln(T t)
     {
         System.out.println(t);
+    }
+
+
+    public static <T> void Handle(Observable<HttpResult<T>> obj, PullToRefreshListView list) {
+
+
+
+        obj
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new HttpResultFunc<T>())
+                .subscribe(new Subscriber<T>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(T t) {
+
+                    }
+                });
+
     }
 
 
@@ -143,6 +172,9 @@ public class XNetUtil {
 
         @Override
         public Boolean call(HttpResult<T> httpResult) {
+
+            XNetUtil.APPPrintln(httpResult.toString());
+
             if (httpResult.getRet() != 200) {
 
                 XActivityindicator.create(ApplicationClass.context).showErrorWithStatus(fail);
@@ -160,7 +192,10 @@ public class XNetUtil {
                 }
             }
 
-            XActivityindicator.create(ApplicationClass.context).showSuccessWithStatus(success);
+            if(success != null)
+            {
+                XActivityindicator.create(ApplicationClass.context).showSuccessWithStatus(success);
+            }
 
             return true;
         }

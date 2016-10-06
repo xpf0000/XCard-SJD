@@ -31,6 +31,7 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.AlertViewAdapter;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.com.x.AppModel.GangweiModel;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
@@ -39,6 +40,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.x.custom.XHorizontalMain;
 import com.x.custom.XHorizontalMenu;
+import com.x.custom.XNetUtil;
 
 import org.w3c.dom.Text;
 
@@ -97,36 +99,18 @@ public class YGManageMainVC extends BaseActivity {
             @Override
             public void onItemClick(Object o, int position) {
 
+                XNetUtil.APPPrintln("点击了: "+position);
+
                 closeKeyboard();
                 //判断是否是拓展窗口View，而且点击的是非取消按钮
-                if(o == mAlertViewExt && position != AlertView.CANCELPOSITION){
-                    String name = etName.getText().toString();
-                    if(name.isEmpty()){
-                        Toast.makeText(mContext, "啥都没填呢", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(mContext, "hello,"+name, Toast.LENGTH_SHORT).show();
+                if(o == mAlertViewExt && position == 0){
 
-                        if(isAdd)
-                        {
-                            Map<String, Object> map = new HashMap<String, Object>();
-                            map.put("title", name);
-                            right.dataArr.add(map);
-                            right.refresh();
-                        }
-                        else
-                        {
-                            right.dataArr.get(right.selectIndex).put("title",name);
-                            right.refresh();
-                        }
-
-
-
-                    }
-
-                    return;
                 }
-                Toast.makeText(mContext, "点击了第" + position + "个", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    etName.setText("");
+                }
+
 
             }
         });
@@ -135,9 +119,22 @@ public class YGManageMainVC extends BaseActivity {
             @Override
             public void onDismiss(Object o) {
                 closeKeyboard();
+
+                String name = etName.getText().toString().trim();
+                if(name.length() > 0)
+                {
+                    if(isAdd)
+                    {
+                        right.addNew(name);
+                    }
+                    else
+                    {
+                        right.update(name);
+                    }
+                }
+
                 etName.setText("");
                 isAdd = true;
-                Toast.makeText(mContext, "消失了", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,12 +158,22 @@ public class YGManageMainVC extends BaseActivity {
 
                 if(index == 0)
                 {
+                    XNetUtil.APPPrintln("right.selectIndex: "+right.selectIndex);
                     isAdd = false;
-                    String t = (String) right.dataArr.get(right.selectIndex).get("title");
+                    String t = (String) right.dataArr.get(right.selectIndex).getName();
                     etName.setText(t);
                     alertShow();
 
                 }
+
+                if(index == 1)
+                {
+                    GangweiModel model = right.dataArr.get(right.selectIndex);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("model",model);
+                    pushVC(PowerManageVC.class,bundle);
+                }
+
             }
         });
 
@@ -205,6 +212,10 @@ public class YGManageMainVC extends BaseActivity {
         if(menu.getSelected() == 1)
         {
             alertShow();
+        }
+        else
+        {
+            pushVC(AddYGVC.class);
         }
 
     }

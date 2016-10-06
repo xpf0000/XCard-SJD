@@ -79,7 +79,12 @@ public class ApplicationClass extends Application {
 			@Override
 			public Response intercept(Chain chain) throws IOException {
 
-				Request request = chain.request();
+				Request request = chain.request().newBuilder()
+						.addHeader("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36")
+						.addHeader("Content-Type","text/plain; charset=utf-8")
+						.addHeader("Accept","*/*")
+						.addHeader("Accept-Encoding","gzip, deflate, sdch")
+						.build();
 
 				XNetUtil.APPPrintln("URL: "+request.url().toString());
 				if(request.body() != null)

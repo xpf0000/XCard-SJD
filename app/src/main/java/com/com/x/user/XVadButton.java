@@ -117,16 +117,18 @@ public class XVadButton extends Button {
         }
     };
 
+    private boolean sending = false;
+
     private XNetUtil.OnHttpResult<Boolean> result = new XNetUtil.OnHttpResult<Boolean>() {
         @Override
         public void onError(Throwable e) {
-
+            sending = false;
             XNetUtil.APPPrintln(e);
         }
 
         @Override
         public void onSuccess(Boolean aBoolean) {
-
+            sending = false;
             if(aBoolean)
             {
                 timeModel.setStart(System.currentTimeMillis() / 1000);
@@ -177,6 +179,13 @@ public class XVadButton extends Button {
 
     private void click()
     {
+        if(sending)
+        {
+            return;
+        }
+
+        sending = true;
+
         String mobile = telEdTXT.get().getText().toString();
         String type = needHas ? "2" : "1";
 

@@ -2,6 +2,7 @@ package com.com.x.yuangong;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,39 +12,53 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.com.x.AppModel.YuangongModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.x.custom.XEasyList;
 import com.x.custom.XHorizontalBaseFragment;
+import com.x.custom.XNetUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
  * Created by X on 16/9/2.
  */
 public class YGManageLeft extends XHorizontalBaseFragment
 {
-    private ListView list;
+    private PullToRefreshListView list;
     private  YGManageYGAdapter adapter;
-    private List<Map<String, Object>> dataArr;
     private Context context;
+
+    private List<YuangongModel> dataArr = new ArrayList<>();
+    private int page = 1;
+    private boolean end = false;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
     protected void lazyLoad() {
 
         System.out.println("LeftFragment--->lazyLoad !!!");
 
-        dataArr = getData();
         // 获取MainListAdapter对象
         adapter = new YGManageYGAdapter();
-        // 将MainListAdapter对象传递给ListView视图
 
         if(list != null)
         {
             list.setAdapter(adapter);
         }
+
+        getData();
 
     }
 
@@ -80,7 +95,32 @@ public class YGManageLeft extends XHorizontalBaseFragment
     {
         System.out.println("LeftFragment--->onCreateView");
         View v = inflater.inflate(R.layout.yg_manage_yg, container, false);
-        list = (ListView) v.findViewById(R.id.yg_manage_yg_list);
+        list = (PullToRefreshListView) v.findViewById(R.id.yg_manage_yg_list);
+
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+
+                //new FinishRefresh().execute();
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
         return v;
     }
 
@@ -91,22 +131,76 @@ public class YGManageLeft extends XHorizontalBaseFragment
         System.out.println("LeftFragment--->onResume");
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(int i = 0; i<20;i++)
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("name", "张无忌");
-            map.put("tel", "18037975857");
-            map.put("img", R.drawable.yg_header);
-            list.add(map);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    Toast.makeText(ApplicationClass.context, "没有更多了",
+                            Toast.LENGTH_SHORT).show();
+
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        XNetUtil.Handle(APPService.powerGetShopWorker(sid, page + "", "20"), new XNetUtil.OnHttpResult<List<YuangongModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+                XNetUtil.APPPrintln(e);
+            }
+
+            @Override
+            public void onSuccess(List<YuangongModel> yuangongModels) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                if(yuangongModels.size() > 0)
+                {
+                    dataArr.addAll(yuangongModels);
+                }
+
+                if(yuangongModels.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+            }
+        });
+
     }
-
-
 
 
 
@@ -172,12 +266,12 @@ public class YGManageLeft extends XHorizontalBaseFragment
             }
 
             // 获取到mList中指定索引位置的资源
-            int img = (int) dataArr.get(position).get("img");
-            String name = (String) dataArr.get(position).get("name");
-            String tel = (String) dataArr.get(position).get("tel");
+            //int img = (int) dataArr.get(position).
+            String name = (String) dataArr.get(position).getTruename();
+            String tel = (String) dataArr.get(position).getMobile();
 
             // 将资源传递给ListItemView的两个域对象
-            listItemView.header.setImageResource(img);
+            //listItemView.header.setImageResource(img);
             //listItemView.imageView.setImageDrawable(img);
             listItemView.name.setText(name);
             listItemView.tel.setText(tel);

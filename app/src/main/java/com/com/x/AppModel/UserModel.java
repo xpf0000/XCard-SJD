@@ -41,6 +41,24 @@ public class UserModel implements Serializable {
     private String tel;
     private String address;
     private String pass;
+    private String info;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
     public String getPass() {
         return pass;

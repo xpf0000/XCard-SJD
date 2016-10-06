@@ -9,7 +9,7 @@
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:background="@color/APPBlue"
+                android:background="@color/APPPGBG"
                 android:layout_weight="1"
         >
 
@@ -30,15 +30,13 @@
                 >
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                            android:id="@+id/yg_manage_cell_img"
+                            android:id="@+id/shop_setup_img"
                             android:layout_width="76dp"
                             android:layout_height="76dp"
                             app:riv_corner_radius="38dp"
                             android:scaleType="fitXY"
                             app:riv_border_width="4dp"
                             app:riv_border_color="@color/white"
-
-
                            android:layout_marginLeft="14dp"
                            android:layout_marginTop="16dp"
                            android:layout_marginBottom="16dp"
@@ -57,7 +55,7 @@
                               android:gravity="center_vertical"
                     >
 
-                    <TextView android:id="@+id/yg_manage_cell_title"
+                    <TextView android:id="@+id/shop_setup_name"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:textColor="@color/APPTXTBlack"
@@ -67,7 +65,7 @@
                               android:gravity="center_vertical"
                         />
 
-                    <TextView android:id="@+id/yg_manage_cell_tel"
+                    <TextView android:id="@+id/shop_setup_type"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:textColor="#999999"
@@ -86,118 +84,6 @@
 
 
             </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:gravity="center"
-                          android:layout_marginTop="12dp"
-                          android:paddingTop="8dp"
-                          android:paddingBottom="8dp"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="96"
-                        android:textColor="@color/APPOrange"
-                        android:textSize="18sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="剩余短信"
-                        android:textColor="@color/APPTXTBlack"
-                        android:textSize="18sp"
-                        android:layout_marginTop="5dp"
-                        />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3/1000"
-                        android:textColor="@color/APPOrange"
-                        android:textSize="18sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="会员卡"
-                        android:textColor="@color/APPTXTBlack"
-                        android:textSize="18sp"
-                        android:layout_marginTop="5dp"
-                        />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="12dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1/3"
-                        android:textColor="@color/APPOrange"
-                        android:textSize="18sp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="员工数"
-                        android:textColor="@color/APPTXTBlack"
-                        android:textSize="18sp"
-                        android:layout_marginTop="5dp"
-                        />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"
-                    />
-
-            </LinearLayout>
-
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                           android:orientation="horizontal"
@@ -235,6 +121,7 @@
 
 
                 <EditText
+                    android:id="@+id/shop_setup_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="请输入地址"
@@ -295,6 +182,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/shop_setup_tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/APPTXTBlack"
@@ -307,323 +195,6 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"
                     android:gravity="center_vertical|right"
-                    />
-
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#ffffff"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/app_separator_offx"
-                android:paddingRight="@dimen/app_separator_offx"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"/>
-
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:paddingLeft="12dp"
-                          android:paddingRight="12dp"
-                          android:gravity="center_vertical"
-                >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/shop_icon03"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="店铺姓名"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    android:gravity="top"
-
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/APPTXTBlack"
-                    android:layout_marginLeft="8dp"
-                    android:hint="未填写"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:background="@null"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:gravity="center_vertical|right"
-                    />
-
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#ffffff"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/app_separator_offx"
-                android:paddingRight="@dimen/app_separator_offx"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"/>
-
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:paddingLeft="12dp"
-                          android:paddingRight="12dp"
-                          android:gravity="center_vertical"
-                >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/shop_icon04"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="人均消费"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    android:gravity="top"
-
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/APPTXTBlack"
-                    android:layout_marginLeft="8dp"
-                    android:hint="未填写"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:background="@null"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:gravity="center_vertical|right"
-                    />
-
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#ffffff"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/app_separator_offx"
-                android:paddingRight="@dimen/app_separator_offx"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"/>
-
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:paddingLeft="12dp"
-                          android:paddingRight="12dp"
-                          android:gravity="center_vertical"
-                >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/shop_icon05"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="营业时间"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    android:gravity="top"
-
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/APPTXTBlack"
-                    android:layout_marginLeft="8dp"
-                    android:hint="未填写"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:background="@null"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:gravity="center_vertical|right"
-                    />
-
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#ffffff"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/app_separator_offx"
-                android:paddingRight="@dimen/app_separator_offx"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"/>
-
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:paddingLeft="12dp"
-                          android:paddingRight="12dp"
-                          android:gravity="center_vertical"
-                >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/shop_icon06"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="店铺简介"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    android:gravity="top"
-
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/APPTXTBlack"
-                    android:layout_marginLeft="8dp"
-                    android:hint="未填写"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:background="@null"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:gravity="center_vertical|right"
-                    />
-
-
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#ffffff"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/app_separator_offx"
-                android:paddingRight="@dimen/app_separator_offx"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#eeeeee"/>
-
-            </LinearLayout>
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                          android:orientation="horizontal"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:background="@color/white"
-                          android:paddingLeft="12dp"
-                          android:paddingRight="12dp"
-                          android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp"
-                >
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/shop_icon07"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="服务到期"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    android:gravity="top"
-
-                    />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/APPTXTBlack"
-                    android:layout_marginLeft="8dp"
-                    android:hint="2017-08-16"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:inputType="text"
-                    android:background="@null"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:gravity="center_vertical|right"
-                    android:enabled="false"
                     />
 
 
@@ -646,7 +217,8 @@
         android:textColor="@color/white"
         android:textSize="@dimen/btn_title"
         android:gravity="center"
-        android:clickable="false"
+        android:clickable="true"
+        android:onClick="submit"
         android:layout_alignParentBottom="true"
         ></TextView>
 

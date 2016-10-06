@@ -359,6 +359,7 @@
         android:textColor="@color/white"
         android:background="@drawable/xcornersbg"
         android:textSize="16sp"
+        android:onClick="doLogout"
         />
 
 </LinearLayout>

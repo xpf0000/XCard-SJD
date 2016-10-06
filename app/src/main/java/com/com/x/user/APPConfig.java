@@ -1,10 +1,15 @@
 package com.com.x.user;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
@@ -83,9 +88,35 @@ public class APPConfig extends BaseActivity {
         pushVC(UpdateTelVC.class);
     }
 
+    public void doLogout(View v)
+    {
+
+        AlertView alert = new AlertView("注销登录", "确定要登出账户吗?", null, null,
+                new String[]{"取消", "确定"},
+                mContext, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                System.out.println("点击了: "+position);
+
+                if(position == 1)
+                {
+                    ApplicationClass.APPDataCache.User.reSet();
+                    refreshUI();
+                }
+
+            }
+        });
+
+        alert.show();
+
+    }
+
+
     public void btnClick(View v)
     {
         pushVC(FindPWVC.class);
     }
+
+
 
 }

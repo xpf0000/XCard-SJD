@@ -31,6 +31,7 @@ public abstract class XHorizontalBaseFragment extends Fragment {
         if(!isLoaded && isVisible)
         {
             lazyLoad();
+            isLoaded = true;
         }
 
     }
@@ -39,6 +40,8 @@ public abstract class XHorizontalBaseFragment extends Fragment {
      * 可见
      */
     protected void onVisible() {
+
+        XNetUtil.APPPrintln("isLoaded: "+isLoaded);
 
         if(!isResumed || isLoaded)
         {

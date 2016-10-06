@@ -256,7 +256,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	 *
 	 * @param activity
 	 */
-	public void presentVC(Class activity,boolean... hasResult) {
+	public void presentVC(Class activity) {
 
 		if(!CountTime.isBeyoundTime("启动界面", 300)){
 			return;
@@ -268,28 +268,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		bundle.putBoolean("isPush", false);
 		intentActive.putExtras(bundle);
 
-		if(hasResult != null)
-		{
-			if(hasResult.length > 0)
-			{
-				if(hasResult[0])
-				{
-					startActivityForResult(intentActive, 1);
-				}
-				else
-				{
-					startActivity(intentActive);
-				}
-			}
-			else
-			{
-				startActivity(intentActive);
-			}
-		}
-		else
-		{
-			startActivity(intentActive);
-		}
+		startActivity(intentActive);
 
 		overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
 	}
@@ -300,7 +279,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	 * @param activity
 	 * @param bundle
 	 */
-	public void presentVC(Class activity,Bundle bundle,boolean... hasResult) {
+	public void presentVC(Class activity,Bundle bundle) {
 
 		if(!CountTime.isBeyoundTime("启动界面", 300)){
 			return;
@@ -311,28 +290,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		bundle.putBoolean("isPush", false);
 		intentActive.putExtras(bundle);
 
-		if(hasResult != null)
-		{
-			if(hasResult.length > 0)
-			{
-				if(hasResult[0])
-				{
-					startActivityForResult(intentActive, 1);
-				}
-				else
-				{
-					startActivity(intentActive);
-				}
-			}
-			else
-			{
-				startActivity(intentActive);
-			}
-		}
-		else
-		{
-			startActivity(intentActive);
-		}
+		startActivity(intentActive);
 
 		overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
 	}
