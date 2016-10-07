@@ -1,7 +1,5 @@
 package com.x.custom;
 
-import android.support.annotation.Nullable;
-
 import com.com.x.AppModel.ActivityModel;
 import com.com.x.AppModel.BannerModel;
 import com.com.x.AppModel.CardTypeModel;
@@ -10,11 +8,11 @@ import com.com.x.AppModel.HttpResult;
 import com.com.x.AppModel.MessageModel;
 import com.com.x.AppModel.PowerModel;
 import com.com.x.AppModel.UserModel;
+import com.com.x.AppModel.ValueSumModel;
 import com.com.x.AppModel.YuangongModel;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import okhttp3.RequestBody;
 import retrofit2.http.GET;
@@ -167,5 +165,19 @@ public interface ServicesAPI {
 
  @POST("?service=Shopa.delShopHD")//作废活动
  Observable<HttpResult<Object>> shopaDelShopHD(@Query("id") String id);
+
+ @POST("?service=Shopd.getShopUser")//商家会员列表
+ Observable<HttpResult<List<UserModel>>> shopdGetShopUser(@Query("id") String sid
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
+ @POST("?service=Hyk.getShopCardY")//获取用户已领取会员卡列表
+ Observable<HttpResult<List<CardTypeModel>>> hykGetShopCardY(@Query("shopid") String sid
+         , @Query("uid") String uid
+ );
+
+ @POST("?service=Shopt.getValueSum")//获取商家充值统计
+ Observable<HttpResult<ValueSumModel>> shoptGetValueSum(@Query("shopid") String sid);
 
 }

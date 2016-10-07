@@ -6,7 +6,7 @@
     >
 
             <EditText
-                android:id="@+id/card_make_edit"
+                android:id="@+id/hy_manage_tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="14dp"
@@ -35,12 +35,13 @@
                 >
 
                 <TextView
+                    android:id="@+id/hy_manage_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="全部共58位会员"
                     android:textColor="@color/APPTXTBlack"
                     android:textSize="18sp"
-                    />
+                     />
 
             </LinearLayout>
 

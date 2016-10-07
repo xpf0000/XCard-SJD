@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/APPBlue"
-    >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
@@ -39,7 +34,7 @@
                           android:layout_weight="1"
                 >
 
-                <TextView android:id="@+id/yg_manage_cell_title"
+                <TextView android:id="@+id/hy_userinfo_name"
                           android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:textColor="@color/white"
@@ -55,7 +50,7 @@
                     android:orientation="horizontal"
                     >
 
-                    <TextView android:id="@+id/yg_manage_cell_tel"
+                    <TextView android:id="@+id/hy_userinfo_tel"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:textColor="@color/white"
@@ -82,158 +77,13 @@
 
         </LinearLayout>
 
-
-
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                       android:orientation="horizontal"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:background="@color/white"
-                      android:gravity="center"
-                      android:layout_marginTop="12dp"
-                      android:paddingTop="8dp"
-                      android:paddingBottom="8dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥960"
-                    android:textColor="@color/APPOrange"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="充值"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="20sp"
-                    android:layout_marginTop="5dp"
-                    />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥960"
-                    android:textColor="@color/APPOrange"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="消费"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="20sp"
-                    android:layout_marginTop="5dp"
-                    />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="￥960"
-                    android:textColor="@color/APPOrange"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="余额"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="20sp"
-                    android:layout_marginTop="5dp"
-                    />
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:orientation="vertical"
-                android:gravity="center"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="960"
-                    android:textColor="@color/APPOrange"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="积分"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="20sp"
-                    android:layout_marginTop="5dp"
-                    />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:paddingTop="20dp"
-                      android:paddingBottom="20dp"
+                      android:paddingTop="16dp"
+                      android:paddingBottom="16dp"
                       android:paddingLeft="22dp"
                       android:layout_marginTop="12dp"
                       android:gravity="center_vertical"
@@ -279,271 +129,14 @@
                 android:background="#eeeeee"/>
 
         </LinearLayout>
+<ListView
+    android:id="@+id/hy_userinfo_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/APPPGBG"
+    >
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/card_type0"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="充值卡"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="会员卡说明"
-                    android:textColor="#999999"
-                    android:textSize="17sp"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/arrow02"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/app_separator_offx"
-            android:paddingRight="@dimen/app_separator_offx"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"/>
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/card_type1"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="积分卡"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="会员卡说明"
-                    android:textColor="#999999"
-                    android:textSize="17sp"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/arrow02"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/app_separator_offx"
-            android:paddingRight="@dimen/app_separator_offx"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"/>
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/card_type2"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="计次卡"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="会员卡说明"
-                    android:textColor="#999999"
-                    android:textSize="17sp"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/arrow02"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#ffffff"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/app_separator_offx"
-            android:paddingRight="@dimen/app_separator_offx"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#eeeeee"/>
-
-        </LinearLayout>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-                      android:layout_marginBottom="20dp"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/card_type3"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="打折卡"
-                    android:textColor="@color/APPTXTBlack"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="会员卡说明"
-                    android:textColor="#999999"
-                    android:textSize="17sp"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/arrow02"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
-                />
-
-        </LinearLayout>
-
-
-
+</ListView>
 
     </LinearLayout>
-
-
-    </ScrollView>
 

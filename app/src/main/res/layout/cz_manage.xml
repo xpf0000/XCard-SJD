@@ -2,7 +2,7 @@
 <ScrollView android:layout_width="match_parent"
             android:layout_height="match_parent"
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="@color/APPBlue"
+            android:background="@color/APPPGBG"
     >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,14 +41,14 @@
                           android:text="今日充值总额"
                     />
 
-                <TextView android:id="@+id/yg_manage_cell_tel"
+                <TextView android:id="@+id/cz_manage_tatle"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:textColor="@color/white"
                           android:textSize="28sp"
                           android:lines="1"
                           android:ellipsize="end"
-                          android:text="1860.00"
+                          android:text=""
                           android:gravity="center"
                           android:layout_marginTop="18dp"
                           android:layout_marginBottom="18dp"
@@ -56,13 +56,14 @@
                     />
 
                 <TextView
+                    android:id="@+id/cz_manage_daynum"
                           android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:textColor="@color/white"
                           android:textSize="16sp"
                           android:layout_weight="1"
                           android:lines="1"
-                          android:text="今日开卡总数：3张"
+                          android:text=""
                           android:gravity="center"
                     />
 
@@ -75,7 +76,7 @@
                       android:layout_height="wrap_content"
                       android:background="@color/white"
                       android:padding="12dp"
-                      android:layout_marginTop="20dp"
+                      android:layout_marginTop="12dp"
                       android:gravity="center_vertical"
                       android:clickable="true"
                       android:onClick="toCZDetail"
@@ -148,9 +149,11 @@
                 />
 
             <TextView
+
+                android:id="@+id/cz_manage_7num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥1860.00"
+                android:text=""
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="4dp"
                 android:textColor="@color/APPTXTBlack"
@@ -201,9 +204,10 @@
                 />
 
             <TextView
+                android:id="@+id/cz_manage_30num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥1860.00"
+                android:text=""
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="4dp"
                 android:textColor="@color/APPTXTBlack"
@@ -254,9 +258,10 @@
                 />
 
             <TextView
+                android:id="@+id/cz_manage_allnum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥1860.00"
+                android:text=""
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="4dp"
                 android:textColor="@color/APPTXTBlack"
@@ -264,41 +269,6 @@
                 />
 
         </LinearLayout>
-
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="vertical"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:background="@color/white"
-                      android:layout_marginTop="12dp"
-                      android:layout_marginBottom="20dp"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="最近7天"
-                android:textColor="@color/APPTXTBlack"
-                android:textSize="18sp"
-                android:gravity="top"
-                android:layout_marginTop="14dp"
-                android:layout_marginLeft="14dp"
-                />
-
-            <lecho.lib.hellocharts.view.LineChartView
-                android:layout_marginTop="8dp"
-                android:id="@+id/cz_manage_chart"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:paddingRight="22dp"
-                android:paddingBottom="20dp"
-                />
-
-
-        </LinearLayout>
-
 
     </LinearLayout>
 

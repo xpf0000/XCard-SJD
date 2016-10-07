@@ -1,41 +1,46 @@
 package com.com.x.huiyuan;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bigkoo.alertview.AlertView;
-import com.bigkoo.alertview.OnDismissListener;
-import com.bigkoo.alertview.OnItemClickListener;
-import com.com.x.AppModel.MemberModel;
-import com.com.x.huodong.HDManageVC;
+import com.com.x.AppModel.HttpResult;
+import com.com.x.AppModel.UserModel;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.x.custom.DensityUtil;
 import com.x.custom.XNetUtil;
-import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import rx.Observable;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
  * Created by X on 16/9/5.
  */
 public class HYManageVC extends BaseActivity {
 
+    private TextView num;
+    private EditText tel;
     private PullToRefreshListView list;
     private HYManageAdapter adapter;
-    private List<MemberModel> dataArr;
+    private List<UserModel> dataArr = new ArrayList<>();
 
     private int page = 1;
     private boolean end = false;
@@ -43,12 +48,37 @@ public class HYManageVC extends BaseActivity {
 
     private int selectRow = -1;
 
+    Observable<HttpResult<List<UserModel>>> http;
+
     @Override
     protected void setupUi() {
         setContentView(R.layout.hy_manage);
         setPageTitle("会员管理");
 
+        tel = (EditText)findViewById(R.id.hy_manage_tel);
+        num = (TextView)findViewById(R.id.hy_manage_num);
         list = (PullToRefreshListView)findViewById(R.id.hy_manage_list);
+
+
+        tel.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                toSearch(editable.toString().trim());
+            }
+        });
+
+        http = APPService.shopdGetShopUser(sid, page + "", "20");
 
         adapter = new HYManageAdapter();
 
@@ -60,7 +90,7 @@ public class HYManageVC extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                selectRow = i;
+                selectRow = i-1;
 
                 toInfo();
             }
@@ -73,8 +103,12 @@ public class HYManageVC extends BaseActivity {
                 XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
 
                 //new FinishRefresh().execute();
-                page = 1;
-                end = false;
+                if(tel.getText().toString().trim().length() == 0 || tel.getText().toString().trim().length() == 11)
+                {
+                    page = 1;
+                    end = false;
+                }
+
                 getData();
             }
 
@@ -93,30 +127,120 @@ public class HYManageVC extends BaseActivity {
 
     private void toInfo()
     {
-        pushVC(HYUserInfoVC.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model",dataArr.get(selectRow));
+
+        pushVC(HYUserInfoVC.class,bundle);
     }
 
 
+    private void toSearch(String str)
+    {
+        if(str.length() == 11)
+        {
+            end=false;
+            page = 1;
+            http = APPService.shopdGetUserInfoM(str, sid);
+            getData();
+        }
+        else if(str.length() == 0)
+        {
+            end=false;
+            page = 1;
+            http = APPService.shopdGetShopUser(sid, page + "", "20");
+            getData();
+        }
+        else
+        {
+            num.setText("全部共0位会员");
+            end = true;
+            dataArr.clear();
+            adapter.notifyDataSetChanged();
+            getData();
+        }
+
+    }
 
     @Override
     protected void setupData() {
 
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(int i = 0; i<20;i++)
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("name", "张无忌");
-            map.put("tel", "18037975857");
-            map.put("img", R.drawable.yg_header);
-            map.put("no","NO."+(100020+i)+"");
-            list.add(map);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    if(tel.getText().toString().trim().length() == 0)
+                    {
+                        Toast.makeText(ApplicationClass.context, "没有更多了",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        XNetUtil.Handle(http, new XNetUtil.OnHttpResult<List<UserModel>>() {
+            @Override
+            public void onError(Throwable e) {
+                list.onRefreshComplete();
+                XNetUtil.APPPrintln(e);
+            }
+
+            @Override
+            public void onSuccess(List<UserModel> models) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                if(models.size() > 0)
+                {
+                    dataArr.addAll(models);
+                }
+
+                if(models.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                num.setText("全部共"+dataArr.size()+"位会员");
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+            }
+        });
+
     }
 
 
@@ -184,17 +308,13 @@ public class HYManageVC extends BaseActivity {
             }
 
             // 获取到mList中指定索引位置的资源
-            int img = (int) dataArr.get(position).get("img");
-            String name = (String) dataArr.get(position).get("name");
-            String tel = (String) dataArr.get(position).get("tel");
-            String no = (String) dataArr.get(position).get("no");
+            String name = (String) dataArr.get(position).getTruename();
+            String tel = (String) dataArr.get(position).getMobile();
+            String no = (String) dataArr.get(position).getUid();
 
-            // 将资源传递给ListItemView的两个域对象
-            listItemView.header.setImageResource(img);
-            //listItemView.imageView.setImageDrawable(img);
             listItemView.name.setText(name);
             listItemView.tel.setText(tel);
-            listItemView.no.setText(no);
+            listItemView.no.setText("NO."+no);
 
             // 返回convertView对象
             return convertView;
