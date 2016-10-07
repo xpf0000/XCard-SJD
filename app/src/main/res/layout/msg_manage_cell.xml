@@ -4,19 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView android:id="@+id/msg_manage_cell_img"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="14dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/system_msg_icon_u"
-        />
-
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="12dp"
         android:gravity="center_vertical"
+        android:layout_margin="12dp"
         >
 
         <TextView android:id="@+id/msg_manage_cell_title"

@@ -12,9 +12,16 @@ import android.widget.TextView;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.com.x.AppModel.MemberModel;
+import com.com.x.huodong.HDManageVC;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.DensityUtil;
+import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,9 +33,13 @@ import java.util.Map;
  */
 public class HYManageVC extends BaseActivity {
 
-    private ListView list;
+    private PullToRefreshListView list;
     private HYManageAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    private List<MemberModel> dataArr;
+
+    private int page = 1;
+    private boolean end = false;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     private int selectRow = -1;
 
@@ -36,17 +47,14 @@ public class HYManageVC extends BaseActivity {
     protected void setupUi() {
         setContentView(R.layout.hy_manage);
         setPageTitle("会员管理");
-        setRightImg(R.drawable.add);
-        int p = DensityUtil.dip2px(mContext,7);
-        setRightImgPadding(p,p,p,p);
 
-        list = (ListView)findViewById(R.id.hy_manage_list);
+        list = (PullToRefreshListView)findViewById(R.id.hy_manage_list);
 
-        dataArr = getData();
-        // 获取MainListAdapter对象
         adapter = new HYManageAdapter();
-        // 将MainListAdapter对象传递给ListView视图
+
         list.setAdapter(adapter);
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -58,6 +66,29 @@ public class HYManageVC extends BaseActivity {
             }
         });
 
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+
+                //new FinishRefresh().execute();
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
+        getData();
+
     }
 
     private void toInfo()
@@ -65,32 +96,12 @@ public class HYManageVC extends BaseActivity {
         pushVC(HYUserInfoVC.class);
     }
 
-    private void alertShow()
-    {
-        AlertView rightAlert = new AlertView(null, null, null, null,
-                new String[]{"领卡", "编辑资料", "取消"},
-                mContext, AlertView.Style.Alert, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object o, int position) {
-                System.out.println("点击了: "+position);
 
-            }
-        });
-
-        rightAlert.show();
-    }
 
     @Override
     protected void setupData() {
 
     }
-
-    @Override
-    public void rightClick(View v) {
-        super.rightClick(v);
-        alertShow();
-    }
-
 
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();

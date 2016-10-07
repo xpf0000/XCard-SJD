@@ -54,6 +54,7 @@
             />
 
         <EditText
+            android:id="@+id/hd_create_title"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -105,10 +106,11 @@
                     />
 
                 <TextView
+                    android:id="@+id/hd_create_stime"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="2016-08-23"
+                    android:text="请选择"
                     android:gravity="center_vertical|right"
                     android:textSize="18sp"
                     android:textColor="@color/APPTXTBlack"
@@ -156,16 +158,17 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="18dp"
-                    android:text="截至时间"
+                    android:text="结束时间"
                     android:textSize="18sp"
                     android:textColor="@color/APPTXTBlack"
                     />
 
                 <TextView
+                    android:id="@+id/hd_create_etime"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="2017-08-23"
+                    android:text="请选择"
                     android:gravity="center_vertical|right"
                     android:textSize="18sp"
                     android:textColor="@color/APPTXTBlack"
@@ -201,12 +204,9 @@
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                           android:orientation="horizontal"
                           android:layout_width="match_parent"
-                          android:layout_height="85dp"
+                          android:layout_height="55dp"
                           android:background="@color/white"
-                          android:gravity="center_vertical"
-
-                          android:clickable="true"
-                          android:onClick="chooseImg"
+                          android:gravity="center"
 
                 >
 
@@ -215,40 +215,74 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="18dp"
-                    android:text="活动图片"
+                    android:text="活动地址"
                     android:textSize="18sp"
                     android:textColor="@color/APPTXTBlack"
                     />
 
-                <ImageView
-                    android:id="@+id/hd_create_img"
-                    android:scaleType="fitXY"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:src="@drawable/ac_photo"
-                    android:padding="14dp"
-                    android:layout_gravity="center_vertical"
+                <EditText
+                    android:id="@+id/hd_create_address"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="活动地址"
+                    android:background="@null"
+                    android:padding="10px"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="18dp"
+                    android:inputType="phone"
+                    android:gravity="center_vertical|right"
                     />
 
-                <TextView
-                    android:layout_weight="1"
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_separator_offx"
+                android:paddingRight="@dimen/app_separator_offx"
+                >
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text=""
-                    android:gravity="center_vertical|right"
+                    android:background="#eeeeee"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                          android:orientation="horizontal"
+                          android:layout_width="match_parent"
+                          android:layout_height="55dp"
+                          android:background="@color/white"
+                          android:gravity="center"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="18dp"
+                    android:text="活动电话"
                     android:textSize="18sp"
                     android:textColor="@color/APPTXTBlack"
+                    />
+
+                <EditText
+                    android:id="@+id/hd_create_tel"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:hint="活动电话"
+                    android:background="@null"
+                    android:padding="10px"
                     android:layout_marginLeft="12dp"
+                    android:layout_marginRight="18dp"
+                    android:inputType="phone"
+                    android:gravity="center_vertical|right"
                     />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/arrow02"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="12dp"
-                    />
-
 
             </LinearLayout>
             <LinearLayout
@@ -268,6 +302,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/hd_create_info"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -296,7 +331,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/btn_title"
         android:gravity="center"
-        android:clickable="false"
+        android:clickable="true"
         android:onClick="doSubmit"
         android:layout_alignParentBottom="true"
         ></TextView>

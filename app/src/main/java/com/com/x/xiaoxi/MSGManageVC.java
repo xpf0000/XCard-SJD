@@ -1,5 +1,7 @@
 package com.com.x.xiaoxi;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,24 +10,38 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.com.x.AppModel.GangweiModel;
+import com.com.x.AppModel.MessageModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.DensityUtil;
+import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.x.xcard.ApplicationClass.APPService;
+
 /**
  * Created by X on 16/9/7.
  */
 public class MSGManageVC extends BaseActivity {
 
-    private ListView list;
+    private PullToRefreshListView list;
     private MSGManageAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    private List<MessageModel> dataArr = new ArrayList<>();
+
+    private int page = 1;
+    private boolean end = false;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
     protected void setupUi() {
@@ -36,7 +52,7 @@ public class MSGManageVC extends BaseActivity {
         int p = DensityUtil.dip2px(mContext,7);
         setRightImgPadding(p,p,p,p);
 
-        list = (ListView) findViewById(R.id.msg_manage_list);
+        list = (PullToRefreshListView) findViewById(R.id.msg_manage_list);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -45,20 +61,71 @@ public class MSGManageVC extends BaseActivity {
             }
         });
 
-        dataArr = getData();
-
-
-        // 获取MainListAdapter对象
         adapter = new MSGManageAdapter();
 
-        // 将MainListAdapter对象传递给ListView视图
         list.setAdapter(adapter);
 
-//        SimpleAdapter adapter = new SimpleAdapter(this,dataArr,R.layout.system_msg_cell,
-//                new String[]{"title","info","img"},
-//                new int[]{R.id.title,R.id.info,R.id.img});
-//
-//        list.setAdapter(adapter);
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+
+                //new FinishRefresh().execute();
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                toInfo(i-1);
+            }
+        });
+
+        getData();
+
+        XNotificationCenter.getInstance().addObserver("SendMSGSuccessed", new XNotificationCenter.OnNoticeListener() {
+
+            @Override
+            public void OnNotice(Object obj) {
+
+                end = false;
+                page = 1;
+                getData();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        XNotificationCenter.getInstance().removeObserver("SendMSGSuccessed");
+    }
+
+    private void toInfo(int p)
+    {
+        MessageModel model = dataArr.get(p);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model",model);
+
+        pushVC(MSGInfoVC.class,bundle);
 
     }
 
@@ -74,20 +141,75 @@ public class MSGManageVC extends BaseActivity {
 
     }
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(int i = 0; i<20;i++)
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("title", "系统通知"+i);
-            map.put("info", "通知详情 "+i);
-            map.put("orSee", false);
-            map.put("img", R.drawable.system_msg_icon_u);
-            list.add(map);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    Toast.makeText(ApplicationClass.context, "没有更多了",
+                            Toast.LENGTH_SHORT).show();
+
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        XNetUtil.Handle(APPService.shopaGetMessagesList(sid, page + "", "20"), new XNetUtil.OnHttpResult<List<MessageModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+                XNetUtil.APPPrintln(e);
+            }
+
+            @Override
+            public void onSuccess(List<MessageModel> models) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                if(models.size() > 0)
+                {
+                    dataArr.addAll(models);
+                }
+
+                if(models.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+            }
+        });
+
     }
 
 
@@ -138,8 +260,7 @@ public class MSGManageVC extends BaseActivity {
 
                 // 实例化一个封装类ListItemView，并实例化它的两个域
                 listItemView = new ListItemView();
-                listItemView.imageView = (ImageView) convertView
-                        .findViewById(R.id.msg_manage_cell_img);
+
                 listItemView.title = (TextView) convertView
                         .findViewById(R.id.msg_manage_cell_title);
                 listItemView.time = (TextView) convertView
@@ -152,16 +273,11 @@ public class MSGManageVC extends BaseActivity {
                 listItemView = (ListItemView) convertView.getTag();
             }
 
-//            // 获取到mList中指定索引位置的资源
-//            int img = (int) dataArr.get(position).get("img");
-//            String title = (String) dataArr.get(position).get("title");
-//            String info = (String) dataArr.get(position).get("info");
-//
-//            // 将资源传递给ListItemView的两个域对象
-//            listItemView.imageView.setImageResource(img);
-//            //listItemView.imageView.setImageDrawable(img);
-//            listItemView.title.setText(title);
-//            listItemView.info.setText(info);
+            String title = (String) dataArr.get(position).getTitle();
+            String time = (String) dataArr.get(position).getCreate_time();
+
+            listItemView.title.setText(title);
+            listItemView.time.setText(time);
 
             // 返回convertView对象
             return convertView;
@@ -173,7 +289,6 @@ public class MSGManageVC extends BaseActivity {
      * 封装两个视图组件的类
      */
     class ListItemView {
-        ImageView imageView;
         TextView title;
         TextView time;
     }

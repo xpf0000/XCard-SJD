@@ -100,16 +100,6 @@ public class XNetUtil {
 
     public static <T> void Handle(Observable<HttpResult<T>> obj,String success,String fail,final OnHttpResult<Boolean> res) {
 
-
-        SVProgressHUD hud = XActivityindicator.create(ApplicationClass.context);
-
-        hud.setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(SVProgressHUD hud) {
-
-            }
-        });
-
         obj
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

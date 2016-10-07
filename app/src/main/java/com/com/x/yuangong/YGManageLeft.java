@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +38,11 @@ import static com.example.x.xcard.ApplicationClass.APPService;
 public class YGManageLeft extends XHorizontalBaseFragment
 {
     private PullToRefreshListView list;
-    private  YGManageYGAdapter adapter;
     private Context context;
-
-    private List<YuangongModel> dataArr = new ArrayList<>();
     private int page = 1;
     private boolean end = false;
+    private  YGManageYGAdapter adapter;
+    private List<YuangongModel> dataArr = new ArrayList<>();
     String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
@@ -289,6 +289,7 @@ public class YGManageLeft extends XHorizontalBaseFragment
         ImageView header;
         TextView name;
         TextView tel;
+        RadioButton checkBox;
     }
 
 }

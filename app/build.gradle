@@ -46,4 +46,5 @@ dependencies {
     compile 'com.bigkoo:svprogresshud:1.0.6'
     compile 'com.robin.lazy.cache:CacheLibrary:1.0.5'
     compile project(':PullToRefresh')
+    compile 'com.bigkoo:pickerview:2.1.1'
 }

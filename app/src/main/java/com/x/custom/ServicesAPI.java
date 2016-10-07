@@ -2,18 +2,25 @@ package com.x.custom;
 
 import android.support.annotation.Nullable;
 
+import com.com.x.AppModel.ActivityModel;
 import com.com.x.AppModel.BannerModel;
+import com.com.x.AppModel.CardTypeModel;
 import com.com.x.AppModel.GangweiModel;
 import com.com.x.AppModel.HttpResult;
+import com.com.x.AppModel.MessageModel;
 import com.com.x.AppModel.PowerModel;
 import com.com.x.AppModel.UserModel;
 import com.com.x.AppModel.YuangongModel;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import okhttp3.RequestBody;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -112,5 +119,53 @@ public interface ServicesAPI {
             , @Query("jobid") String jobid
             , @Query("wnumber") String wnumber
     );
+
+    @POST("?service=Hyk.getShopCard")//获取商家会员卡列表
+    Observable<HttpResult<List<CardTypeModel>>> hykGetShopCard(@Query("shopid") String shopid
+            , @Query("uid") String uid
+    );
+
+    @POST("?service=Shopd.addShopCard")//新增商家会员卡
+    Observable<HttpResult<Object>> shopdAddShopCard(@Query("shopid") String shopid
+            , @Query("color") String color
+            , @Query("info") String info
+            , @Query("typeid") String typeid
+    );
+
+    @POST("?service=Shopd.updateShopCard")//编辑商家会员卡
+    Observable<HttpResult<Object>> shopdUpdateShopCard(@Query("id") String id
+            , @Query("color") String color
+            , @Query("info") String info
+    );
+
+ @POST("?service=Shopd.delShopCard")//作废会员卡
+ Observable<HttpResult<Object>> shopdDelShopCard(@Query("id") String id
+ );
+
+ @POST("?service=Shopa.getMessagesList")//消息管理列表
+ Observable<HttpResult<List<MessageModel>>> shopaGetMessagesList(@Query("shopid") String shopid
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
+ @POST("?service=Shopa.addMessages")//新增消息
+ Observable<HttpResult<Object>> shopaAddMessages(@Query("uid") String uid
+         , @Query("username") String username
+         , @Query("title") String title
+         , @Query("content") String content
+ );
+
+ @POST("?service=Shopa.getShopHD")//活动列表
+ Observable<HttpResult<List<ActivityModel>>> shopaGetShopHD(@Query("id") String sid
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
+ @Multipart
+ @POST("?service=Shopa.addShopHD")//创建活动
+ Observable<HttpResult<Object>> shopaAddShopHD(@PartMap Map<String , RequestBody> params);
+
+ @POST("?service=Shopa.delShopHD")//作废活动
+ Observable<HttpResult<Object>> shopaDelShopHD(@Query("id") String id);
 
 }
