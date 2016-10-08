@@ -1,13 +1,17 @@
 package com.x.custom;
 
+import android.widget.Toast;
+
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.BannerModel;
 import com.com.x.AppModel.HttpResult;
+import com.com.x.AppModel.MoneyDetailModel;
 import com.example.x.xcard.ApplicationClass;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import rx.Observable;
@@ -33,35 +37,6 @@ public class XNetUtil {
         System.out.println(t);
     }
 
-
-    public static <T> void Handle(Observable<HttpResult<T>> obj, PullToRefreshListView list) {
-
-
-
-        obj
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(new HttpResultFunc<T>())
-                .subscribe(new Subscriber<T>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(T t) {
-
-                    }
-                });
-
-    }
-
-
     public static <T> void Handle(Observable<HttpResult<T>> obj,Subscriber<T> res) {
 
         obj
@@ -69,6 +44,29 @@ public class XNetUtil {
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new HttpResultFunc<T>())
                 .subscribe(res);
+
+    }
+
+    public static <T> void HandleReturnAll(Observable<HttpResult<T>> obj,final OnHttpResult<HttpResult<T>> res) {
+        obj
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HttpResult<T>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        res.onError(e);
+                    }
+
+                    @Override
+                    public void onNext(HttpResult<T> tHttpResult) {
+                        res.onSuccess(tHttpResult);
+                    }
+                });
 
     }
 
@@ -145,6 +143,7 @@ public class XNetUtil {
                     XActivityindicator.create(ApplicationClass.context).showErrorWithStatus(msg);
                 }
             }
+
             return httpResult.getData().getInfo();
         }
     }
@@ -163,7 +162,7 @@ public class XNetUtil {
         @Override
         public Boolean call(HttpResult<T> httpResult) {
 
-            XNetUtil.APPPrintln(httpResult.toString());
+            Toast.makeText(ApplicationClass.context, httpResult.toString(), Toast.LENGTH_LONG).show();
 
             if (httpResult.getRet() != 200) {
 

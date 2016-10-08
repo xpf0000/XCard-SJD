@@ -5,44 +5,32 @@
               android:background="@color/APPPGBG"
     >
 
-
-            <EditText
-                android:id="@+id/cz_deta_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="14dp"
-                style="@style/Base.Widget.AppCompat.EditText"
-                android:drawableLeft="@drawable/search"
-                android:drawablePadding="8dp"
-                android:padding="8dp"
-                android:hint="请输入手机号码"
-                android:background="@drawable/bg_edittext"
-                android:inputType="phone"
-                android:maxLength="11"
-                />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:layout_marginTop="12dp"
         >
 
-        <EditText
+        <TextView
+            android:id="@+id/cz_detail_stime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginLeft="14dp"
             style="@style/Base.Widget.AppCompat.EditText"
             android:padding="8dp"
-            android:hint="2016-08-01"
+            android:text="开始时间"
+            android:textColor="#999999"
             android:background="@drawable/bg_edittext"
-            android:enabled="false"
             android:gravity="center"
+            android:clickable="true"
+            android:onClick="chooseStartTime"
             />
 
-        <EditText
+        <TextView
+            android:id="@+id/cz_detail_etime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,10 +38,12 @@
             android:layout_marginRight="7dp"
             style="@style/Base.Widget.AppCompat.EditText"
             android:padding="8dp"
-            android:hint="2016-08-01"
+            android:text="结束时间"
+            android:textColor="#999999"
             android:background="@drawable/bg_edittext"
-            android:enabled="false"
             android:gravity="center"
+            android:clickable="true"
+            android:onClick="chooseEndTime"
             />
 
 
@@ -63,6 +53,8 @@
             android:src="@drawable/orange_btn"
             android:layout_marginRight="14dp"
             android:layout_marginLeft="4dp"
+            android:clickable="true"
+            android:onClick="doSearch"
             />
 
 
@@ -87,10 +79,11 @@
             />
 
         <TextView
+            android:id="@+id/cz_detail_tatle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="￥1860.00"
+            android:text=""
             android:textColor="@color/APPOrange"
             android:textSize="18sp"
             />
@@ -173,13 +166,13 @@
 
             </LinearLayout>
 
-<ListView
+<com.handmark.pulltorefresh.library.PullToRefreshListView
     android:id="@+id/cz_detail_list"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     >
 
-</ListView>
+</com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 
 

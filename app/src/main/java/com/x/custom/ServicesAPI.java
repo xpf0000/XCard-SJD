@@ -6,6 +6,7 @@ import com.com.x.AppModel.CardTypeModel;
 import com.com.x.AppModel.GangweiModel;
 import com.com.x.AppModel.HttpResult;
 import com.com.x.AppModel.MessageModel;
+import com.com.x.AppModel.MoneyDetailModel;
 import com.com.x.AppModel.PowerModel;
 import com.com.x.AppModel.UserModel;
 import com.com.x.AppModel.ValueSumModel;
@@ -180,4 +181,34 @@ public interface ServicesAPI {
  @POST("?service=Shopt.getValueSum")//获取商家充值统计
  Observable<HttpResult<ValueSumModel>> shoptGetValueSum(@Query("shopid") String sid);
 
+ @POST("?service=Shopt.getValueList")//获取商家充值列表
+ Observable<HttpResult<List<MoneyDetailModel>>> shoptGetValueList(@Query("shopid") String sid
+         , @Query("stime") String stime
+         , @Query("etime") String etime
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
+ @POST("?service=Shopt.delValue")//作废充值记录
+ Observable<HttpResult<Object>> shoptDelValue(@Query("id") String id);
+
+ @POST("?service=Shopt.getCostSum")//获取商家消费统计
+ Observable<HttpResult<ValueSumModel>> shoptGetCostSum(@Query("shopid") String sid
+         , @Query("ctypeid") String ctypeid
+ );
+
+ @POST("?service=Shopt.getCostList")//获取商家充值列表
+ Observable<HttpResult<List<MoneyDetailModel>>> shoptGetCostList(@Query("shopid") String sid
+         , @Query("stime") String stime
+         , @Query("etime") String etime
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+         , @Query("ctypeid") String ctypeid
+ );
+
+ @POST("?service=Shopt.delCost")//作废充值记录
+ Observable<HttpResult<Object>> shoptDelCost(@Query("id") String id);
+
 }
+
+

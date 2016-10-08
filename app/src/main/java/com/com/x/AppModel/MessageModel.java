@@ -49,7 +49,7 @@ public class MessageModel implements Serializable {
 
     public String getCreate_time() {
 
-        if(!create_time.contains(" "))
+        if(!create_time.contains("-"))
         {
             create_time = DateUtils.unixToStr(create_time,"yyyy-MM-dd hh:mm:ss");
         }

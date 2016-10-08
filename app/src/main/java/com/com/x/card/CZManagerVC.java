@@ -69,7 +69,7 @@ public class CZManagerVC extends BaseActivity  {
 
                 if(valueSumModel != null)
                 {
-                    dtatle.setText(valueSumModel.getDay());
+                    dtatle.setText("￥"+valueSumModel.getDay());
                     dnum.setText("今日充值次数: "+valueSumModel.getDaycnum()+"次");
                     num7.setText("￥"+valueSumModel.getWeek());
                     num30.setText("￥"+valueSumModel.getMonth());

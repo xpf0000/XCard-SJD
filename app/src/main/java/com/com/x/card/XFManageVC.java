@@ -4,11 +4,14 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.com.x.AppModel.ValueSumModel;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.x.custom.DensityUtil;
+import com.x.custom.XNetUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,110 +26,54 @@ import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.LineChartView;
 
+import static com.example.x.xcard.ApplicationClass.APPService;
+
 /**
  * Created by X on 16/9/6.
  */
 public class XFManageVC extends BaseActivity {
 
-    private LineChartView chart;
+    private TextView dtatle;
+    private TextView num7;
+    private TextView num30;
+    private TextView numall;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
     protected void setupUi() {
         setContentView(R.layout.xf_manage);
         setPageTitle("消费管理");
 
-        chart = (LineChartView)findViewById(R.id.xf_manage_chart);
+        dtatle=(TextView)findViewById(R.id.xf_manage_tatle);
+        num7=(TextView)findViewById(R.id.xf_manage_num7);
+        num30=(TextView)findViewById(R.id.xf_manage_num30);
+        numall=(TextView)findViewById(R.id.xf_manage_numall);
 
-        int h = ApplicationClass.SW * 4 / 5;
-        h = DensityUtil.px2dip(mContext,h);
+        getData();
 
-        ViewGroup.LayoutParams layoutParams1 = chart.getLayoutParams();
-        layoutParams1.height = DensityUtil.dip2px(mContext,h);
-        chart.setLayoutParams(layoutParams1);
+    }
 
+    private void getData()
+    {
+        XNetUtil.Handle(APPService.shoptGetCostSum(sid,"0"), new XNetUtil.OnHttpResult<ValueSumModel>() {
+            @Override
+            public void onError(Throwable e) {
 
-        List<PointValue> values = new ArrayList<PointValue>();
-        values.add(new PointValue(0, 0.0F));
-        values.add(new PointValue(1, 1.0F));
-        values.add(new PointValue(2, 0.0F));
-        values.add(new PointValue(3, 4.0F));
-        values.add(new PointValue(4, 2.0F));
-        values.add(new PointValue(5, 3.0F));
-        values.add(new PointValue(6, 1.0F));
+            }
 
-        int c = ContextCompat.getColor(mContext, R.color.APPOrange);
+            @Override
+            public void onSuccess(ValueSumModel valueSumModel) {
 
-        //In most cased you can call data model methods in builder-pattern-like manner.
-        Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
+                if(valueSumModel != null)
+                {
+                    dtatle.setText(valueSumModel.getDaycnum()+"次");
+                    num7.setText(valueSumModel.getWeek()+"次");
+                    num30.setText(valueSumModel.getMonth()+"次");
+                    numall.setText(valueSumModel.getAll()+"次");
+                }
 
-        line.setCubic(false);
-        line.setHasPoints(false);
-        line.setColor(c);
-
-        List<Line> lines = new ArrayList<Line>();
-        lines.add(line);
-
-        LineChartData data = new LineChartData();
-        data.setLines(lines);
-
-        Axis axisX = new Axis().setHasLines(true);
-        Axis axisY = new Axis().setHasLines(true);
-        Axis axisXT = new Axis().setHasLines(true);
-
-        axisX.setTextColor(c);
-        axisX.setLineColor(ChartUtils.DEFAULT_DARKEN_COLOR);
-        axisX.setTextSize(10);
-
-        List<AxisValue> xArr = new ArrayList<>();
-        List<AxisValue> xTArr = new ArrayList<>();
-        for(int i=0;i<7;i++)
-        {
-            AxisValue value = new AxisValue(i);
-            value.setLabel("08-"+(20+i));
-            xArr.add(value);
-
-            AxisValue value1 = new AxisValue(i);
-            value1.setLabel("");
-            xTArr.add(value1);
-
-        }
-
-        List<AxisValue> yArr = new ArrayList<>();
-
-        for(int i=0;i<5;i++)
-        {
-            AxisValue value = new AxisValue(i);
-            value.setLabel("");
-            yArr.add(value);
-        }
-
-        axisX.setValues(xArr);
-        axisXT.setValues(xTArr);
-        axisY.setValues(yArr);
-
-        data.setAxisXBottom(axisX);
-        data.setAxisYLeft(axisY);
-        data.setAxisXTop(axisXT);
-        //data.setAxisYRight(new Axis().setHasLines(true));
-
-
-
-        data.setBaseValue(2);
-        chart.setZoomEnabled(false);
-        chart.setLineChartData(data);
-
-
-        final Viewport v = new Viewport(chart.getMaximumViewport());
-        v.bottom = 0;
-        v.top = 5;
-        v.left = 0;
-        v.right = 6;
-        chart.setMaximumViewport(v);
-        chart.setCurrentViewport(v);
-
-
-
-
+            }
+        });
     }
 
     @Override

@@ -84,8 +84,6 @@ public class HYManageVC extends BaseActivity {
 
         list.setAdapter(adapter);
 
-        list.setMode(PullToRefreshBase.Mode.BOTH);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -95,6 +93,8 @@ public class HYManageVC extends BaseActivity {
                 toInfo();
             }
         });
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
 
         list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

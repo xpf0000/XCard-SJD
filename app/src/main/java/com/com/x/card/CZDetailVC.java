@@ -1,5 +1,8 @@
 package com.com.x.card;
 
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,51 +11,151 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.com.x.AppModel.HttpResult;
+import com.com.x.AppModel.MoneyDetailModel;
+import com.com.x.AppModel.UserModel;
 import com.com.x.huiyuan.HYUserInfoVC;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.DensityUtil;
+import com.x.custom.XActivityindicator;
+import com.x.custom.XNetUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import rx.Observable;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
+import static com.robin.lazy.util.DateKit.getDate;
 
 /**
  * Created by X on 16/9/6.
  */
 public class CZDetailVC extends BaseActivity {
-    private ListView list;
+    private PullToRefreshListView list;
     private CZDetailAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    private List<MoneyDetailModel> dataArr = new ArrayList<>();
+
+    private int page = 1;
+    private boolean end = false;
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
+
+    Observable<HttpResult<List<MoneyDetailModel>>> http;
+
+    private TimePickerView datePicker;
+    private boolean isStime = false;
+    private Date sdate;
+    private  Date edate;
+
+    private TextView stime;
+    private TextView etime;
+    private TextView tatle;
+
+    private String sStr="";
+    private String eStr="";
 
     private int selectRow = -1;
+
+    private boolean isDeling = false;
+
+    private AlertView rightAlert;
 
     @Override
     protected void setupUi() {
         setContentView(R.layout.cz_detail);
         setPageTitle("充值明细");
-        setRightImg(R.drawable.add);
-        int p = DensityUtil.dip2px(mContext,7);
-        setRightImgPadding(p,p,p,p);
+        setRightTxt("删除");
+//        setRightImg(R.drawable.add);
+//        int p = DensityUtil.dip2px(mContext,7);
+//        setRightImgPadding(p,p,p,p);
 
-        list = (ListView)findViewById(R.id.cz_detail_list);
+        stime = (TextView)findViewById(R.id.cz_detail_stime);
+        etime = (TextView)findViewById(R.id.cz_detail_etime);
+        tatle = (TextView)findViewById(R.id.cz_detail_tatle);
 
-        dataArr = getData();
-        // 获取MainListAdapter对象
+        list = (PullToRefreshListView)findViewById(R.id.cz_detail_list);
         adapter = new CZDetailAdapter();
-        // 将MainListAdapter对象传递给ListView视图
         list.setAdapter(adapter);
-
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                selectRow = i;
-                alertShow();
+                selectRow = i-1;
+                if(isDeling)
+                {
+                    alertShow();
+                }
+                else
+                {
+                    toInfo();
+                }
+
+            }
+        });
+
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
+        getData();
+
+
+        //时间选择器
+        datePicker = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+        //控制时间范围
+//        Calendar calendar = Calendar.getInstance();
+//        datePicker.setRange(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR));//要在setTime 之前才有效果哦
+
+        datePicker.setTime(new Date());
+        datePicker.setCyclic(false);
+        datePicker.setCancelable(true);
+        //时间选择后回调
+        datePicker.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+
+            @Override
+            public void onTimeSelect(Date date) {
+                if(isStime)
+                {
+                    sdate = date;
+                    stime.setText(getDate(date));
+                }
+                else
+                {
+                    edate = date;
+                    etime.setText(getDate(date));
+                }
+                //tvTime.setText(getTime(date));
             }
         });
 
@@ -61,17 +164,65 @@ public class CZDetailVC extends BaseActivity {
 
     private void alertShow()
     {
-        AlertView rightAlert = new AlertView("记录作废", null, null, null,
+        if(dataArr.get(selectRow).getStatus().equals("-1"))
+        {
+            return;
+        }
+
+        rightAlert = new AlertView("记录作废", null, null, null,
                 new String[]{"确认", "取消"},
                 mContext, AlertView.Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
-                System.out.println("点击了: "+position);
+
+                if(position == 0)
+                {
+                    doDel();
+                }
 
             }
         });
 
         rightAlert.show();
+    }
+
+    private void toInfo()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("title","充值明细");
+        bundle.putSerializable("model",dataArr.get(selectRow));
+        pushVC(CardMoneyDetailVC.class,bundle);
+    }
+
+    private void doDel()
+    {
+        rightAlert.dismissImmediately();
+        rightAlert = null;
+        XActivityindicator.create(mContext).show();
+        MoneyDetailModel model = dataArr.get(selectRow);
+        XNetUtil.Handle(APPService.shoptDelValue(model.getId()), "充值记录作废成功", "充值记录作废失败", new XNetUtil.OnHttpResult<Boolean>() {
+
+            @Override
+            public void onError(Throwable e) {
+                if(XActivityindicator.getHud() != null)
+                {
+                    XActivityindicator.getHud().dismissImmediately();
+                }
+
+                doShowToastLong(e.toString());
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if(aBoolean)
+                {
+                    end = false;
+                    page = 1;
+                    getData();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -82,26 +233,135 @@ public class CZDetailVC extends BaseActivity {
     @Override
     public void rightClick(View v) {
         super.rightClick(v);
-        alertShow();
+        //alertShow();
+        isDeling = !isDeling;
+        if(isDeling)
+        {
+            setRightTxt("完成");
+        }
+        else
+        {
+            setRightTxt("删除");
+        }
+
+    }
+
+    public void chooseStartTime(View v) {
+        isStime = true;
+        datePicker.show();
+    }
+
+    public void chooseEndTime(View v) {
+        isStime = false;
+        datePicker.show();
+    }
+
+    public void doSearch(View v) {
+
+        if(sdate != null)
+        {
+            sStr = sdate.getTime()/1000+"";
+        }
+
+        if(edate != null)
+        {
+            eStr = edate.getTime()/1000+"";
+        }
+
+        XActivityindicator.create(mContext).show();
+        end = false;
+        page = 1;
+        getData();
+
     }
 
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
-        for(int i = 0; i<20;i++)
+    private void getData() {
+
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("name", "张无忌");
-            map.put("tel", "18037975857");
-            map.put("time", "2016-08-25\r\n10:56:23");
-            map.put("user", "王大锤");
-            map.put("num", "￥100.00");
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
 
-            list.add(map);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    Toast.makeText(ApplicationClass.context, "没有更多了",
+                            Toast.LENGTH_SHORT).show();
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        http = APPService.shoptGetValueList(sid,sStr,eStr, page + "", "20");
+
+        XNetUtil.HandleReturnAll(http, new XNetUtil.OnHttpResult<HttpResult<List<MoneyDetailModel>>>() {
+
+            @Override
+            public void onError(Throwable e) {
+                list.onRefreshComplete();
+                XNetUtil.APPPrintln(e);
+                if(XActivityindicator.getHud() != null)
+                {
+                    XActivityindicator.getHud().dismissImmediately();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(HttpResult<List<MoneyDetailModel>> models) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                List<MoneyDetailModel> arr = models.getData().getInfo();
+
+                if(arr.size() > 0)
+                {
+                    dataArr.addAll(arr);
+                }
+
+                if(arr.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                tatle.setText("￥"+models.getData().getSum());
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+
+                if(XActivityindicator.getHud() != null)
+                {
+                    XActivityindicator.getHud().dismissImmediately();
+                }
+            }
+        });
+
     }
 
 
@@ -171,18 +431,29 @@ public class CZDetailVC extends BaseActivity {
             }
 
             // 获取到mList中指定索引位置的资源
-            String name = (String) dataArr.get(position).get("name");
-            String tel = (String) dataArr.get(position).get("tel");
-            String time = (String) dataArr.get(position).get("time");
-            String user = (String) dataArr.get(position).get("user");
-            String num = (String) dataArr.get(position).get("num");
+            String name = (String) dataArr.get(position).getTruename();
+            String tel = (String) dataArr.get(position).getMobile();
+            String time = (String) dataArr.get(position).getCreate_time();
+            String user = (String) dataArr.get(position).getOpername();
+            String num = (String) dataArr.get(position).getMoney();
 
 
             listItemView.name.setText(name);
             listItemView.tel.setText(tel);
             listItemView.time.setText(time);
             listItemView.user.setText(user);
-            listItemView.num.setText(num);
+            listItemView.num.setText("￥"+num);
+
+            if(dataArr.get(position).getStatus().equals("-1"))
+            {
+                int c = Color.parseColor("#dcdcdc");
+                convertView.setBackgroundColor(c);
+            }
+            else
+            {
+                int c = Color.parseColor("#ffffff");
+                convertView.setBackgroundColor(c);
+            }
 
 
             // 返回convertView对象

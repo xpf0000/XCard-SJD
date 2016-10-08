@@ -48,6 +48,17 @@ public class HttpResult<T> {
     public class DataBean<T> {
         private int code;
         private String msg="";
+
+        private String sum="";
+
+        public String getSum() {
+            return sum;
+        }
+
+        public void setSum(String sum) {
+            this.sum = sum;
+        }
+
         /**
          * picurl : http://7xotdz.com2.z0.glb.qiniucdn.com/2016-07-26_5796d6bda81bf.jpg
          * url : http://101.201.169.38/city/news_info.php?id=5717&type=1

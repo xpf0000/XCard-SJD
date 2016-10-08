@@ -61,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
 	private boolean isPush = true;
 
-	private View decorView;
+	public View decorView;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -318,16 +318,22 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		System.out.println("点击右侧菜单!!!!!!");
 	}
 
-	@Override
-	public void setContentView(int layoutResID) {
 
-		decorView = getWindow().getDecorView();
-
+	public void setFullScreen()
+	{
 		decorView.setSystemUiVisibility(
 				View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 						| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 						| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+	}
+
+	@Override
+	public void setContentView(int layoutResID) {
+
+		decorView = getWindow().getDecorView();
+
+		setFullScreen();
 
 		decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
 			@Override
@@ -348,7 +354,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		});
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
 		mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
 		toolbar = mToolBarHelper.getToolBar() ;
 		setContentView(mToolBarHelper.getContentView());
@@ -440,6 +447,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	public void onBackPressed() {
 		//super.onBackPressed();
+		doShowToast("onBackPressed !!!!!!");
+
 		doPop();
 	}
 
