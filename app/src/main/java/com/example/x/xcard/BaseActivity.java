@@ -364,6 +364,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
         /*自定义的一些操作*/
 		onCreateCustomToolBar(toolbar) ;
 
+		decorView.setSystemUiVisibility(0);
+
 	}
 
 	public void onCreateCustomToolBar(Toolbar toolbar){
@@ -447,8 +449,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	public void onBackPressed() {
 		//super.onBackPressed();
-		doShowToast("onBackPressed !!!!!!");
-
 		doPop();
 	}
 
@@ -481,6 +481,18 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		}
 
 		return true;
+	}
+
+	public boolean CheckUserPower(String str)
+	{
+		boolean b = APPDataCache.User.getPowerArr().contains(str);
+
+		if(!b)
+		{
+			doShowToast("您没有该操作权限,无法使用此功能");
+		}
+
+		return b;
 	}
 
 

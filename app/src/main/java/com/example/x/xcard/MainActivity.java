@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.x.xcard.ApplicationClass.APPDataCache;
 import static com.example.x.xcard.ApplicationClass.APPService;
 
 public class MainActivity extends BaseActivity {
@@ -63,11 +64,6 @@ public class MainActivity extends BaseActivity {
             R.drawable.index_icon10, R.drawable.index_icon09, R.drawable.index_icon11, R.color.white};
     private String[] iconName = {"会员管理", "充值管理", "消费管理", "活动管理", "消息管理", "卡类管理", "店铺设置",
             "员工管理", "系统公告", "设置", "更多", ""};
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +88,17 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(!checkIsLogin())
+                if(i<8)
                 {
-                    return;
+                    if(!checkIsLogin())
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        if(!CheckUserPower(i+4+"")){return;}
+                    }
+
                 }
 
                 switch (i) {
@@ -183,9 +187,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void getBanner() {
@@ -230,6 +231,8 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         //开始自动翻页
         //convenientBanner.startTurning(5000);
+
+        APPDataCache.User.requestPower();
     }
 
     // 停止自动翻页
@@ -260,6 +263,11 @@ public class MainActivity extends BaseActivity {
 
     public void toBanKa(View v) {
 
+        if(!checkIsLogin() || !CheckUserPower("1"))
+        {
+            return;
+        }
+
         Bundle bundle = new Bundle();
         bundle.putString("title", "办卡");
 
@@ -268,6 +276,11 @@ public class MainActivity extends BaseActivity {
 
     public void toXiaoFei(View v) {
 
+        if(!checkIsLogin() || !CheckUserPower("2"))
+        {
+            return;
+        }
+
         Bundle bundle = new Bundle();
         bundle.putString("title", "消费");
 
@@ -275,6 +288,11 @@ public class MainActivity extends BaseActivity {
     }
 
     public void toChongZhi(View v) {
+
+        if(!checkIsLogin() || !CheckUserPower("3"))
+        {
+            return;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString("title", "充值");
@@ -316,39 +334,6 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Main Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
 }

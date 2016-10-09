@@ -1,6 +1,8 @@
 package com.com.x.user;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,70 +12,92 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.com.x.AppModel.MessageModel;
+import com.com.x.xiaoxi.MSGInfoVC;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.MainActivity;
 import com.example.x.xcard.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.XGridView;
+import com.x.custom.XNetUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.x.xcard.ApplicationClass.APPService;
+
 /**
  * Created by X on 16/9/1.
  */
 public class SystemMsg extends BaseActivity {
 
-    private ListView list;
-    private SystemMsgAdapter adapter;
-    private List<Map<String, Object>> dataArr;
+    private PullToRefreshListView list;
+    private SystemMsgAdapter adapter = new SystemMsgAdapter();
+    private List<MessageModel> dataArr = new ArrayList<>();
+
+    private int page = 1;
+    private boolean end = false;
 
     @Override
     protected void setupUi() {
         setContentView(R.layout.system_msg);
         setPageTitle("系统公告");
 
-        list = (ListView) findViewById(R.id.system_msg_list);
+        list = (PullToRefreshListView) findViewById(R.id.system_msg_list);
+
+        adapter = new SystemMsgAdapter();
+        list.setAdapter(adapter);
+
+        list.setMode(PullToRefreshBase.Mode.BOTH);
+
+        list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullDownToRefresh ~~~~~~~~~");
+
+                //new FinishRefresh().execute();
+                page = 1;
+                end = false;
+                getData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+                XNetUtil.APPPrintln("onPullUpToRefresh ~~~~~~~~~");
+                getData();
+
+            }
+        });
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Map<String, Object> temp = dataArr.get(i);
-                if (!(boolean)temp.get("orSee"))
-                {
-                    temp.remove("img");
-                    temp.remove("orSee");
-                    temp.put("img", R.drawable.system_msg_icon);
-                    temp.put("orSee", true);
-                    adapter.notifyDataSetChanged();
-                }
-                else
-                {
-                    System.out.println("已浏览过!!!!!!!");
-                }
-
-
-
+                toInfo(i-1);
             }
         });
 
-        dataArr = getData();
+        getData();
 
+    }
 
-        // 获取MainListAdapter对象
-        adapter = new SystemMsgAdapter();
+    private void toInfo(int p)
+    {
+        MessageModel model = dataArr.get(p);
+        model.setGonggao(true);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model",model);
 
-        // 将MainListAdapter对象传递给ListView视图
-        list.setAdapter(adapter);
-
-//        SimpleAdapter adapter = new SimpleAdapter(this,dataArr,R.layout.system_msg_cell,
-//                new String[]{"title","info","img"},
-//                new int[]{R.id.title,R.id.info,R.id.img});
-//
-//        list.setAdapter(adapter);
+        pushVC(MSGInfoVC.class,bundle);
 
     }
 
@@ -83,20 +107,75 @@ public class SystemMsg extends BaseActivity {
     }
 
 
-    private List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+    private void getData() {
 
-        for(int i = 0; i<20;i++)
+
+        XNetUtil.APPPrintln("do getData !!!!!!!!!!");
+
+        if(end)
         {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("title", "系统通知"+i);
-            map.put("info", "通知详情 "+i);
-            map.put("orSee", false);
-            map.put("img", R.drawable.system_msg_icon_u);
-            list.add(map);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+
+                    list.onRefreshComplete();
+                    Toast.makeText(ApplicationClass.context, "没有更多了",
+                            Toast.LENGTH_SHORT).show();
+
+                    super.onPostExecute(aVoid);
+                }
+            }.execute();
+
+            return;
         }
 
-        return list;
+        XNetUtil.Handle(APPService.hykAddValues(page + "", "20"), new XNetUtil.OnHttpResult<List<MessageModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+                XNetUtil.APPPrintln(e);
+            }
+
+            @Override
+            public void onSuccess(List<MessageModel> models) {
+
+                if(page == 1)
+                {
+                    dataArr.clear();
+                }
+
+                if(models.size() > 0)
+                {
+                    dataArr.addAll(models);
+                }
+
+                if(models.size() == 20)
+                {
+                    end = false;
+                    page += 1;
+                }
+                else
+                {
+                    end = true;
+                }
+
+                adapter.notifyDataSetChanged();
+                list.onRefreshComplete();
+            }
+        });
+
     }
 
 
@@ -164,15 +243,16 @@ public class SystemMsg extends BaseActivity {
             }
 
             // 获取到mList中指定索引位置的资源
-            int img = (int) dataArr.get(position).get("img");
-            String title = (String) dataArr.get(position).get("title");
-            String info = (String) dataArr.get(position).get("info");
 
+            String title = (String) dataArr.get(position).getTitle();
+            String info = (String) dataArr.get(position).getDescription();
+            String time = (String) dataArr.get(position).getCreate_time();
             // 将资源传递给ListItemView的两个域对象
-            listItemView.imageView.setImageResource(img);
+            //listItemView.imageView.setImageResource(img);
             //listItemView.imageView.setImageDrawable(img);
             listItemView.title.setText(title);
             listItemView.info.setText(info);
+            listItemView.time.setText(time);
 
             // 返回convertView对象
             return convertView;

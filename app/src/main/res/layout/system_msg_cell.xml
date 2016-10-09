@@ -9,7 +9,7 @@
                android:layout_height="70dp"
                android:layout_margin="12dp"
                android:scaleType="fitXY"
-               android:src="@drawable/system_msg_icon_u"
+               android:src="@drawable/system_msg_icon"
         />
 
     <LinearLayout android:orientation="vertical"

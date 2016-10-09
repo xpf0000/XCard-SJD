@@ -6,7 +6,7 @@
                 android:background="@color/APPPGBG"
         >
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/system_msg_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
         >
 
 
-    </ListView>
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 
 </LinearLayout>

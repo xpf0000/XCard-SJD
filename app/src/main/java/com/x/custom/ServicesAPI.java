@@ -209,6 +209,42 @@ public interface ServicesAPI {
  @POST("?service=Shopt.delCost")//作废充值记录
  Observable<HttpResult<Object>> shoptDelCost(@Query("id") String id);
 
+ @POST("?service=Hyk.addCard")//开卡
+ Observable<HttpResult<Object>> hykAddCard(@Query("uid") String uid
+         , @Query("username") String username
+         , @Query("cardid") String cardid
+ );
+
+ @POST("?service=Hyk.addCost")//消费
+ Observable<HttpResult<Object>> hykAddCost(@Query("uid") String uid
+         , @Query("username") String username
+         , @Query("mcardid") String mcardid
+         , @Query("value") String value
+         , @Query("bak") String bak
+ );
+
+ @POST("?service=Hyk.addValues")//充值
+ Observable<HttpResult<Object>> hykAddValues(@Query("uid") String uid
+         , @Query("username") String username
+         , @Query("mcardid") String mcardid
+         , @Query("money") String money
+         , @Query("value") String value
+         , @Query("bak") String bak
+ );
+
+ @POST("?service=Shopd.getGonggao")//系统公告
+ Observable<HttpResult<List<MessageModel>>> hykAddValues(@Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
+ @POST("?service=Shopd.getArticle")//系统公告详情
+ Observable<HttpResult<List<MessageModel>>> shopdGetArticle(@Query("id") String id);
+
+ @POST("?service=user.getuserpower")//获取用户权限
+ Observable<HttpResult<List<UserModel>>> userGetuserpower(@Query("shopid") String shopid
+         , @Query("uid") String uid
+ );
+
 }
 
 

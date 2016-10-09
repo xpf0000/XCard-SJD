@@ -54,13 +54,6 @@ public class MSGManageVC extends BaseActivity {
 
         list = (PullToRefreshListView) findViewById(R.id.msg_manage_list);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
-
         adapter = new MSGManageAdapter();
 
         list.setAdapter(adapter);

@@ -55,20 +55,6 @@ public class MakeCardVC extends BaseActivity {
         notic.setVisibility(View.GONE);
 
         decorView.setSystemUiVisibility(0);
-        //setFullScreen();
-
-        edit.setFocusable(true);
-        edit.setFocusableInTouchMode(true);
-        edit.requestFocus(); //edittext是一个EditText控件
-        Timer timer = new Timer(); //设置定时器
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() { //弹出软键盘的代码
-                InputMethodManager imm = (InputMethodManager)getSystemService(mContext.INPUT_METHOD_SERVICE);
-                imm.showSoftInputFromInputMethod(edit.getWindowToken(), 0);
-            }
-        }, 1000); //设置300毫秒的时长
-
 
         edit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,9 +128,8 @@ public class MakeCardVC extends BaseActivity {
 
     public void btnClick(View v)
     {
-        String txt = edit.getText().toString();
         Bundle bundle = new Bundle();
-        bundle.putString("tel",txt);
+        bundle.putSerializable("model",user);
         pushVC(ChooseCardTypeVC.class,bundle);
     }
 

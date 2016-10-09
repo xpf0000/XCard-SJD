@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:background="@color/APPPGBG"
-            android:layout_height="match_parent"
-    >
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/APPPGBG"
+    android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@color/APPPGBG"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/APPPGBG"
         >
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:layout_marginTop="12dp"
-                      android:padding="14dp"
-                      android:gravity="center_vertical"
-                      android:tag="充值卡"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="12dp"
+            android:padding="14dp"
+            android:gravity="center_vertical"
+            android:tag="充值卡"
             >
 
-            <ImageView
+            <com.x.custom.RoundAngleImageView
+                app:roundHeight="6dp"
+                app:roundWidth="6dp"
                 android:id="@+id/card_cz_info_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/card_type0"
+                android:src="@drawable/vip_card"
+                android:background="#dcdcdc"
                 />
 
             <LinearLayout
@@ -91,13 +94,13 @@
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="65dp"
-                      android:background="@color/white"
-                      android:gravity="center"
-                      android:clickable="true"
-                      android:onClick="toChangePass"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:clickable="true"
+            android:onClick="toChangePass"
             >
 
             <TextView
@@ -113,6 +116,7 @@
                 />
 
             <TextView
+                android:id="@+id/card_cz_info_yutitle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="余额: &#160;"
@@ -122,6 +126,7 @@
                 />
 
             <TextView
+                android:id="@+id/card_cz_info_yu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="￥0.00"
@@ -134,12 +139,12 @@
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:gravity="center"
-                      android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
             >
 
             <LinearLayout
@@ -149,14 +154,15 @@
                 android:padding="12dp"
                 android:orientation="vertical"
                 >
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="充值金额"
-    android:textColor="@color/APPTXTBlack"
-    android:textSize="17sp"
-    android:layout_marginTop="2dp"
-    />
+                <TextView
+                    android:id="@+id/card_cz_info_lt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="充值金额"
+                    android:textColor="@color/APPTXTBlack"
+                    android:textSize="17sp"
+                    android:layout_marginTop="2dp"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,6 +182,7 @@
                         />
 
                     <EditText
+                        android:id="@+id/card_cz_info_money"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="0.00"
@@ -207,6 +214,7 @@
                 android:orientation="vertical"
                 >
                 <TextView
+                    android:id="@+id/card_cz_info_rt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="实收金额"
@@ -233,6 +241,7 @@
                         />
 
                     <EditText
+                        android:id="@+id/card_cz_info_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="0.00"
@@ -270,35 +279,37 @@
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@color/white"
-                      android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
 
             >
-<EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="请输入备注"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:paddingLeft="14dp"
-    android:background="@null"
+            <EditText
+                android:id="@+id/card_cz_info_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入备注"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="14dp"
+                android:background="@null"
 
-    />
+                />
 
 
         </LinearLayout>
 
         <Button
             android:id="@+id/roundButton"
-            android:text="确认充值"
+            android:text="确认消费"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="20dp"
             android:textColor="@color/white"
             android:background="@drawable/xcornersbg"
             android:textSize="16sp"

@@ -5,6 +5,10 @@ import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
  * Created by X on 2016/10/1.
@@ -34,7 +38,7 @@ public class UserModel implements Serializable {
     private String truename;
     private String shopid;
     private String shopname;
-    private String power;
+    private String power = "";
     private String jobname;
     private String shopcategory;
     private String logo;
@@ -43,6 +47,20 @@ public class UserModel implements Serializable {
     private String pass;
     private String info;
     private String nickname;
+
+    private List<String> powerArr;
+
+    public List<String> getPowerArr() {
+
+        if(power == null)
+        {
+            power = "";
+        }
+
+        powerArr =  Arrays.asList(power.split(","));
+
+        return powerArr;
+    }
 
     public String getNickname() {
         return nickname;
@@ -198,6 +216,31 @@ public class UserModel implements Serializable {
         save();
     }
 
+
+    public void requestPower()
+    {
+        if(shopid == null || uid == null || shopid.equals("") || uid.equals(""))
+        {
+            return;
+        }
+
+        XNetUtil.Handle(APPService.userGetuserpower(shopid, uid), new XNetUtil.OnHttpResult<List<UserModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(List<UserModel> arrs) {
+
+                if(arrs.size()>0)
+                {
+                    power = arrs.get(0).getPower();
+                }
+
+            }
+        });
+    }
 
 
 }

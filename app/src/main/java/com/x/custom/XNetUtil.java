@@ -110,6 +110,8 @@ public class XNetUtil {
 
                     @Override
                     public void onError(Throwable e) {
+
+                        Toast.makeText(ApplicationClass.context, e.toString(), Toast.LENGTH_LONG).show();
                         res.onError(e);
                     }
 
@@ -161,8 +163,6 @@ public class XNetUtil {
 
         @Override
         public Boolean call(HttpResult<T> httpResult) {
-
-            Toast.makeText(ApplicationClass.context, httpResult.toString(), Toast.LENGTH_LONG).show();
 
             if (httpResult.getRet() != 200) {
 

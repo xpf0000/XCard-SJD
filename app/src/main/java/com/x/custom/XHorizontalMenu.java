@@ -170,8 +170,6 @@ public class XHorizontalMenu extends RecyclerView {
         int[] l = new int[2];
         getLocationOnScreen(l);
 
-        System.out.println("W: "+getWidth()+" X: "+l[0]);
-
         int middle = (getWidth()+l[0])/2;
 
         if(child != null)
@@ -186,12 +184,8 @@ public class XHorizontalMenu extends RecyclerView {
             int xx = x+child.getWidth()/2;
             int offx = middle - xx;
 
-            System.out.println("SW: "+ApplicationClass.SW+" x: "+xx+" offx: "+offx);
-
             scrollBy(-offx,0);
 
-            Toast.makeText(context, "x:"+x, Toast.LENGTH_SHORT)
-                    .show();
         }
 
 

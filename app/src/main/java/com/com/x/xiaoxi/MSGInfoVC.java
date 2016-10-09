@@ -7,6 +7,11 @@ import android.widget.TextView;
 import com.com.x.AppModel.MessageModel;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.x.custom.XNetUtil;
+
+import java.util.List;
+
+import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
  * Created by X on 2016/10/7.
@@ -55,15 +60,42 @@ public class MSGInfoVC extends BaseActivity
         mtitle.setText(model.getTitle());
         time.setText(model.getCreate_time());
 
-        web.getSettings().setDefaultTextEncodingName("utf-8");
-        web.loadDataWithBaseURL(null, BaseHtml.replace("[XHTMLX]",model.getContent()), "text/html", "utf-8", null);
-        //web.loadData(BaseHtml.replace("[XHTMLX]",model.getContent()), "text/html", "utf-8");
-
+        if(model.getGonggao())
+        {
+            getInfo();
+        }
+        else
+        {
+            web.getSettings().setDefaultTextEncodingName("utf-8");
+            web.loadDataWithBaseURL(null, BaseHtml.replace("[XHTMLX]",model.getContent()), "text/html", "utf-8", null);
+        }
 
     }
 
     @Override
     protected void setupData() {
 
+    }
+
+    private void getInfo()
+    {
+        XNetUtil.Handle(APPService.shopdGetArticle(model.getId()), new XNetUtil.OnHttpResult<List<MessageModel>>() {
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(List<MessageModel> messageModels) {
+
+                if(messageModels.size() > 0)
+                {
+                    model.setContent(messageModels.get(0).getContent());
+
+                    web.getSettings().setDefaultTextEncodingName("utf-8");
+                    web.loadDataWithBaseURL(null, BaseHtml.replace("[XHTMLX]",model.getContent()), "text/html", "utf-8", null);
+                }
+            }
+        });
     }
 }

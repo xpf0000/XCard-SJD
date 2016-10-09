@@ -30,8 +30,34 @@ public class CardTypeModel implements Serializable {
     private String uid;
     private int orlq;
     private String hcmid;
-
+    private String mcardid;
     private String info;
+    private String cardid;
+    private String values;
+
+    public String getMcardid() {
+        return mcardid;
+    }
+
+    public void setMcardid(String mcardid) {
+        this.mcardid = mcardid;
+    }
+
+    public String getCardid() {
+        return cardid;
+    }
+
+    public void setCardid(String cardid) {
+        this.cardid = cardid;
+    }
+
+    public String getValues() {
+        return values;
+    }
+
+    public void setValues(String values) {
+        this.values = values;
+    }
 
     public String getInfo() {
         return info;

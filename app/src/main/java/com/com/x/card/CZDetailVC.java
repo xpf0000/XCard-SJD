@@ -77,10 +77,7 @@ public class CZDetailVC extends BaseActivity {
     protected void setupUi() {
         setContentView(R.layout.cz_detail);
         setPageTitle("充值明细");
-        setRightTxt("删除");
-//        setRightImg(R.drawable.add);
-//        int p = DensityUtil.dip2px(mContext,7);
-//        setRightImgPadding(p,p,p,p);
+        setRightTxt("作废");
 
         stime = (TextView)findViewById(R.id.cz_detail_stime);
         etime = (TextView)findViewById(R.id.cz_detail_etime);
@@ -204,12 +201,11 @@ public class CZDetailVC extends BaseActivity {
 
             @Override
             public void onError(Throwable e) {
+
                 if(XActivityindicator.getHud() != null)
                 {
                     XActivityindicator.getHud().dismissImmediately();
                 }
-
-                doShowToastLong(e.toString());
             }
 
             @Override
@@ -422,6 +418,8 @@ public class CZDetailVC extends BaseActivity {
                         .findViewById(R.id.cz_detail_cell_user);
                 listItemView.num = (TextView) convertView
                         .findViewById(R.id.cz_detail_cell_num);
+                listItemView.icon = (ImageView) convertView
+                        .findViewById(R.id.cz_detail_cell_fei);
 
                 // 将ListItemView对象传递给convertView
                 convertView.setTag(listItemView);
@@ -446,13 +444,16 @@ public class CZDetailVC extends BaseActivity {
 
             if(dataArr.get(position).getStatus().equals("-1"))
             {
-                int c = Color.parseColor("#dcdcdc");
-                convertView.setBackgroundColor(c);
+//                int c = Color.parseColor("#dcdcdc");
+//                convertView.setBackgroundColor(c);
+                listItemView.icon.setVisibility(View.VISIBLE);
+
             }
             else
             {
-                int c = Color.parseColor("#ffffff");
-                convertView.setBackgroundColor(c);
+//                int c = Color.parseColor("#ffffff");
+//                convertView.setBackgroundColor(c);
+                listItemView.icon.setVisibility(View.GONE);
             }
 
 
@@ -471,6 +472,7 @@ public class CZDetailVC extends BaseActivity {
         TextView time;
         TextView user;
         TextView num;
+        ImageView icon;
     }
 
 }

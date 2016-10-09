@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,8 +73,8 @@ public class XFDetailVC extends BaseActivity {
     @Override
     protected void setupUi() {
         setContentView(R.layout.xf_detail);
-        setPageTitle("充值明细");
-        setRightTxt("删除");
+        setPageTitle("消费明细");
+        setRightTxt("作废");
         
         stime = (TextView)findViewById(R.id.xf_detail_stime);
         etime = (TextView)findViewById(R.id.xf_detail_etime);
@@ -201,8 +202,6 @@ public class XFDetailVC extends BaseActivity {
                 {
                     XActivityindicator.getHud().dismissImmediately();
                 }
-
-                doShowToastLong(e.toString());
             }
 
             @Override
@@ -415,6 +414,8 @@ public class XFDetailVC extends BaseActivity {
                         .findViewById(R.id.cz_detail_cell_user);
                 listItemView.num = (TextView) convertView
                         .findViewById(R.id.cz_detail_cell_num);
+                listItemView.icon = (ImageView) convertView
+                        .findViewById(R.id.cz_detail_cell_fei);
 
                 // 将ListItemView对象传递给convertView
                 convertView.setTag(listItemView);
@@ -439,13 +440,16 @@ public class XFDetailVC extends BaseActivity {
 
             if(dataArr.get(position).getStatus().equals("-1"))
             {
-                int c = Color.parseColor("#dcdcdc");
-                convertView.setBackgroundColor(c);
+//                int c = Color.parseColor("#dcdcdc");
+//                convertView.setBackgroundColor(c);
+                listItemView.icon.setVisibility(View.VISIBLE);
+
             }
             else
             {
-                int c = Color.parseColor("#ffffff");
-                convertView.setBackgroundColor(c);
+//                int c = Color.parseColor("#ffffff");
+//                convertView.setBackgroundColor(c);
+                listItemView.icon.setVisibility(View.GONE);
             }
 
 
@@ -464,6 +468,7 @@ public class XFDetailVC extends BaseActivity {
         TextView time;
         TextView user;
         TextView num;
+        ImageView icon;
     }
 
 }
