@@ -251,6 +251,21 @@ public interface ServicesAPI {
  @POST("?service=Power.delShopJob")//删除岗位
  Observable<HttpResult<Object>> powerDelShopJob(@Query("id") String id);
 
+ @Multipart
+ @POST("?service=Shopd.updateShopLogo")//修改店铺LOGO
+ Observable<HttpResult<Object>> shopdUpdateShopLogo(@PartMap Map<String , RequestBody> params);
+
+ @Multipart
+ @POST("?service=Shopd.updateShopBanner")//修改店铺Banner
+ Observable<HttpResult<Object>> shopdUpdateShopBanner(@PartMap Map<String , RequestBody> params);
+
+ @POST("?service=Hyk.getUserMoneys")//获取商家充值列表
+ Observable<HttpResult<List<MoneyDetailModel>>> hykGetUserMoneys(@Query("uid") String uid
+         , @Query("id") String cid
+         , @Query("page") String page
+         , @Query("perNumber") String perNumber
+ );
+
 
 }
 

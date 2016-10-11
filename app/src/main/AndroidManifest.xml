@@ -23,7 +23,7 @@
         android:windowSoftInputMode="adjustPan"
         >
         <activity
-            android:name=".MainActivity"
+            android:name=".LaunchPage"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -31,6 +31,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
 
         <activity
@@ -228,6 +233,11 @@
 
         <activity
             android:name="com.com.x.huodong.HDInfoVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.com.x.huiyuan.HYRecardMainVC"
             android:screenOrientation="portrait" >
         </activity>
 

@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.bigkoo.alertview.AlertView;
@@ -27,6 +28,60 @@ import java.io.File;
  * Created by X on 16/9/4.
  */
 public class XGetPhoto implements Properties {
+
+    public static class XPhotoCrapOption
+    {
+        private int aspectX = 1;
+        private int aspectY = 1;
+        private int outputX = 640;
+        private int outputY = 640;
+
+        public int getAspectX() {
+            return aspectX;
+        }
+
+        public void setAspectX(int aspectX) {
+            this.aspectX = aspectX;
+        }
+
+        public int getAspectY() {
+            return aspectY;
+        }
+
+        public void setAspectY(int aspectY) {
+            this.aspectY = aspectY;
+        }
+
+        public int getOutputX() {
+            return outputX;
+        }
+
+        public void setOutputX(int outputX) {
+            this.outputX = outputX;
+        }
+
+        public int getOutputY() {
+            return outputY;
+        }
+
+        public void setOutputY(int outputY) {
+            this.outputY = outputY;
+        }
+
+        public XPhotoCrapOption(int aspectX, int aspectY) {
+            this.aspectX = aspectX;
+            this.aspectY = aspectY;
+        }
+
+        public XPhotoCrapOption(int aspectX, int aspectY, int outputX, int outputY) {
+            this.aspectX = aspectX;
+            this.aspectY = aspectY;
+            this.outputX = outputX;
+            this.outputY = outputY;
+        }
+    }
+
+    private static XPhotoCrapOption crapOption;
 
     private static boolean allowEdit = false;
 
@@ -50,10 +105,16 @@ public class XGetPhoto implements Properties {
         show(context,listener);
     }
 
+    public static void show(Context context, @NonNull XPhotoCrapOption option, onGetPhotoListener listener) {
+
+        allowEdit = true;
+        crapOption = option;
+        show(context,listener);
+    }
+
 
     public static void show(Context context,onGetPhotoListener listener)
     {
-        allowEdit = false;
         if(context instanceof Activity)
         {
             activity = (Activity)context;
@@ -105,15 +166,7 @@ public class XGetPhoto implements Properties {
         if (state.equals(Environment.MEDIA_MOUNTED)) {
             Intent getImageByCamera = new Intent("android.media.action.IMAGE_CAPTURE");
 
-            System.out.println(activity.getExternalFilesDir(""));
-            System.out.println(activity.getExternalFilesDir(null));
-
             File file = new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME);
-
-            System.out.println(file);
-            System.out.println(file.exists());
-            System.out.println(file.canWrite());
-            System.out.println(file.getAbsolutePath());
 
             getImageByCamera.putExtra(
                     MediaStore.EXTRA_OUTPUT,
@@ -137,6 +190,8 @@ public class XGetPhoto implements Properties {
 
         if(resultCode == 0)
         {
+            allowEdit = false;
+            crapOption = null;
             return;
         }
 
@@ -162,6 +217,7 @@ public class XGetPhoto implements Properties {
                 }
             }
 
+            crapOption = null;
             allowEdit = false;
             return;
         }
@@ -230,22 +286,10 @@ public class XGetPhoto implements Properties {
             {
                 e.printStackTrace();
             }
-
-//            System.out.println("type is RESULT_REQUEST_CODE !!!!!!");
-//            Bundle extras = data.getExtras();
-//
-//            System.out.println("extras is "+extras+" !!!!!!");
-//
-//            if (extras != null) {
-//                Bitmap img = extras.getParcelable("data");
-//                if(img != null && myListener != null)
-//                {
-//                    myListener.getPhoto(img);
-//                }
-//            }
         }
 
         allowEdit = false;
+        crapOption = null;
     }
 
     /**
@@ -261,12 +305,23 @@ public class XGetPhoto implements Properties {
         intent.setDataAndType(uri, "image/*");
         // 设置裁剪
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高 有些手机不能支持太高，可写320等
-        intent.putExtra("outputX", 640);
-        intent.putExtra("outputY", 640);
+
+        if(crapOption != null)
+        {
+            intent.putExtra("aspectX", crapOption.getAspectX());
+            intent.putExtra("aspectY", crapOption.getAspectY());
+            intent.putExtra("outputX", crapOption.getOutputX());
+            intent.putExtra("outputY", crapOption.getOutputY());
+        }
+        else
+        {
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("outputX", 640);
+            intent.putExtra("outputY", 640);
+        }
+
+
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT,  Uri.fromFile(new File(activity.getExternalFilesDir(""), IMAGE_FILE_NAME)));
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());

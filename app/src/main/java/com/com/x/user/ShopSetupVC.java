@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.UserModel;
 import com.com.x.user.ShopSetupVCPermissionsDispatcher;
 import com.example.x.xcard.ApplicationClass;
@@ -24,11 +26,18 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.x.custom.DensityUtil;
 import com.x.custom.XAPPUtil;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XGetPhoto;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -49,9 +58,49 @@ public class ShopSetupVC extends BaseActivity {
     private RoundedImageView img;
     private TextView name;
     private TextView type;
+    private TextView btn;
     private ImageView banner;
     private Bitmap bannerImg;
+    private Bitmap headerImg;
     String sid = ApplicationClass.APPDataCache.User.getShopid();
+
+    XNetUtil.OnHttpResult result =  new XNetUtil.OnHttpResult<Boolean>() {
+        @Override
+        public void onError(Throwable e) {
+            XNetUtil.APPPrintln(e);
+            btn.setEnabled(true);
+        }
+
+        @Override
+        public void onSuccess(Boolean aBoolean) {
+            btn.setEnabled(true);
+        }
+    };
+
+    private boolean isHeader = true;
+
+    private XGetPhoto.onGetPhotoListener imgListener = new XGetPhoto.onGetPhotoListener() {
+        @Override
+        public void getPhoto(Bitmap img) {
+
+            XNetUtil.APPPrintln("W: "+img.getWidth());
+            XNetUtil.APPPrintln("H: "+img.getHeight());
+
+            if(isHeader)
+            {
+                headerImg = img;
+                Drawable drawable =new BitmapDrawable(getResources(), img);
+                ShopSetupVC.this.img.setImageBitmap(img);
+            }
+            else
+            {
+                bannerImg = img;
+                Drawable drawable =new BitmapDrawable(getResources(), img);
+                banner.setImageBitmap(img);
+            }
+
+        }
+    };
 
     @Override
     protected void setupUi() {
@@ -64,6 +113,7 @@ public class ShopSetupVC extends BaseActivity {
         img = (RoundedImageView)findViewById(R.id.shop_setup_img);
         name = (TextView)findViewById(R.id.shop_setup_name);
         type = (TextView)findViewById(R.id.shop_setup_type);
+        btn = (TextView)findViewById(R.id.shop_setup_btn);
 
         banner = (ImageView)findViewById(R.id.shop_setup_banner);
 
@@ -71,7 +121,7 @@ public class ShopSetupVC extends BaseActivity {
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
 
         int w = ApplicationClass.SW - DensityUtil.dip2px(mContext,36);
-        int h = (int)(w * 7 / 16.0);
+        int h = (int)(w/750.0*313.0*w/375.0);
 
         layoutParams.height = h;
         banner.setLayoutParams(layoutParams);
@@ -125,8 +175,15 @@ public class ShopSetupVC extends BaseActivity {
 
     }
 
+    public void chooseHeaderImg(final View v)
+    {
+        isHeader = true;
+        ShopSetupVCPermissionsDispatcher.MethodAWithCheck(this);
+    }
+
     public void chooseBannerImg(final View v)
     {
+        isHeader = false;
         ShopSetupVCPermissionsDispatcher.MethodAWithCheck(this);
     }
 
@@ -142,22 +199,53 @@ public class ShopSetupVC extends BaseActivity {
 
         v.setEnabled(false);
 
-        XNetUtil.Handle(APPService.shopdUpdateShopInfo(sid,a,t), "信息修改成功", "信息修改失败", new XNetUtil.OnHttpResult<Boolean>() {
-            @Override
-            public void onError(Throwable e) {
-                XNetUtil.APPPrintln(e);
-                v.setEnabled(true);
-            }
+        XNetUtil.Handle(APPService.shopdUpdateShopInfo(sid,a,t), "信息修改成功", "信息修改失败", result);
 
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                v.setEnabled(true);
-            }
-        });
+        if(headerImg != null)
+        {
+            String sid = ApplicationClass.APPDataCache.User.getShopid();
+
+            Map<String , RequestBody> params = new HashMap<>();
+            params.put("id",createBody(sid));
+            params.put("file\"; filename=\"xtest.jpg",createBody(headerImg));
+
+            v.setEnabled(false);
+
+            XNetUtil.Handle(APPService.shopdUpdateShopLogo(params), null, "LOGO修改失败", result);
+
+        }
+
+        if(bannerImg != null)
+        {
+            String sid = ApplicationClass.APPDataCache.User.getShopid();
+
+            Map<String , RequestBody> params = new HashMap<>();
+            params.put("id",createBody(sid));
+            params.put("file\"; filename=\"xtest.jpg",createBody(bannerImg));
+
+            v.setEnabled(false);
+
+            XNetUtil.Handle(APPService.shopdUpdateShopBanner(params), null, "Banner修改失败", result);
+
+        }
+
+
     }
 
 
-
+    private RequestBody createBody(Object obj)
+    {
+        if(obj instanceof String)
+        {
+            return RequestBody.create(MediaType.parse("text/plain"), (String) obj);
+        }
+        else
+        {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ((Bitmap)obj).compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            return RequestBody.create(MediaType.parse("image/jpg"), baos.toByteArray());
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -168,17 +256,14 @@ public class ShopSetupVC extends BaseActivity {
 
     @NeedsPermission({Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE})
     void MethodA() {
-
-        XGetPhoto.show(this,true,new XGetPhoto.onGetPhotoListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public void getPhoto(Bitmap img) {
-                bannerImg = img;
-                Drawable drawable =new BitmapDrawable(getResources(), img);
-                banner.setImageBitmap(img);
-            }
-        });
-
+        if(isHeader)
+        {
+            XGetPhoto.show(this,imgListener);
+        }
+        else
+        {
+            XGetPhoto.show(this,new XGetPhoto.XPhotoCrapOption(16,7),imgListener);
+        }
     }
 
     @Override

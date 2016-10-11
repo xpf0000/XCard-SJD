@@ -34,6 +34,16 @@ public class MoneyDetailModel implements Serializable {
     private String opername;
     private String bak;
     private String status;
+    /**
+     * shopname : 怀府网
+     * xftype : 2
+     * cardtype : 4
+     */
+
+    private String shopname;
+    private String xftype;
+    private String cardtype;
+
 
     public String getStatus() {
         return status;
@@ -131,5 +141,29 @@ public class MoneyDetailModel implements Serializable {
 
     public void setBak(String bak) {
         this.bak = bak;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    public String getXftype() {
+        return xftype;
+    }
+
+    public void setXftype(String xftype) {
+        this.xftype = xftype;
+    }
+
+    public String getCardtype() {
+        return cardtype;
+    }
+
+    public void setCardtype(String cardtype) {
+        this.cardtype = cardtype;
     }
 }
