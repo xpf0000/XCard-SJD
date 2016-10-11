@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,11 +16,14 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.com.x.AppModel.YuangongModel;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XEasyList;
 import com.x.custom.XHorizontalBaseFragment;
 import com.x.custom.XNetUtil;
@@ -121,7 +125,56 @@ public class YGManageLeft extends XHorizontalBaseFragment
             }
         });
 
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                showAlert(position-1);
+            }
+        });
+
         return v;
+    }
+
+    private void showAlert(final int index) {
+        AlertView Alert = new AlertView("删除员工", null, null, null,
+                new String[]{"删除", "取消"},
+                context, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+                    doDel(index);
+                }
+            }
+        });
+
+        XActivityindicator.setAlert(Alert);
+
+        Alert.show();
+    }
+
+    private void doDel(int index)
+    {
+        String id = dataArr.get(index).getId();
+        XNetUtil.Handle(APPService.powerDelShopWorker(id), "员工删除成功", "员工删除失败", new XNetUtil.OnHttpResult<Boolean>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+                if(aBoolean)
+                {
+                    end = false;
+                    page = 1;
+                    getData();
+                }
+            }
+        });
+
     }
 
     @Override

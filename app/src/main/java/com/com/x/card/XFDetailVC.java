@@ -74,7 +74,7 @@ public class XFDetailVC extends BaseActivity {
     protected void setupUi() {
         setContentView(R.layout.xf_detail);
         setPageTitle("消费明细");
-        setRightTxt("作废");
+        //setRightTxt("作废");
         
         stime = (TextView)findViewById(R.id.xf_detail_stime);
         etime = (TextView)findViewById(R.id.xf_detail_etime);
@@ -83,19 +83,30 @@ public class XFDetailVC extends BaseActivity {
         list = (PullToRefreshListView)findViewById(R.id.xf_detail_list);
         adapter = new XFDetailAdapter();
         list.setAdapter(adapter);
+
+
+        list.getRefreshableView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+
+                XNetUtil.APPPrintln("position: "+position);
+
+                selectRow = position - 1;
+                alertShow();
+
+                return true;
+            }
+        });
+
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                selectRow = i-1;
-                if(isDeling)
-                {
-                    alertShow();
-                }
-                else
-                {
-                    toInfo();
-                }
+                toInfo(i-1);
 
             }
         });
@@ -180,11 +191,11 @@ public class XFDetailVC extends BaseActivity {
         rightAlert.show();
     }
 
-    private void toInfo()
+    private void toInfo(int index)
     {
         Bundle bundle = new Bundle();
         bundle.putString("title","消费明细");
-        bundle.putSerializable("model",dataArr.get(selectRow));
+        bundle.putSerializable("model",dataArr.get(index));
         pushVC(CardMoneyDetailVC.class,bundle);
     }
 
@@ -225,16 +236,6 @@ public class XFDetailVC extends BaseActivity {
     @Override
     public void rightClick(View v) {
         super.rightClick(v);
-        //alertShow();
-        isDeling = !isDeling;
-        if(isDeling)
-        {
-            setRightTxt("完成");
-        }
-        else
-        {
-            setRightTxt("删除");
-        }
 
     }
 
@@ -440,15 +441,26 @@ public class XFDetailVC extends BaseActivity {
 
             if(dataArr.get(position).getStatus().equals("-1"))
             {
-//                int c = Color.parseColor("#dcdcdc");
-//                convertView.setBackgroundColor(c);
+                int c = Color.parseColor("#dcdcdc");
+
+                listItemView.name.setTextColor(c);
+                listItemView.tel.setTextColor(c);
+                listItemView.time.setTextColor(c);
+                listItemView.user.setTextColor(c);
+                listItemView.num.setTextColor(c);
+
                 listItemView.icon.setVisibility(View.VISIBLE);
 
             }
             else
             {
-//                int c = Color.parseColor("#ffffff");
-//                convertView.setBackgroundColor(c);
+                int c = Color.parseColor("#333333");
+                listItemView.name.setTextColor(c);
+                listItemView.tel.setTextColor(Color.parseColor("#999999"));
+                listItemView.time.setTextColor(c);
+                listItemView.user.setTextColor(c);
+                listItemView.num.setTextColor(c);
+
                 listItemView.icon.setVisibility(View.GONE);
             }
 

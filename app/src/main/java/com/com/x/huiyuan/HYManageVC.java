@@ -314,7 +314,8 @@ public class HYManageVC extends BaseActivity {
 
             listItemView.name.setText(name);
             listItemView.tel.setText(tel);
-            listItemView.no.setText("NO."+no);
+            //listItemView.no.setText("NO."+no);
+            listItemView.no.setText("");
 
             // 返回convertView对象
             return convertView;

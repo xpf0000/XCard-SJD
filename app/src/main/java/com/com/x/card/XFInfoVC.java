@@ -38,6 +38,10 @@ public class XFInfoVC extends BaseActivity {
     private TextView yuTitle;
     private TextView lt;
     private TextView rt;
+
+    private TextView ly;
+    private TextView ry;
+
     private EditText montyET;
     private EditText valueET;
     private EditText info;
@@ -57,6 +61,10 @@ public class XFInfoVC extends BaseActivity {
         yuTv = (TextView)findViewById(R.id.card_xf_info_yu);
         lt = (TextView)findViewById(R.id.card_xf_info_lt);
         rt = (TextView)findViewById(R.id.card_xf_info_rt);
+
+        ly = (TextView)findViewById(R.id.card_xf_info_leftY);
+        ry = (TextView)findViewById(R.id.card_xf_info_rightY);
+
         yuTitle = (TextView)findViewById(R.id.card_xf_info_yutitle);
 
         montyET = (EditText) findViewById(R.id.card_xf_info_money);
@@ -85,6 +93,10 @@ public class XFInfoVC extends BaseActivity {
             yuTv.setText(card.getValues()+"次");
             lt.setText("消费次数");
             rt.setText("实扣次数");
+
+            ly.setVisibility(View.GONE);
+            ry.setVisibility(View.GONE);
+
         }
         else if (card.getType().equals("打折卡"))
         {
@@ -92,6 +104,12 @@ public class XFInfoVC extends BaseActivity {
             yuTv.setText(card.getValues());
             lt.setText("消费金额");
             rt.setText("实扣金额");
+        }
+        else if(card.getType().equals("积分卡"))
+        {
+            yuTv.setText("￥"+card.getValues());
+            lt.setText("消费金额");
+            rt.setText("积分");
         }
         else
         {

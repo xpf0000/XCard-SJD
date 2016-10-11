@@ -37,6 +37,8 @@ public class XFManageVC extends BaseActivity {
     private TextView num7;
     private TextView num30;
     private TextView numall;
+    private TextView jidu;
+    private TextView year;
     String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
@@ -48,6 +50,9 @@ public class XFManageVC extends BaseActivity {
         num7=(TextView)findViewById(R.id.xf_manage_num7);
         num30=(TextView)findViewById(R.id.xf_manage_num30);
         numall=(TextView)findViewById(R.id.xf_manage_numall);
+
+        jidu=(TextView)findViewById(R.id.xf_manage_numjidu);
+        year=(TextView)findViewById(R.id.xf_manage_numyear);
 
         getData();
 
@@ -70,6 +75,9 @@ public class XFManageVC extends BaseActivity {
                     num7.setText(valueSumModel.getWeek()+"次");
                     num30.setText(valueSumModel.getMonth()+"次");
                     numall.setText(valueSumModel.getAll()+"次");
+
+                    jidu.setText(valueSumModel.getJidu()+"次");
+                    year.setText(valueSumModel.getYear()+"次");
                 }
 
             }

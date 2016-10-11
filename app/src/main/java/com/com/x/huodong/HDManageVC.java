@@ -17,6 +17,7 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.com.x.AppModel.ActivityModel;
 import com.com.x.AppModel.MessageModel;
 import com.com.x.card.CardAddVC;
+import com.com.x.card.CardMoneyDetailVC;
 import com.com.x.xiaoxi.MSGManageVC;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
@@ -89,12 +90,31 @@ public class HDManageVC extends BaseActivity {
         });
 
 
+
+
+        list.getRefreshableView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+
+                showAlert(position-1);
+
+                return true;
+            }
+        });
+
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showAlert(i-1);
+
+                toInfo(i-1);
+
             }
         });
+
 
         getData();
 
@@ -109,9 +129,15 @@ public class HDManageVC extends BaseActivity {
             }
         });
 
-
-
     }
+
+    private void toInfo(int index)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("model",dataArr.get(index));
+        pushVC(HDInfoVC.class,bundle);
+    }
+
 
     private void showAlert(final int p)
     {

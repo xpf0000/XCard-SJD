@@ -203,8 +203,31 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="首页广告图片"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
 
+                />
+
+            <ImageView
+                android:id="@+id/shop_setup_banner"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="#c6c6c6"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="12dp"
+                android:scaleType="fitXY"
+                android:clickable="true"
+                android:onClick="chooseBannerImg"
+                />
+
+        </LinearLayout>
 
     </ScrollView>
 

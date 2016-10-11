@@ -36,6 +36,10 @@ public class CZManagerVC extends BaseActivity  {
     private TextView dnum;
     private TextView num7;
     private TextView num30;
+
+    private TextView jidu;
+    private TextView year;
+
     private TextView numall;
 
     String sid = ApplicationClass.APPDataCache.User.getShopid();
@@ -50,6 +54,9 @@ public class CZManagerVC extends BaseActivity  {
         num7=(TextView)findViewById(R.id.cz_manage_7num);
         num30=(TextView)findViewById(R.id.cz_manage_30num);
         numall=(TextView)findViewById(R.id.cz_manage_allnum);
+
+        jidu=(TextView)findViewById(R.id.cz_manage_numjidu);
+        year=(TextView)findViewById(R.id.cz_manage_numyear);
 
 
         getData();
@@ -74,6 +81,8 @@ public class CZManagerVC extends BaseActivity  {
                     num7.setText("￥"+valueSumModel.getWeek());
                     num30.setText("￥"+valueSumModel.getMonth());
                     numall.setText("￥"+valueSumModel.getAll());
+                    jidu.setText("￥"+valueSumModel.getJidu());
+                    year.setText("￥"+valueSumModel.getYear());
                 }
 
             }

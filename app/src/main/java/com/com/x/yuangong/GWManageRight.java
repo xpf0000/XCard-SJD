@@ -139,14 +139,21 @@ public class GWManageRight extends XHorizontalBaseFragment
     private void rightAlertShow()
     {
         AlertView rightAlert = new AlertView(null, null, null, null,
-                new String[]{"修改岗位名称", "修改岗位权限", "取消"},
+                new String[]{"修改岗位名称", "修改岗位权限", "删除岗位","取消"},
                 context, AlertView.Style.Alert, new OnItemClickListener() {
             @Override
             public void onItemClick(Object o, int position) {
                 System.out.println("点击了: "+position);
                 doType = position;
+
+                if(position == 2)
+                {
+                    doDel(selectIndex);
+                }
             }
         });
+
+        XActivityindicator.setAlert(rightAlert);
 
         rightAlert.setOnDismissListener(new OnDismissListener() {
             @Override
@@ -160,6 +167,30 @@ public class GWManageRight extends XHorizontalBaseFragment
         });
 
         rightAlert.show();
+    }
+
+    private void doDel(int index)
+    {
+        String id = dataArr.get(index).getId();
+        XNetUtil.Handle(APPService.powerDelShopJob(id), "岗位删除成功", "岗位删除失败", new XNetUtil.OnHttpResult<Boolean>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+                if(aBoolean)
+                {
+                    end = false;
+                    page = 1;
+                    getData();
+                }
+            }
+        });
+
     }
 
     @Override

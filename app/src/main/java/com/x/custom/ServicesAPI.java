@@ -245,6 +245,13 @@ public interface ServicesAPI {
          , @Query("uid") String uid
  );
 
+ @POST("?service=Power.delShopWorker")//删除员工
+ Observable<HttpResult<Object>> powerDelShopWorker(@Query("id") String id);
+
+ @POST("?service=Power.delShopJob")//删除岗位
+ Observable<HttpResult<Object>> powerDelShopJob(@Query("id") String id);
+
+
 }
 
 

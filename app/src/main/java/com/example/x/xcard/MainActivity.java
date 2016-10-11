@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
@@ -34,6 +35,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.robin.lazy.cache.CacheLoaderManager;
 import com.robin.lazy.cache.disk.naming.FileNameGenerator;
 import com.robin.lazy.cache.disk.naming.HashCodeFileNameGenerator;
+import com.x.custom.DensityUtil;
 import com.x.custom.XActivityindicator;
 import com.x.custom.XGridView;
 import com.x.custom.XNetUtil;
@@ -160,6 +162,16 @@ public class MainActivity extends BaseActivity {
         convenientBanner.setPageIndicator(new int[]{R.drawable.banner_dot_default, R.drawable.banner_dot_selected})
                 //设置指示器的方向
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
+
+
+        ViewGroup.LayoutParams layoutParams = convenientBanner.getLayoutParams();
+
+        int w = ApplicationClass.SW - DensityUtil.dip2px(mContext,28);
+        int h = (int)(w * 7 / 16.0);
+
+        layoutParams.height = h;
+        convenientBanner.setLayoutParams(layoutParams);
+
 
         getBanner();
 

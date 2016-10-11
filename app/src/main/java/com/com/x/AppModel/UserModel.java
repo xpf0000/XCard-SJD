@@ -47,6 +47,15 @@ public class UserModel implements Serializable {
     private String pass;
     private String info;
     private String nickname;
+    private String banner;
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
 
     private List<String> powerArr;
 

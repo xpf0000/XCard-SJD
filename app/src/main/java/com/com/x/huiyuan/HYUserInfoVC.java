@@ -167,7 +167,7 @@ public class HYUserInfoVC extends BaseActivity {
             // 获取到mList中指定索引位置的资源
             //int img = (int) dataArr.get(position).
             String name = (String) dataArr.get(position).getType();
-            String info = (String) dataArr.get(position).getInfo();
+            String info = (String) dataArr.get(position).getMcardid();
             String color = (String) dataArr.get(position).getColor();
 
 
@@ -175,7 +175,7 @@ public class HYUserInfoVC extends BaseActivity {
             //listItemView.header.setImageResource(img);
             //listItemView.imageView.setImageDrawable(img);
             listItemView.name.setText(name);
-            listItemView.info.setText(info);
+            listItemView.info.setText("NO."+info);
             listItemView.img.setBackgroundColor(Color.parseColor("#"+color));
 
             // 返回convertView对象

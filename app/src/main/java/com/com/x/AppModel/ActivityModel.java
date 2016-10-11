@@ -2,11 +2,13 @@ package com.com.x.AppModel;
 
 import com.x.custom.DateUtils;
 
+import java.io.Serializable;
+
 /**
  * Created by X on 2016/10/7.
  */
 
-public class ActivityModel {
+public class ActivityModel implements Serializable {
 
 
     /**
