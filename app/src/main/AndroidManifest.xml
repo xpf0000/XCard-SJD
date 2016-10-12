@@ -241,6 +241,11 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name="com.com.x.user.RegistVC"
+            android:screenOrientation="portrait" >
+        </activity>
+
 
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

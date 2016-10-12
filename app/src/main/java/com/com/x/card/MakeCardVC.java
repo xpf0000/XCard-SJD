@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.com.x.AppModel.UserModel;
 import com.com.x.user.FindPWVC;
+import com.com.x.user.RegistVC;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.List;
 import java.util.Timer;
@@ -46,6 +48,13 @@ public class MakeCardVC extends BaseActivity {
     protected void setupUi() {
         setContentView(R.layout.card_banka);
         setPageTitle(title);
+
+        XNotificationCenter.getInstance().addObserver("RegistSuccess", new XNotificationCenter.OnNoticeListener() {
+            @Override
+            public void OnNotice(Object obj) {
+                checkUser();
+            }
+        });
 
         edit = (EditText)findViewById(R.id.card_make_edit);
         notic = (LinearLayout)findViewById(R.id.card_make_notic);
@@ -101,9 +110,10 @@ public class MakeCardVC extends BaseActivity {
                     }
                     else
                     {
+                        user = null;
                         msg.setText("该手机号码暂时不是会员, 请先注册为怀府网会员");
-                        btn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.CardBtnGray));
-                        btn.setClickable(false);
+                        btn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.APPOrange));
+                        btn.setClickable(true);
                     }
 
                 }
@@ -128,9 +138,20 @@ public class MakeCardVC extends BaseActivity {
 
     public void btnClick(View v)
     {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("model",user);
-        pushVC(ChooseCardTypeVC.class,bundle);
+        if(user == null)
+        {
+            String txt = edit.getText().toString().trim();
+            Bundle bundle = new Bundle();
+            bundle.putString("tel",txt);
+            pushVC(RegistVC.class,bundle);
+        }
+        else
+        {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("model",user);
+            pushVC(ChooseCardTypeVC.class,bundle);
+        }
+
     }
 
 }

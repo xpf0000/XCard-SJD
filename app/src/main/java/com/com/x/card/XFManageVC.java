@@ -12,6 +12,7 @@ import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.x.custom.DensityUtil;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,21 @@ public class XFManageVC extends BaseActivity {
         year=(TextView)findViewById(R.id.xf_manage_numyear);
 
         getData();
+
+        XNotificationCenter.getInstance().addObserver("MondetailDelSuccess", new XNotificationCenter.OnNoticeListener() {
+
+            @Override
+            public void OnNotice(Object obj) {
+                getData();
+            }
+        });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        XNotificationCenter.getInstance().removeObserver("MondetailDelSuccess");
 
     }
 

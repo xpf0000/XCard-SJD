@@ -26,6 +26,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.DensityUtil;
 import com.x.custom.XActivityindicator;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -219,6 +220,7 @@ public class XFDetailVC extends BaseActivity {
             public void onSuccess(Boolean aBoolean) {
                 if(aBoolean)
                 {
+                    XNotificationCenter.getInstance().postNotice("MondetailDelSuccess",null);
                     end = false;
                     page = 1;
                     getData();

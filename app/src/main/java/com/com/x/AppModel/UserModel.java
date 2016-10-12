@@ -236,7 +236,7 @@ public class UserModel implements Serializable {
         XNetUtil.Handle(APPService.userGetuserpower(shopid, uid), new XNetUtil.OnHttpResult<List<UserModel>>() {
             @Override
             public void onError(Throwable e) {
-
+                power = "";
             }
 
             @Override
@@ -245,6 +245,10 @@ public class UserModel implements Serializable {
                 if(arrs.size()>0)
                 {
                     power = arrs.get(0).getPower();
+                }
+                else
+                {
+                    power = "";
                 }
 
             }

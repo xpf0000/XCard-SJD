@@ -159,8 +159,8 @@ public class HDCreateVC  extends BaseActivity {
         params.put("uid",createBody(uid));
         params.put("shopid",createBody(sid));
         params.put("title",createBody(title.getText().toString().trim()));
-        params.put("stime",createBody(stime.getText().toString().trim()));
-        params.put("etime",createBody(etime.getText().toString().trim()));
+        params.put("stime",createBody(sdate.getTime()+""));
+        params.put("etime",createBody(edate.getTime()+""));
         params.put("address",createBody(address.getText().toString().trim()));
         params.put("tel",createBody(tel.getText().toString().trim()));
         params.put("content",createBody(info.getText().toString().trim()));

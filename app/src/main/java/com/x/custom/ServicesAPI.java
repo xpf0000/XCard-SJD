@@ -38,7 +38,11 @@ public interface ServicesAPI {
     @POST("?service=User.login")
     Observable<HttpResult<List<UserModel>>> doLogin(@Query("mobile") String mobile, @Query("password") String password);
 
-    @POST("?service=User.getUserInfoM")//根据手机号获取会员信息
+    @POST("?service=User.register")
+    Observable<HttpResult<Object>> userRegister(@Query("mobile") String mobile, @Query("truename") String truename);
+
+
+ @POST("?service=User.getUserInfoM")//根据手机号获取会员信息
     Observable<HttpResult<List<UserModel>>> userGetUserInfoM(@Query("mobile") String mobile);
 
     @POST("?service=User.smsSend")//发送验证码  type: 1 注册 2 找回密码
