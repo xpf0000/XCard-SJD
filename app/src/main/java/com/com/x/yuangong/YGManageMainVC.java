@@ -38,6 +38,7 @@ import com.example.x.xcard.R;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XHorizontalMain;
 import com.x.custom.XHorizontalMenu;
 import com.x.custom.XNetUtil;
@@ -172,6 +173,9 @@ public class YGManageMainVC extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("model",model);
                     pushVC(PowerManageVC.class,bundle);
+
+                    XNetUtil.APPPrintln("To PowerManageVC !!!!!!!!1");
+
                 }
 
             }
@@ -187,6 +191,7 @@ public class YGManageMainVC extends BaseActivity {
 
     public void alertShow()
     {
+        XActivityindicator.hide();
         mAlertViewExt.show();
         if(alertLeftBtn != null)
         {

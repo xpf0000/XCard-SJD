@@ -63,7 +63,7 @@
             android:padding="10px"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="18dp"
-            android:inputType="phone"
+            android:inputType="text"
             android:gravity="center_vertical|right"
             />
 
@@ -230,7 +230,7 @@
                     android:padding="10px"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="18dp"
-                    android:inputType="phone"
+                    android:inputType="text"
                     android:gravity="center_vertical|right"
                     />
 

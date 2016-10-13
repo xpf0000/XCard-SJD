@@ -156,6 +156,7 @@ public interface ServicesAPI {
          , @Query("username") String username
          , @Query("title") String title
          , @Query("content") String content
+         , @Query("shopid") String shopid
  );
 
  @POST("?service=Shopa.getShopHD")//活动列表

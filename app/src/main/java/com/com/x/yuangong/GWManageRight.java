@@ -51,7 +51,6 @@ public class GWManageRight extends XHorizontalBaseFragment
     private Context context;
 
     public int selectIndex = 0;
-    private int doType = -1;
 
     public void refresh()
     {
@@ -144,8 +143,10 @@ public class GWManageRight extends XHorizontalBaseFragment
             @Override
             public void onItemClick(Object o, int position) {
                 System.out.println("点击了: "+position);
-                doType = position;
-
+                if(myListener != null)
+                {
+                    myListener.showMessage(position);
+                }
                 if(position == 2)
                 {
                     doDel(selectIndex);
@@ -154,17 +155,6 @@ public class GWManageRight extends XHorizontalBaseFragment
         });
 
         XActivityindicator.setAlert(rightAlert);
-
-        rightAlert.setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(Object o) {
-
-                if(myListener != null)
-                {
-                    myListener.showMessage(doType);
-                }
-            }
-        });
 
         rightAlert.show();
     }

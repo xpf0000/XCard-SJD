@@ -354,7 +354,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		});
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
 		mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
 		toolbar = mToolBarHelper.getToolBar() ;

@@ -1,24 +1,18 @@
 package com.com.x.user;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.UserModel;
-import com.com.x.user.ShopSetupVCPermissionsDispatcher;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
@@ -26,10 +20,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.x.custom.DensityUtil;
 import com.x.custom.XAPPUtil;
-import com.x.custom.XActivityindicator;
 import com.x.custom.XGetPhoto;
 import com.x.custom.XNetUtil;
-import com.x.custom.XNotificationCenter;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;

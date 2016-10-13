@@ -30,6 +30,7 @@ public class MSGSendMSGVC extends BaseActivity {
 
     String uid = ApplicationClass.APPDataCache.User.getUid();
     String username = ApplicationClass.APPDataCache.User.getUsername();
+    String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     @Override
     protected void setupUi() {
@@ -61,7 +62,7 @@ public class MSGSendMSGVC extends BaseActivity {
 
         v.setEnabled(false);
 
-        XNetUtil.Handle(APPService.shopaAddMessages(uid,username,t, i), "消息发送成功", "消息发送失败", new XNetUtil.OnHttpResult<Boolean>() {
+        XNetUtil.Handle(APPService.shopaAddMessages(uid,username,t, i,sid), "消息发送成功", "消息发送失败", new XNetUtil.OnHttpResult<Boolean>() {
             @Override
             public void onError(Throwable e) {
                 XNetUtil.APPPrintln(e);

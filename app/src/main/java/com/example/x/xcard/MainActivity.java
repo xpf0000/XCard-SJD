@@ -80,9 +80,6 @@ public class MainActivity extends BaseActivity {
         doHideBackBtn();
         //setRightImg(R.drawable.user_head);
 
-        setPageTitle("车港湾");
-
-
         gview = (XGridView) findViewById(R.id.homt_gview);
         gview.setScrollEnable(false);
 
@@ -243,6 +240,15 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         //开始自动翻页
         //convenientBanner.startTurning(5000);
+
+        if(APPDataCache.User.getUid().equals(""))
+        {
+            setPageTitle("怀府网");
+        }
+        else
+        {
+            setPageTitle(APPDataCache.User.getShopname());
+        }
 
         APPDataCache.User.requestPower();
     }

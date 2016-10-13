@@ -26,6 +26,8 @@ public class XActivityindicator {
         if(alert != null && alert.get() != null)
         {
             alert.get().dismissImmediately();
+            alert.clear();
+            alert = null;
         }
 
         if(hud != null)
