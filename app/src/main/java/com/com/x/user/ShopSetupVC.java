@@ -250,7 +250,7 @@ public class ShopSetupVC extends BaseActivity {
     void MethodA() {
         if(isHeader)
         {
-            XGetPhoto.show(this,imgListener);
+            XGetPhoto.show(this,new XGetPhoto.XPhotoCrapOption(1,1),imgListener);
         }
         else
         {

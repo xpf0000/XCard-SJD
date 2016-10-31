@@ -31,9 +31,7 @@ dependencies {
     compile 'com.zcw:togglebutton-library:1.0.0'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.bigkoo:alertview:1.0.3'
-    //compile 'com.github.mychoices:Jgraph:v1.2'
     compile 'com.github.lecho:hellocharts-android:v1.5.8'
-
     compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
     compile 'com.makeramen:roundedimageview:2.2.1'
