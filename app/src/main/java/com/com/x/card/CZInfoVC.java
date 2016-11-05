@@ -14,6 +14,7 @@ import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.CardTypeModel;
 import com.com.x.AppModel.UserModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.x.custom.RoundAngleImageView;
@@ -112,8 +113,9 @@ public class CZInfoVC extends BaseActivity {
         String value = montyET.getText().toString().trim();
         String money = valueET.getText().toString().trim();
         String bak = info.getText().toString().trim();
+        String uid = ApplicationClass.APPDataCache.User.getUid();
 
-        XNetUtil.Handle(APPService.hykAddValues(user.getUid(), user.getUsername(), card.getMcardid(),money,value,bak), "充值成功", "充值失败", new XNetUtil.OnHttpResult<Boolean>() {
+        XNetUtil.Handle(APPService.hykAddValues(user.getUid(), user.getUsername(), card.getMcardid(),money,value,bak,uid), "充值成功", "充值失败", new XNetUtil.OnHttpResult<Boolean>() {
             @Override
             public void onError(Throwable e) {
                 XNetUtil.APPPrintln(e);

@@ -229,6 +229,7 @@ public interface ServicesAPI {
          , @Query("mcardid") String mcardid
          , @Query("value") String value
          , @Query("bak") String bak
+         , @Query("operuid") String operuid
  );
 
  @POST("?service=Hyk.addValues")//充值
@@ -238,6 +239,7 @@ public interface ServicesAPI {
          , @Query("money") String money
          , @Query("value") String value
          , @Query("bak") String bak
+         , @Query("operuid") String operuid
  );
 
  @POST("?service=Shopd.getGonggao")//系统公告

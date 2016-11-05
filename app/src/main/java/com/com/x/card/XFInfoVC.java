@@ -13,6 +13,7 @@ import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.com.x.AppModel.CardTypeModel;
 import com.com.x.AppModel.UserModel;
+import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
 import com.x.custom.RoundAngleImageView;
@@ -177,8 +178,9 @@ public class XFInfoVC extends BaseActivity {
 
         String value = montyET.getText().toString().trim();
         String bak = info.getText().toString().trim();
+        String uid = ApplicationClass.APPDataCache.User.getUid();
 
-        XNetUtil.Handle(APPService.hykAddCost(user.getUid(), user.getUsername(), card.getMcardid(),value,bak), "消费成功", "消费失败", new XNetUtil.OnHttpResult<Boolean>() {
+        XNetUtil.Handle(APPService.hykAddCost(user.getUid(), user.getUsername(), card.getMcardid(),value,bak,uid), "消费成功", "消费失败", new XNetUtil.OnHttpResult<Boolean>() {
             @Override
             public void onError(Throwable e) {
                 XNetUtil.APPPrintln(e);
