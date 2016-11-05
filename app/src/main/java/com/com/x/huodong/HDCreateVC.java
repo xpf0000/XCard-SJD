@@ -159,8 +159,8 @@ public class HDCreateVC  extends BaseActivity {
         params.put("uid",createBody(uid));
         params.put("shopid",createBody(sid));
         params.put("title",createBody(title.getText().toString().trim()));
-        params.put("stime",createBody(sdate.getTime()+""));
-        params.put("etime",createBody(edate.getTime()+""));
+        params.put("stime",createBody(sdate.getTime()/1000+""));
+        params.put("etime",createBody(edate.getTime()/1000+""));
         params.put("address",createBody(address.getText().toString().trim()));
         params.put("tel",createBody(tel.getText().toString().trim()));
         params.put("content",createBody(info.getText().toString().trim()));
@@ -236,7 +236,7 @@ public class HDCreateVC  extends BaseActivity {
     @NeedsPermission({Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE})
     void MethodA() {
 
-                XGetPhoto.show(this, new XGetPhoto.onGetPhotoListener() {
+                XGetPhoto.show(this,new XGetPhoto.XPhotoCrapOption(160,84), new XGetPhoto.onGetPhotoListener() {
             @SuppressLint("NewApi")
             @Override
             public void getPhoto(Bitmap img) {

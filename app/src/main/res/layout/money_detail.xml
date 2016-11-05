@@ -96,4 +96,16 @@
         android:paddingBottom="6dp"
         />
 
+    <TextView
+        android:id="@+id/money_detail_oper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:text=""
+        android:textSize="16sp"
+        android:layout_marginLeft="38dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        />
+
 </LinearLayout>

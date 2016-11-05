@@ -172,6 +172,9 @@ public interface ServicesAPI {
  @POST("?service=Shopa.delShopHD")//作废活动
  Observable<HttpResult<Object>> shopaDelShopHD(@Query("id") String id);
 
+ @POST("?service=Shopd.delShopUser")//删除会员
+ Observable<HttpResult<Object>> shopdDelShopUser(@Query("id") String id);
+
  @POST("?service=Shopd.getShopUser")//商家会员列表
  Observable<HttpResult<List<UserModel>>> shopdGetShopUser(@Query("id") String sid
          , @Query("page") String page

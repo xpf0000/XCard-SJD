@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.com.x.AppModel.HttpResult;
 import com.com.x.AppModel.UserModel;
 import com.example.x.xcard.ApplicationClass;
@@ -47,6 +49,7 @@ public class HYManageVC extends BaseActivity {
     String sid = ApplicationClass.APPDataCache.User.getShopid();
 
     private int selectRow = -1;
+    private AlertView alert;
 
     Observable<HttpResult<List<UserModel>>> http;
 
@@ -121,7 +124,64 @@ public class HYManageVC extends BaseActivity {
             }
         });
 
+        list.getRefreshableView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+
+                showAlert(position-1);
+
+                return true;
+            }
+        });
+
         getData();
+
+    }
+
+    private void showAlert(final int p)
+    {
+        alert = new AlertView("提醒", "确定要删除该会员?", null, null,
+                new String[]{"删除","取消"},
+                mContext, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                System.out.println("点击了: "+position);
+
+                if(position == 0)
+                {
+                    deleHD(p);
+                }
+            }
+        });
+
+        alert.show();
+    }
+
+    private void deleHD(final int p)
+    {
+        alert.dismissImmediately();
+        alert = null;
+
+        XNetUtil.Handle(APPService.shopdDelShopUser(dataArr.get(p).getId()), "删除会员成功", "删除会员失败", new XNetUtil.OnHttpResult<Boolean>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if(aBoolean)
+                {
+                    end = false;
+                    page = 1;
+                    getData();
+                }
+            }
+        });
 
     }
 

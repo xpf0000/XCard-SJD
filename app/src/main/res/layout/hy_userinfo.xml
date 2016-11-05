@@ -71,6 +71,7 @@
                 android:layout_margin="12dp"
                 android:src="@drawable/go_arrow_icon"
                 android:layout_gravity="center"
+                android:visibility="invisible"
                 />
 
 

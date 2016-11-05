@@ -460,6 +460,7 @@ public class XGetPhoto implements Properties {
     {
         try
         {
+
             // 读取uri所在的图片
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), uri);
             return bitmap;

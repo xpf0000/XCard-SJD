@@ -21,6 +21,7 @@ public class CardMoneyDetailVC extends BaseActivity{
     private TextView value;
     private TextView money;
     private TextView bak;
+    private TextView oper;
 
     private String title = "";
 
@@ -33,6 +34,7 @@ public class CardMoneyDetailVC extends BaseActivity{
         value = (TextView)findViewById(R.id.money_detail_value);
         money = (TextView)findViewById(R.id.money_detail_money);
         bak = (TextView)findViewById(R.id.money_detail_bak);
+        oper = (TextView)findViewById(R.id.money_detail_oper);
 
         //新页面接收数据
         Bundle bundle = this.getIntent().getExtras();
@@ -47,6 +49,7 @@ public class CardMoneyDetailVC extends BaseActivity{
         time.setText(model.getCreate_time());
         type.setText("卡类型: "+model.getCname());
         bak.setText("备注: "+model.getBak());
+        oper.setText("操作人: "+model.getOpername());
 
         if(model.getStatus().equals("-1"))
         {

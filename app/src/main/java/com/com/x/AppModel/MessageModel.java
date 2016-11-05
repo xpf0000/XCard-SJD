@@ -96,7 +96,7 @@ public class MessageModel implements Serializable {
 
         if(!create_time.contains("-"))
         {
-            create_time = DateUtils.unixToStr(create_time,"yyyy-MM-dd hh:mm:ss");
+            create_time = DateUtils.unixToStr(create_time,"yyyy-MM-dd HH:mm:ss");
         }
 
         return create_time;

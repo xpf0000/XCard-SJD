@@ -146,8 +146,6 @@ public class CZMainVC extends BaseActivity {
                         user = userModels.get(0);
                         name.setText(user.getTruename());
                         tel.setText(user.getMobile());
-                        btn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.APPOrange));
-                        btn.setClickable(true);
                         getData();
                     }
                     else
@@ -201,6 +199,8 @@ public class CZMainVC extends BaseActivity {
                         {
                             if(m.getType().equals("计次卡") || m.getType().equals("充值卡"))
                             {
+                                btn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.APPOrange));
+                                btn.setClickable(true);
                                 dataArr.add(m);
                             }
                         }

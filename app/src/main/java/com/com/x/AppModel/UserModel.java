@@ -31,7 +31,7 @@ public class UserModel implements Serializable {
      * tel : 0391-5288100
      * address : 沁阳市文化路与香港街交叉口合庆楼六楼
      */
-
+    private String id;
     private String uid;
     private String username;
     private String mobile;
@@ -48,6 +48,14 @@ public class UserModel implements Serializable {
     private String info;
     private String nickname;
     private String banner;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getBanner() {
         return banner;
