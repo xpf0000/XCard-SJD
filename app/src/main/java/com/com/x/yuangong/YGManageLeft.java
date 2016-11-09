@@ -27,6 +27,7 @@ import com.x.custom.XActivityindicator;
 import com.x.custom.XEasyList;
 import com.x.custom.XHorizontalBaseFragment;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +76,14 @@ public class YGManageLeft extends XHorizontalBaseFragment
     private MyListener myListener;
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        XNotificationCenter.getInstance().removeObserver("AddYGSuccess");
+
+    }
+
+    @Override
     public void onAttach(Context context) {
         if (context instanceof MyListener) {
             myListener = (MyListener) context;
@@ -92,6 +101,15 @@ public class YGManageLeft extends XHorizontalBaseFragment
     {
         super.onCreate(savedInstanceState);
         System.out.println("LeftFragment--->onCreate");
+
+        XNotificationCenter.getInstance().addObserver("AddYGSuccess", new XNotificationCenter.OnNoticeListener() {
+            @Override
+            public void OnNotice(Object obj) {
+                page = 1;
+                end = false;
+                getData();
+            }
+        });
     }
 
     @Override
@@ -132,6 +150,8 @@ public class YGManageLeft extends XHorizontalBaseFragment
                 showAlert(position-1);
             }
         });
+
+
 
         return v;
     }

@@ -103,6 +103,9 @@ public class AddYGVC extends BaseActivity {
         {
             umodel = null;
             name.setText("");
+            name.setFocusableInTouchMode(false);
+            name.setFocusable(false);
+            name.setEnabled(false);
             return;
         }
 
@@ -119,6 +122,12 @@ public class AddYGVC extends BaseActivity {
                 {
                     umodel = userModels.get(0);
                     name.setText(umodel.getTruename());
+                }
+                else
+                {
+                    name.setFocusableInTouchMode(true);
+                    name.setFocusable(true);
+                    name.setEnabled(true);
                 }
 
             }
@@ -137,15 +146,8 @@ public class AddYGVC extends BaseActivity {
 
     public void btnClick(final View v)
     {
-        if(!XAPPUtil.isNull(tel) || !XAPPUtil.isNull(num))
+        if(!XAPPUtil.isNull(tel) || !XAPPUtil.isNull(name) || !XAPPUtil.isNull(num))
         {
-            return;
-        }
-
-        String n = name.getText().toString().trim();
-        if(n.length() == 0)
-        {
-            doShowToast("该手机号码尚未注册为怀府网会员,请先注册为会员");
             return;
         }
 
@@ -156,9 +158,12 @@ public class AddYGVC extends BaseActivity {
         }
 
         v.setEnabled(false);
-        String num = this.num.getText().toString().trim();
 
-        XNetUtil.Handle(APPService.powerAddShopWorker(umodel.getUid(),sid, gmodel.getId(),num), "员工添加成功", "员工添加失败", new XNetUtil.OnHttpResult<Boolean>() {
+        String tel = this.tel.getText().toString().trim();
+        String num = this.num.getText().toString().trim();
+        String name = this.name.getText().toString().trim();
+
+        XNetUtil.Handle(APPService.powerAddShopWorker(tel,name,sid, gmodel.getId(),num), "员工添加成功", "员工添加失败", new XNetUtil.OnHttpResult<Boolean>() {
             @Override
             public void onError(Throwable e) {
                 XNetUtil.APPPrintln(e);
@@ -170,6 +175,7 @@ public class AddYGVC extends BaseActivity {
                 v.setEnabled(!aBoolean);
                 if(aBoolean)
                 {
+                    XNotificationCenter.getInstance().postNotice("AddYGSuccess",null);
                     XActivityindicator.getHud().setOnDismissListener(new OnDismissListener() {
                         @Override
                         public void onDismiss(SVProgressHUD hud) {

@@ -117,7 +117,8 @@ public interface ServicesAPI {
     );
 
     @POST("?service=Power.addShopWorker")//添加员工
-    Observable<HttpResult<Object>> powerAddShopWorker(@Query("uid") String uid
+    Observable<HttpResult<Object>> powerAddShopWorker(@Query("mobile") String mobile
+            , @Query("truename") String truename
             , @Query("shopid") String shopid
             , @Query("jobid") String jobid
             , @Query("wnumber") String wnumber
@@ -275,6 +276,9 @@ public interface ServicesAPI {
          , @Query("page") String page
          , @Query("perNumber") String perNumber
  );
+
+ @POST("?service=Shopa.delMessages")//删除消息
+ Observable<HttpResult<Object>> shopaDelMessages(@Query("id") String id);
 
 
 }

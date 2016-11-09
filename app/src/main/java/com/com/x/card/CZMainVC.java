@@ -208,6 +208,7 @@ public class CZMainVC extends BaseActivity {
                     else
                     {
                         dataArr = cardTypeModels;
+                        btn.setClickable(true);
                     }
 
                     adapter.notifyDataSetChanged();

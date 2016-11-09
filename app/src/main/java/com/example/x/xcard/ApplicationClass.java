@@ -1,10 +1,16 @@
 package com.example.x.xcard;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -69,6 +75,46 @@ public class ApplicationClass extends Application {
 		super.onCreate();
 		context = getApplicationContext();
 
+		registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+			@Override
+			public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+				XNetUtil.APPPrintln("onActivityCreated: "+activity);
+				context = activity;
+			}
+
+			@Override
+			public void onActivityStarted(Activity activity) {
+
+			}
+
+			@Override
+			public void onActivityResumed(Activity activity) {
+				context = activity;
+			}
+
+			@Override
+			public void onActivityPaused(Activity activity) {
+
+			}
+
+			@Override
+			public void onActivityStopped(Activity activity) {
+
+			}
+
+			@Override
+			public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+			}
+
+			@Override
+			public void onActivityDestroyed(Activity activity) {
+
+			}
+		});
+
+		initCloudChannel(this);
+
 		CacheLoaderManager.getInstance().init(this, new HashCodeFileNameGenerator(), 1024 * 1024 * 64, 200, 50);
 		APPDataCache = new DataCache();
 		initImageLoader();
@@ -129,5 +175,26 @@ public class ApplicationClass extends Application {
 
 	}
 
+
+	/**
+	 * 初始化云推送通道
+	 * @param applicationContext
+	 */
+	private void initCloudChannel(Context applicationContext) {
+		PushServiceFactory.init(applicationContext);
+
+		CloudPushService pushService = PushServiceFactory.getCloudPushService();
+
+		pushService.register(applicationContext, new CommonCallback() {
+			@Override
+			public void onSuccess(String response) {
+				XNetUtil.APPPrintln("init cloudchannel success");
+			}
+			@Override
+			public void onFailed(String errorCode, String errorMessage) {
+				XNetUtil.APPPrintln("init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
+			}
+		});
+	}
 
 }

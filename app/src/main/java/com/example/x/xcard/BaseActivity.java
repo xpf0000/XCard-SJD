@@ -132,8 +132,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		ApplicationClass.context = this;
-		// MobclickAgent.onResume(this);
 	}
 
 	@Override

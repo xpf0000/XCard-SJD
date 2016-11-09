@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.com.x.AppModel.GangweiModel;
 import com.com.x.AppModel.MessageModel;
 import com.example.x.xcard.ApplicationClass;
@@ -20,6 +22,7 @@ import com.example.x.xcard.R;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.x.custom.DensityUtil;
+import com.x.custom.XActivityindicator;
 import com.x.custom.XNetUtil;
 import com.x.custom.XNotificationCenter;
 
@@ -90,6 +93,16 @@ public class MSGManageVC extends BaseActivity {
             }
         });
 
+        list.getRefreshableView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+                showAlert(position-1);
+                return true;
+            }
+        });
+
         getData();
 
         XNotificationCenter.getInstance().addObserver("SendMSGSuccessed", new XNotificationCenter.OnNoticeListener() {
@@ -109,6 +122,49 @@ public class MSGManageVC extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         XNotificationCenter.getInstance().removeObserver("SendMSGSuccessed");
+    }
+
+    private void showAlert(final int p)
+    {
+        AlertView alert = new AlertView("提醒", "确定要删除消息?", null, null,
+                new String[]{"删除","取消"},
+                mContext, AlertView.Style.Alert, new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                System.out.println("点击了: "+position);
+
+                if(position == 0)
+                {
+                    deleHD(p);
+                }
+            }
+        });
+
+        XActivityindicator.setAlert(alert);
+
+        alert.show();
+    }
+
+    private void deleHD(final int p)
+    {
+        XNetUtil.Handle(APPService.shopaDelMessages(dataArr.get(p).getId()), "消息删除成功", "消息删除失败", new XNetUtil.OnHttpResult<Boolean>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if(aBoolean)
+                {
+                    end = false;
+                    page = 1;
+                    getData();
+                }
+            }
+        });
+
     }
 
     private void toInfo(int p)

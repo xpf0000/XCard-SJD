@@ -3,6 +3,7 @@ package com.com.x.AppModel;
 import com.x.custom.DensityUtil;
 import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -224,6 +225,7 @@ public class UserModel implements Serializable {
         XNetUtil.APPPrintln(this.toString());
         boolean b = XAPPUtil.SaveAPPCache("UserModel",this);
         XNetUtil.APPPrintln("保存Model: "+b);
+        XNotificationCenter.getInstance().postNotice("UserChanged",null);
     }
 
 

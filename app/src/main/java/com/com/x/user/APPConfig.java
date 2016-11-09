@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.x.custom.FileSizeUtil;
 import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 /**
  * Created by X on 16/9/2.
@@ -45,6 +46,12 @@ public class APPConfig extends BaseActivity {
         refreshUI();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
     private void refreshUI()
     {
         double size = FileSizeUtil.getFileOrFilesSize(ImageLoader.getInstance().getDiskCache().getDirectory().getPath(),3);
@@ -57,12 +64,12 @@ public class APPConfig extends BaseActivity {
         {
             String tel = ApplicationClass.APPDataCache.User.getMobile();
             this.tel.setText(tel.substring(0,3)+"****"+tel.substring(7,11));
-            btn.setVisibility(View.VISIBLE);
+            btn.setText("退出登录");
         }
         else
         {
             tel.setText("请先登录");
-            btn.setVisibility(View.INVISIBLE);
+            btn.setText("登录");
         }
     }
 
@@ -79,35 +86,44 @@ public class APPConfig extends BaseActivity {
     }
 
     public void toChangePass(View v){
-        //pushVC();
-        pushVC(UpdatePassVC.class);
+
+        if(checkIsLogin())
+        {
+            pushVC(UpdatePassVC.class);
+        }
+
     }
 
     public void toUpdateTel(View v)
     {
-        pushVC(UpdateTelVC.class);
+        if(checkIsLogin())
+        {
+            pushVC(UpdateTelVC.class);
+        }
     }
 
     public void doLogout(View v)
     {
+        if(checkIsLogin())
+        {
+            AlertView alert = new AlertView("注销登录", "确定要登出账户吗?", null, null,
+                    new String[]{"取消", "确定"},
+                    mContext, AlertView.Style.Alert, new OnItemClickListener() {
+                @Override
+                public void onItemClick(Object o, int position) {
+                    System.out.println("点击了: "+position);
 
-        AlertView alert = new AlertView("注销登录", "确定要登出账户吗?", null, null,
-                new String[]{"取消", "确定"},
-                mContext, AlertView.Style.Alert, new OnItemClickListener() {
-            @Override
-            public void onItemClick(Object o, int position) {
-                System.out.println("点击了: "+position);
+                    if(position == 1)
+                    {
+                        ApplicationClass.APPDataCache.User.reSet();
+                        refreshUI();
+                    }
 
-                if(position == 1)
-                {
-                    ApplicationClass.APPDataCache.User.reSet();
-                    refreshUI();
                 }
+            });
 
-            }
-        });
-
-        alert.show();
+            alert.show();
+        }
 
     }
 
