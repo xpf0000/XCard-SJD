@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.SimpleAdapter;
 
+import com.bigkoo.alertview.AlertView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
@@ -39,6 +40,7 @@ import com.x.custom.DensityUtil;
 import com.x.custom.XActivityindicator;
 import com.x.custom.XGridView;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -196,6 +198,34 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        XNotificationCenter.getInstance().addObserver("ShowAccountLogout", new XNotificationCenter.OnNoticeListener() {
+            @Override
+            public void OnNotice(Object obj) {
+                showAccountLogout();
+            }
+        });
+
+    }
+
+    private void showAccountLogout()
+    {
+        AlertView Alert = new AlertView("提醒", "您的账户已在其他设备登录", null, null,
+                new String[]{"确定"},
+                mContext, AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if (position == 0) {
+
+                }
+            }
+        });
+
+        XActivityindicator.setAlert(Alert);
+
+        Alert.show();
+
+        APPDataCache.User.unRegistNotice();
+        APPDataCache.User.reSet();
     }
 
     private void getBanner() {

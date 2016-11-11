@@ -98,6 +98,17 @@ public class APPConfig extends BaseActivity {
 
     }
 
+    public void toFeed(View v){
+
+        if(checkIsLogin())
+        {
+            pushVC(FeedBack.class);
+        }
+
+    }
+
+
+
     public void toUpdateTel(View v)
     {
         if(checkIsLogin())
@@ -119,17 +130,7 @@ public class APPConfig extends BaseActivity {
 
                     if(position == 1)
                     {
-                        PushServiceFactory.getCloudPushService().removeAlias(APPDataCache.User.getToken(), new CommonCallback() {
-                            @Override
-                            public void onSuccess(String s) {
-                                XNetUtil.APPPrintln("removeAlias success!!!!!!");
-                            }
-
-                            @Override
-                            public void onFailed(String s, String s1) {
-                                XNetUtil.APPPrintln("removeAlias fail!!!!!! "+s+" | "+s1);
-                            }
-                        });
+                        APPDataCache.User.unRegistNotice();
                         APPDataCache.User.reSet();
 
                         refreshUI();

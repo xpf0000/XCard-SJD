@@ -275,6 +275,8 @@
                   android:layout_height="65dp"
                   android:background="@color/white"
                   android:gravity="center"
+                  android:clickable="true"
+                  android:onClick="toFeed"
 
         >
 

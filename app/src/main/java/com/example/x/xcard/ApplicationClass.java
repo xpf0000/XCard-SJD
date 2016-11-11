@@ -23,9 +23,13 @@ import com.robin.lazy.cache.memory.MemoryCache;
 import com.x.custom.FileSizeUtil;
 import com.x.custom.ServicesAPI;
 import com.x.custom.XNetUtil;
+import com.x.custom.XNotificationCenter;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import ch.qos.logback.core.util.FileUtil;
@@ -52,6 +56,8 @@ public class ApplicationClass extends Application {
 	public static ServicesAPI APPService;
 
 	static public DataCache APPDataCache;
+
+	private List<WeakReference<Activity>> vcArrs = new ArrayList<>();
 
 	/**
 	 * 创建全局变量 全局变量一般都比较倾向于创建一个单独的数据类文件，并使用static静态变量
@@ -90,6 +96,8 @@ public class ApplicationClass extends Application {
 			@Override
 			public void onActivityResumed(Activity activity) {
 				context = activity;
+				WeakReference<Activity> item = new WeakReference<Activity>(activity);
+				vcArrs.add(item);
 			}
 
 			@Override
@@ -111,12 +119,12 @@ public class ApplicationClass extends Application {
 			public void onActivityDestroyed(Activity activity) {
 
 			}
-		});
 
-		initCloudChannel(this);
+		});
 
 		CacheLoaderManager.getInstance().init(this, new HashCodeFileNameGenerator(), 1024 * 1024 * 64, 200, 50);
 		APPDataCache = new DataCache();
+		initCloudChannel(this);
 		initImageLoader();
 		DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 		SW = displayMetrics.widthPixels;
@@ -155,6 +163,28 @@ public class ApplicationClass extends Application {
 
 		APPService = retrofit.create(ServicesAPI.class);
 
+		XNotificationCenter.getInstance().addObserver("AccountLogout", new XNotificationCenter.OnNoticeListener() {
+
+			@Override
+			public void OnNotice(Object obj) {
+
+				for(WeakReference<Activity> item : vcArrs)
+				{
+					if(item.get() != null)
+					{
+						if(item.get() instanceof MainActivity)
+						{
+							continue;
+						}
+						item.get().finish();
+					}
+				}
+
+				XNotificationCenter.getInstance().postNotice("ShowAccountLogout",null);
+
+			}
+		});
+
 		System.out.println("================init============");
 	}
 
@@ -189,6 +219,7 @@ public class ApplicationClass extends Application {
 			@Override
 			public void onSuccess(String response) {
 				XNetUtil.APPPrintln("init cloudchannel success");
+				//APPDataCache.User.registNotice();
 			}
 			@Override
 			public void onFailed(String errorCode, String errorMessage) {

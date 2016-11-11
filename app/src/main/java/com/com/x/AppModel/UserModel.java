@@ -1,5 +1,7 @@
 package com.com.x.AppModel;
 
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.x.custom.DensityUtil;
 import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
@@ -9,6 +11,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.x.xcard.ApplicationClass.APPDataCache;
 import static com.example.x.xcard.ApplicationClass.APPService;
 
 /**
@@ -52,6 +55,7 @@ public class UserModel implements Serializable {
     private String token;
 
     public String getToken() {
+        token = token == null ? "" : token;
         return token;
     }
 
@@ -272,6 +276,42 @@ public class UserModel implements Serializable {
 
             }
         });
+    }
+
+    public void unRegistNotice()
+    {
+        PushServiceFactory.getCloudPushService().unbindAccount(new CommonCallback() {
+            @Override
+            public void onSuccess(String s) {
+                XNetUtil.APPPrintln("removeAlias success!!!!!!");
+            }
+
+            @Override
+            public void onFailed(String s, String s1) {
+                XNetUtil.APPPrintln("removeAlias fail!!!!!! "+s+" | "+s1);
+            }
+        });
+    }
+
+    public void registNotice()
+    {
+        if(getToken().equals(""))
+        {
+            return;
+        }
+
+        PushServiceFactory.getCloudPushService().bindAccount(getToken(), new CommonCallback() {
+            @Override
+            public void onSuccess(String s) {
+                XNetUtil.APPPrintln("addAlias success!!!!!!");
+            }
+
+            @Override
+            public void onFailed(String s, String s1) {
+                XNetUtil.APPPrintln("addAlias fail!!!!!! "+s+" | "+s1);
+            }
+        });
+
     }
 
 

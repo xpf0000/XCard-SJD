@@ -72,18 +72,9 @@ public class LoginVC extends BaseActivity {
                 APPDataCache.User = userModels.get(0);
                 APPDataCache.User.save();
 
-                PushServiceFactory.getCloudPushService().addAlias(APPDataCache.User.getToken(), new CommonCallback() {
-                    @Override
-                    public void onSuccess(String s) {
+                XNetUtil.APPPrintln("token: "+APPDataCache.User.getToken());
 
-                        XNetUtil.APPPrintln("addAlias success!!!!!!");
-                    }
-
-                    @Override
-                    public void onFailed(String s, String s1) {
-                        XNetUtil.APPPrintln("addAlias fail!!!!!! "+s+" | "+s1);
-                    }
-                });
+                APPDataCache.User.registNotice();
 
                 hud.dismiss();
                 doPop();
