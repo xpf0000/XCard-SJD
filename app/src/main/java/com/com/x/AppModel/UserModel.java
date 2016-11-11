@@ -49,6 +49,15 @@ public class UserModel implements Serializable {
     private String info;
     private String nickname;
     private String banner;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getId() {
         return id;

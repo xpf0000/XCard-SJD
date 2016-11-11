@@ -3,6 +3,8 @@ package com.com.x.user;
 import android.view.View;
 import android.widget.EditText;
 
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.com.x.AppModel.UserModel;
 import com.example.x.xcard.ApplicationClass;
@@ -69,6 +71,20 @@ public class LoginVC extends BaseActivity {
 
                 APPDataCache.User = userModels.get(0);
                 APPDataCache.User.save();
+
+                PushServiceFactory.getCloudPushService().addAlias(APPDataCache.User.getToken(), new CommonCallback() {
+                    @Override
+                    public void onSuccess(String s) {
+
+                        XNetUtil.APPPrintln("addAlias success!!!!!!");
+                    }
+
+                    @Override
+                    public void onFailed(String s, String s1) {
+                        XNetUtil.APPPrintln("addAlias fail!!!!!! "+s+" | "+s1);
+                    }
+                });
+
                 hud.dismiss();
                 doPop();
 

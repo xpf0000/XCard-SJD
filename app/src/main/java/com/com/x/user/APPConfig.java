@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.example.x.xcard.ApplicationClass;
@@ -18,6 +20,8 @@ import com.x.custom.FileSizeUtil;
 import com.x.custom.XAPPUtil;
 import com.x.custom.XNetUtil;
 import com.x.custom.XNotificationCenter;
+
+import static com.example.x.xcard.ApplicationClass.APPDataCache;
 
 /**
  * Created by X on 16/9/2.
@@ -62,7 +66,7 @@ public class APPConfig extends BaseActivity {
 
         if(XAPPUtil.APPCheckIsLogin())
         {
-            String tel = ApplicationClass.APPDataCache.User.getMobile();
+            String tel = APPDataCache.User.getMobile();
             this.tel.setText(tel.substring(0,3)+"****"+tel.substring(7,11));
             btn.setText("退出登录");
         }
@@ -115,7 +119,19 @@ public class APPConfig extends BaseActivity {
 
                     if(position == 1)
                     {
-                        ApplicationClass.APPDataCache.User.reSet();
+                        PushServiceFactory.getCloudPushService().removeAlias(APPDataCache.User.getToken(), new CommonCallback() {
+                            @Override
+                            public void onSuccess(String s) {
+                                XNetUtil.APPPrintln("removeAlias success!!!!!!");
+                            }
+
+                            @Override
+                            public void onFailed(String s, String s1) {
+                                XNetUtil.APPPrintln("removeAlias fail!!!!!! "+s+" | "+s1);
+                            }
+                        });
+                        APPDataCache.User.reSet();
+
                         refreshUI();
                     }
 
