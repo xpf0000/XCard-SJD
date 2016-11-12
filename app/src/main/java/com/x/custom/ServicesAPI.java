@@ -280,6 +280,9 @@ public interface ServicesAPI {
  @POST("?service=Shopa.delMessages")//删除消息
  Observable<HttpResult<Object>> shopaDelMessages(@Query("id") String id);
 
+ @POST("?service=user.getOrLine")//检测token
+ Observable<HttpResult<Object>> userGetOrLine(@Query("token") String token);
+
 
 }
 

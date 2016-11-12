@@ -2,6 +2,7 @@ package com.example.x.xcard;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import com.x.custom.XNetUtil;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import static com.example.x.xcard.ApplicationClass.APPDataCache;
 
@@ -132,6 +134,12 @@ public abstract class BaseActivity extends AppCompatActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (!isActive)
+		{
+			isActive = true;
+			APPDataCache.User.checkToken();
+			XNetUtil.APPPrintln("APP is BecomeActive!!!!!!");
+		}
 	}
 
 	@Override
@@ -493,5 +501,48 @@ public abstract class BaseActivity extends AppCompatActivity implements
 		return b;
 	}
 
+	private boolean isActive = false;
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+
+		if (!isAppOnForeground()) {
+			//app 进入后台
+			isActive = false;
+			//全局变量isActive = false 记录当前已经进入后台
+		}
+	}
+
+
+
+	/**
+	 * 程序是否在前台运行
+	 *
+	 * @return
+	 */
+	public boolean isAppOnForeground() {
+		// Returns a list of application processes that are running on the
+		// device
+
+		ActivityManager activityManager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+		String packageName = getApplicationContext().getPackageName();
+
+		List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+				.getRunningAppProcesses();
+		if (appProcesses == null)
+			return false;
+
+		for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+			// The name of the process that this object is associated with.
+			if (appProcess.processName.equals(packageName)
+					&& appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }

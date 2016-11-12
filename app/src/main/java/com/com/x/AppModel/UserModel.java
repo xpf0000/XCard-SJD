@@ -314,5 +314,31 @@ public class UserModel implements Serializable {
 
     }
 
+    public void checkToken()
+    {
+        if(getToken().equals(""))
+        {
+            return;
+        }
+
+        XNetUtil.HandleReturnAll(APPService.userGetOrLine(getToken()), new XNetUtil.OnHttpResult<HttpResult<Object>>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onSuccess(HttpResult<Object> res) {
+
+                if(res.getData().getCode() == 1)
+                {
+                    XNotificationCenter.getInstance().postNotice("AccountLogout",null);
+                }
+            }
+        });
+
+
+    }
 
 }
