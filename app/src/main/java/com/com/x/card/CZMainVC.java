@@ -208,6 +208,7 @@ public class CZMainVC extends BaseActivity {
                     else
                     {
                         dataArr = cardTypeModels;
+                        btn.setBackgroundColor(ContextCompat.getColor(mContext, R.color.APPOrange));
                         btn.setClickable(true);
                     }
 
