@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.bigkoo.svprogresshud.listener.OnDismissListener;
 import com.example.x.xcard.ApplicationClass;
 import com.example.x.xcard.BaseActivity;
 import com.example.x.xcard.R;
+import com.x.custom.DensityUtil;
 import com.x.custom.XAPPUtil;
 import com.x.custom.XActivityindicator;
 import com.x.custom.XGetPhoto;
@@ -85,7 +87,13 @@ public class HDCreateVC  extends BaseActivity {
         stime = (TextView) findViewById(R.id.hd_create_stime);
         etime = (TextView) findViewById(R.id.hd_create_etime);
 
+        ViewGroup.LayoutParams layoutParams = header.getLayoutParams();
 
+        int w = ApplicationClass.SW - DensityUtil.dip2px(mContext,36);
+        int h = (int)(w*7.0/16.0);
+
+        layoutParams.height = h;
+        header.setLayoutParams(layoutParams);
 
 
         //时间选择器
@@ -236,7 +244,7 @@ public class HDCreateVC  extends BaseActivity {
     @NeedsPermission({Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE})
     void MethodA() {
 
-                XGetPhoto.show(this,new XGetPhoto.XPhotoCrapOption(160,84), new XGetPhoto.onGetPhotoListener() {
+                XGetPhoto.show(this,new XGetPhoto.XPhotoCrapOption(16,7), new XGetPhoto.onGetPhotoListener() {
             @SuppressLint("NewApi")
             @Override
             public void getPhoto(Bitmap img) {

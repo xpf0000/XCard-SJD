@@ -113,7 +113,7 @@ public class ShopSetupVC extends BaseActivity {
         ViewGroup.LayoutParams layoutParams = banner.getLayoutParams();
 
         int w = ApplicationClass.SW - DensityUtil.dip2px(mContext,36);
-        int h = (int)(w*313.0/750.0);
+        int h = (int)(w*7.0/16.0);
 
         layoutParams.height = h;
         banner.setLayoutParams(layoutParams);

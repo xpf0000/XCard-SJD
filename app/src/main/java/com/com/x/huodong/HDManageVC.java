@@ -337,7 +337,7 @@ public class HDManageVC extends BaseActivity {
             ViewGroup.LayoutParams layoutParams = listItemView.img.getLayoutParams();
 
             int w = ApplicationClass.SW - DensityUtil.dip2px(mContext,28);
-            int h = (int)(w * 0.435F);
+            int h = (int)(w * 7.0 / 16.0);
 
             layoutParams.height = h;
             listItemView.img.setLayoutParams(layoutParams);
